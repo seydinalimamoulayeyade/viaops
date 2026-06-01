@@ -1,0 +1,152 @@
+name: ViaOps CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+env:
+  IMAGE_NAME: viaops
+  DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+
+jobs:
+
+  # ── JOB 1 : Lint ───────────────────────────────────────────
+  lint:
+    name: 🔍 Lint — Validation des fichiers
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+
+      - name: Vérifier la présence des fichiers critiques
+        run: |
+          echo "=== Vérification structure projet ==="
+          test -f index.html        && echo "✓ index.html"
+          test -f Dockerfile        && echo "✓ Dockerfile"
+          test -f nginx.conf        && echo "✓ nginx.conf"
+          test -f docker-compose.yml && echo "✓ docker-compose.yml"
+          test -d assets/css        && echo "✓ assets/css/"
+          test -d assets/js         && echo "✓ assets/js/"
+          echo "=== Structure OK ==="
+
+      - name: Vérifier les fichiers CSS
+        run: |
+          for f in assets/css/*.css; do
+            echo "✓ $f ($(wc -l < $f) lignes)"
+          done
+
+      - name: Vérifier les fichiers JS
+        run: |
+          for f in assets/js/*.js; do
+            echo "✓ $f ($(wc -l < $f) lignes)"
+          done
+
+  # ── JOB 2 : Build Docker ───────────────────────────────────
+  build:
+    name: 🐳 Build — Image Docker
+    runs-on: ubuntu-latest
+    needs: lint
+
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build de l'image Docker
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: false
+          tags: ${{ env.IMAGE_NAME }}:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Test de l'image buildée
+        run: |
+          docker build -t ${{ env.IMAGE_NAME }}:test .
+          docker run -d --name viaops-test -p 8080:80 ${{ env.IMAGE_NAME }}:test
+          sleep 5
+          curl -f http://localhost:8080 && echo "✓ App accessible"
+          docker stop viaops-test && docker rm viaops-test
+
+  # ── JOB 3 : Publish Docker Hub ─────────────────────────────
+  publish:
+    name: 📦 Publish — Docker Hub
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+
+      - name: Extraire les métadonnées Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=raw,value=latest
+            type=sha,prefix=sha-
+
+      - name: Build et Push sur Docker Hub
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  # ── JOB 4 : Deploy GitHub Pages ────────────────────────────
+  deploy:
+    name: 🚀 Deploy — GitHub Pages
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+
+      - name: Préparer les fichiers pour GitHub Pages
+        run: |
+          mkdir -p ./dist
+          cp index.html ./dist/
+          cp nginx.conf ./dist/
+          cp -r assets/ ./dist/assets/
+          # Créer dossier modules vide si absent
+          mkdir -p ./dist/modules
+          echo "=== Contenu dist/ ==="
+          find ./dist -type f | sort
+
+      - name: Deploy sur GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          commit_message: "deploy: ${{ github.sha }} — ${{ github.event.head_commit.message }}"
