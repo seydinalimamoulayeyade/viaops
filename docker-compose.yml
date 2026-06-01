@@ -1,0 +1,33 @@
+# ============================================================
+# ViaOps — docker-compose.yml
+# Environnement local de développement et de test
+# ============================================================
+
+services:
+
+  # ── Application principale ─────────────────────────────────
+  viaops:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: viaops-app
+    image: viaops:latest
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:80"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+    labels:
+      - "project=viaops"
+      - "env=local"
+    networks:
+      - viaops-net
+
+networks:
+  viaops-net:
+    driver: bridge
