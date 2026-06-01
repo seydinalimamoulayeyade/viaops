@@ -1,0 +1,285 @@
+/* ============================================================
+   VIAOPS — modules.css
+   Module view · Sidebar · Content area · Nav
+   ============================================================ */
+
+/* ── MODULE LAYOUT ──────────────────────────────────────────── */
+.module-layout {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  min-height: calc(100vh - 40px);
+}
+
+/* ── SIDEBAR ────────────────────────────────────────────────── */
+.module-sidebar {
+  background: var(--bg2);
+  border-right: 1px solid var(--border);
+  padding: 12px 0;
+  overflow-y: auto;
+  position: sticky;
+  top: 40px;
+  height: calc(100vh - 40px);
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-section-label {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+  padding: 8px 16px 6px;
+  flex-shrink: 0;
+}
+
+/* ── SIDEBAR ITEM ───────────────────────────────────────────── */
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: all 0.12s;
+  border-left: 2px solid transparent;
+}
+
+.sidebar-item:hover {
+  background: var(--panel);
+  color: var(--text);
+}
+
+.sidebar-item.active {
+  background: var(--violet-dim);
+  border-left-color: var(--violet);
+}
+
+.sidebar-item.s-passed  { border-left-color: var(--passed); }
+.sidebar-item.s-running { border-left-color: var(--running); }
+
+.sidebar-icon { font-size: 15px; flex-shrink: 0; }
+
+.sidebar-meta { flex: 1; min-width: 0; }
+
+.sidebar-name {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.12s;
+}
+
+.sidebar-item.active .sidebar-name,
+.sidebar-item:hover  .sidebar-name { color: var(--text); }
+
+.sidebar-time { font-size: 9px; color: var(--muted); }
+
+.sidebar-status {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  border: 1px solid var(--border2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+  flex-shrink: 0;
+  color: transparent;
+}
+
+.sidebar-item.s-passed .sidebar-status {
+  background: var(--passed);
+  border-color: var(--passed);
+  color: var(--bg);
+}
+
+.sidebar-item.s-running .sidebar-status {
+  background: var(--running-dim);
+  border-color: var(--running);
+  color: var(--running);
+}
+
+/* ── SIDEBAR FOOTER — progress ──────────────────────────────── */
+.sidebar-footer {
+  margin-top: auto;
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  padding: 10px 16px;
+  flex-shrink: 0;
+}
+
+.sidebar-prog-label {
+  font-size: 9px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 6px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.sidebar-prog-label span { color: var(--violet); }
+
+.sidebar-prog-bar {
+  height: 3px;
+  background: var(--border);
+}
+
+.sidebar-prog-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--violet), var(--passed));
+  transition: width 0.5s ease;
+  width: 0%;
+}
+
+/* ── MODULE MAIN CONTENT ────────────────────────────────────── */
+.module-main {
+  overflow-y: auto;
+  height: calc(100vh - 40px);
+  padding: 16px;
+  background: var(--bg);
+}
+
+/* ── BREADCRUMBS ────────────────────────────────────────────── */
+.module-crumbs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+
+.crumb        { cursor: pointer; transition: color 0.15s; }
+.crumb:hover  { color: var(--text); }
+.crumb-sep    { color: var(--border2); }
+.crumb-active { color: var(--violet); cursor: default; }
+
+/* ── MODULE HEADER PANEL ────────────────────────────────────── */
+.module-panels { display: flex; flex-direction: column; gap: 10px; }
+
+.mod-header-panel .panel-body {
+  padding: 20px 24px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.mod-num {
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+}
+
+.mod-title {
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-bottom: 10px;
+}
+
+.mod-title .accent { color: var(--violet); }
+
+.mod-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+/* ── CONTENT PLACEHOLDER ────────────────────────────────────── */
+.module-placeholder {
+  text-align: center;
+  padding: 48px 32px;
+}
+
+.placeholder-icon  { font-size: 40px; margin-bottom: 16px; }
+
+.placeholder-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.placeholder-sub {
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.7;
+  max-width: 360px;
+  margin: 0 auto 24px;
+  font-family: var(--font-sans);
+}
+
+/* ── MODULE NAV ─────────────────────────────────────────────── */
+.mod-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0 0;
+}
+
+.mod-nav-center {
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.btn-nav {
+  font-family: var(--font);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text2);
+  background: var(--panel);
+  border: 1px solid var(--border);
+  padding: 7px 16px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.15s;
+  letter-spacing: 0.04em;
+}
+
+.btn-nav:hover              { border-color: var(--violet); color: var(--text); }
+.btn-nav:disabled           { opacity: 0.3; cursor: not-allowed; }
+.btn-nav:disabled:hover     { border-color: var(--border); color: var(--text2); }
+
+.btn-nav.primary {
+  background: var(--violet-dim);
+  border-color: var(--violet-line);
+  color: var(--violet);
+}
+
+.btn-nav.primary:hover {
+  background: var(--violet);
+  color: white;
+  border-color: var(--violet);
+}
+
+.btn-mark {
+  font-family: var(--font);
+  font-size: 11px;
+  font-weight: 600;
+  color: white;
+  background: var(--passed);
+  border: 1px solid var(--passed);
+  padding: 7px 20px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  letter-spacing: 0.04em;
+}
+
+.btn-mark:hover    { opacity: 0.8; }
+.btn-mark:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* ── RESPONSIVE ─────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .module-layout  { grid-template-columns: 1fr; }
+  .module-sidebar { display: none; }
+  .module-main    { padding: 12px; }
+}

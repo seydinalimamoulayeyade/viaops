@@ -1,0 +1,245 @@
+/* ============================================================
+   VIAOPS — pipeline.css
+   GitLab CI pipeline · Stages · Job cards
+   ============================================================ */
+
+/* ── PIPELINE WRAPPER ───────────────────────────────────────── */
+.pipeline-wrap {
+  padding: 20px 20px 16px;
+  overflow-x: auto;
+}
+
+.pipeline-stages {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+  min-width: max-content;
+}
+
+/* ── STAGE ───────────────────────────────────────────────────── */
+.pipeline-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  position: relative;
+}
+
+/* Arrow connector between stages */
+.pipeline-stage:not(:last-child)::after {
+  content: '›';
+  position: absolute;
+  right: -14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--border2);
+  font-size: 18px;
+  z-index: 1;
+}
+
+.stage-label {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  padding: 0 12px 8px 12px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 8px;
+  white-space: nowrap;
+}
+
+.stage-jobs {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 0 8px;
+}
+
+/* ── JOB CARD ───────────────────────────────────────────────── */
+.job {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  background: var(--panel2);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.15s;
+  min-width: 160px;
+}
+
+.job:hover {
+  border-color: var(--border2);
+  background: var(--bg2);
+}
+
+/* Status left border */
+.job.status-passed  { border-left: 2px solid var(--passed); }
+.job.status-running { border-left: 2px solid var(--running); }
+.job.status-pending { border-left: 2px solid var(--pending); }
+
+.job-icon   { font-size: 14px; flex-shrink: 0; }
+
+.job-info   { flex: 1; min-width: 0; }
+
+.job-name {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.job-tag {
+  font-size: 9px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* ── JOB STATUS INDICATOR ───────────────────────────────────── */
+.job-status {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  flex-shrink: 0;
+}
+
+.status-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.job.status-passed  .status-dot  { background: var(--passed); }
+.job.status-running .status-dot  { background: var(--running); animation: pulse 1.5s infinite; }
+.job.status-pending .status-dot  { background: var(--pending); }
+
+.job.status-passed  .job-status  { color: var(--passed); }
+.job.status-running .job-status  { color: var(--running); }
+.job.status-pending .job-status  { color: var(--muted); }
+
+/* ── HERO TERMINAL ───────────────────────────────────────────── */
+.hero-terminal {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  width: 320px;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.terminal-bar {
+  background: var(--panel2);
+  border-bottom: 1px solid var(--border);
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  color: var(--muted);
+}
+
+.terminal-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+}
+
+.t-red    { background: #F87171; }
+.t-yellow { background: #FBBF24; }
+.t-green  { background: #23D160; }
+
+.terminal-name { margin-left: 4px; font-size: 10px; }
+
+.terminal-body {
+  padding: 14px 16px;
+  font-size: 11px;
+  line-height: 2.0;
+}
+
+.t-line   { display: flex; gap: 8px; }
+.t-prompt { color: var(--passed); flex-shrink: 0; }
+.t-cmd    { color: var(--text); }
+.t-flag   { color: var(--warning); }
+.t-arg    { color: var(--skipped); }
+.t-out    { color: var(--muted); padding-left: 16px; }
+.t-ok     { color: var(--passed); padding-left: 16px; }
+
+.t-cursor {
+  display: inline-block;
+  width: 7px; height: 13px;
+  background: var(--violet);
+  vertical-align: middle;
+  animation: blink 1.1s step-end infinite;
+}
+
+/* ── HERO PANEL LAYOUT ──────────────────────────────────────── */
+.hero-panel .panel-body {
+  padding: 32px 32px 28px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.hero-left { flex: 1; min-width: 300px; }
+
+.hero-eyebrow {
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hero-eyebrow::before {
+  content: '';
+  width: 16px; height: 1px;
+  background: var(--violet);
+}
+
+.hero-title {
+  font-size: clamp(26px, 4vw, 44px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin-bottom: 14px;
+}
+
+.hero-title .hl { color: var(--violet); }
+
+.hero-desc {
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.8;
+  max-width: 480px;
+  margin-bottom: 24px;
+  font-family: var(--font-sans);
+}
+
+.hero-desc strong {
+  color: var(--text);
+  font-family: var(--font);
+}
+
+.hero-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* ── RESPONSIVE ─────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .hero-panel .panel-body { flex-direction: column; }
+  .hero-terminal          { width: 100%; }
+}

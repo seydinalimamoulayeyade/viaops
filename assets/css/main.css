@@ -1,0 +1,163 @@
+/* ============================================================
+   VIAOPS — main.css
+   Design tokens · Reset · Base layout
+   ============================================================ */
+
+/* ── TOKENS ────────────────────────────────────────────────── */
+:root {
+  /* Grafana dark base */
+  --bg:           #0F0F0F;
+  --bg2:          #141414;
+  --panel:        #181B1F;
+  --panel2:       #1F2329;
+  --border:       #2D3139;
+  --border2:      #393F49;
+
+  /* ViaOps accent */
+  --violet:       #8B5CF6;
+  --violet-dim:   rgba(139, 92, 246, 0.12);
+  --violet-line:  rgba(139, 92, 246, 0.4);
+
+  /* Status — GitLab CI */
+  --passed:       #23D160;
+  --passed-dim:   rgba(35, 209, 96, 0.1);
+  --running:      #8B5CF6;
+  --running-dim:  rgba(139, 92, 246, 0.1);
+  --pending:      #4B5563;
+  --skipped:      #22D3EE;
+  --skipped-dim:  rgba(34, 211, 238, 0.1);
+  --warning:      #FBBF24;
+  --danger:       #F87171;
+
+  /* Text */
+  --text:         #D9DDE2;
+  --text2:        #8E9BAE;
+  --muted:        #5A6478;
+
+  /* Typography */
+  --font:         'IBM Plex Mono', monospace;
+  --font-sans:    'IBM Plex Sans', sans-serif;
+}
+
+/* ── RESET ──────────────────────────────────────────────────── */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 13px;
+  line-height: 1.5;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Scanline texture */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.03) 2px,
+    rgba(0, 0, 0, 0.03) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ── VIEWS ──────────────────────────────────────────────────── */
+.view         { display: none; padding-top: 40px; }
+.view.active  { display: block; }
+
+#view-module        { display: none; padding-top: 40px; }
+#view-module.active { display: flex; flex-direction: column; }
+
+/* ── DASHBOARD GRID ─────────────────────────────────────────── */
+.dashboard {
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.row         { display: grid; gap: 10px; }
+.row-stats   { grid-template-columns: repeat(4, 1fr); }
+
+/* ── SHARED BUTTONS ─────────────────────────────────────────── */
+.btn-primary {
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+  background: var(--violet);
+  border: 1px solid var(--violet);
+  padding: 8px 20px;
+  border-radius: 2px;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  transition: opacity 0.15s;
+}
+.btn-primary:hover { opacity: 0.85; }
+
+.btn-ghost {
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text2);
+  background: transparent;
+  border: 1px solid var(--border2);
+  padding: 8px 20px;
+  border-radius: 2px;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  transition: all 0.15s;
+}
+.btn-ghost:hover {
+  color: var(--text);
+  border-color: var(--violet);
+  background: var(--violet-dim);
+}
+
+/* ── ANIMATIONS ─────────────────────────────────────────────── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.7); }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+.animate          { animation: fadeIn 0.25s ease both; }
+.delay-1          { animation-delay: 0.05s; }
+.delay-2          { animation-delay: 0.10s; }
+.delay-3          { animation-delay: 0.15s; }
+.delay-4          { animation-delay: 0.20s; }
+
+/* ── SCROLLBAR ──────────────────────────────────────────────── */
+::-webkit-scrollbar        { width: 5px; height: 5px; }
+::-webkit-scrollbar-track  { background: var(--bg); }
+::-webkit-scrollbar-thumb  { background: var(--border2); }
+::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+/* ── RESPONSIVE ─────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .row-stats { grid-template-columns: repeat(2, 1fr); }
+}
