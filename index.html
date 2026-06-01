@@ -3,1260 +3,41 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="ViaOps — La voie DevOps. 9 outils essentiels, structurés comme un vrai pipeline CI/CD."
+    />
     <title>ViaOps — La voie DevOps</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <style>
-      /* ============================================================
-   TOKENS — Grafana Dark + ViaOps
-   ============================================================ */
-      :root {
-        /* Grafana dark base */
-        --bg: #0f0f0f;
-        --bg2: #141414;
-        --panel: #181b1f;
-        --panel2: #1f2329;
-        --border: #2d3139;
-        --border2: #393f49;
 
-        /* ViaOps accent (Grafana orange → violet)  */
-        --violet: #8b5cf6;
-        --violet-dim: rgba(139, 92, 246, 0.12);
-        --violet-line: rgba(139, 92, 246, 0.4);
-
-        /* Status colors — GitLab CI */
-        --passed: #23d160;
-        --passed-dim: rgba(35, 209, 96, 0.1);
-        --running: #8b5cf6;
-        --running-dim: rgba(139, 92, 246, 0.1);
-        --pending: #4b5563;
-        --pending-dim: rgba(75, 85, 99, 0.15);
-        --skipped: #22d3ee;
-        --skipped-dim: rgba(34, 211, 238, 0.1);
-        --warning: #fbbf24;
-        --danger: #f87171;
-
-        /* Text */
-        --text: #d9dde2;
-        --text2: #8e9bae;
-        --muted: #5a6478;
-
-        /* Mono font everywhere */
-        --font: "IBM Plex Mono", monospace;
-        --font-sans: "IBM Plex Sans", sans-serif;
-      }
-
-      /* ============================================================
-   RESET
-   ============================================================ */
-      *,
-      *::before,
-      *::after {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-      html {
-        scroll-behavior: smooth;
-      }
-
-      body {
-        background: var(--bg);
-        color: var(--text);
-        font-family: var(--font);
-        font-size: 13px;
-        line-height: 1.5;
-        min-height: 100vh;
-        overflow-x: hidden;
-      }
-
-      /* Scanline texture — subtle */
-      body::after {
-        content: "";
-        position: fixed;
-        inset: 0;
-        background: repeating-linear-gradient(
-          0deg,
-          transparent,
-          transparent 2px,
-          rgba(0, 0, 0, 0.03) 2px,
-          rgba(0, 0, 0, 0.03) 4px
-        );
-        pointer-events: none;
-        z-index: 9999;
-      }
-
-      /* ============================================================
-   GRAFANA PANEL SYSTEM
-   ============================================================ */
-      .panel {
-        background: var(--panel);
-        border: 1px solid var(--border);
-        border-radius: 2px;
-        overflow: hidden;
-      }
-
-      .panel-header {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 8px 12px;
-        border-bottom: 1px solid var(--border);
-        background: var(--bg2);
-        min-height: 36px;
-      }
-
-      .panel-header-icon {
-        font-size: 11px;
-        opacity: 0.6;
-      }
-
-      .panel-title {
-        font-size: 11px;
-        font-weight: 600;
-        color: var(--text2);
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        flex: 1;
-      }
-
-      .panel-actions {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-      }
-
-      .panel-badge {
-        font-size: 10px;
-        padding: 2px 8px;
-        border-radius: 2px;
-        border: 1px solid;
-        font-weight: 500;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-      }
-
-      .panel-badge.violet {
-        color: var(--violet);
-        border-color: var(--violet-line);
-        background: var(--violet-dim);
-      }
-      .panel-badge.green {
-        color: var(--passed);
-        border-color: rgba(35, 209, 96, 0.3);
-        background: var(--passed-dim);
-      }
-      .panel-badge.cyan {
-        color: var(--skipped);
-        border-color: rgba(34, 211, 238, 0.3);
-        background: var(--skipped-dim);
-      }
-      .panel-badge.amber {
-        color: var(--warning);
-        border-color: rgba(251, 191, 36, 0.3);
-        background: rgba(251, 191, 36, 0.1);
-      }
-
-      .panel-body {
-        padding: 16px;
-      }
-
-      /* ============================================================
-   NAVBAR — Grafana top bar
-   ============================================================ */
-      .navbar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 200;
-        height: 40px;
-        background: var(--bg2);
-        border-bottom: 1px solid var(--border);
-        display: flex;
-        align-items: center;
-        padding: 0 16px;
-        gap: 0;
-      }
-
-      .nav-logo {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding-right: 16px;
-        border-right: 1px solid var(--border);
-        margin-right: 8px;
-        cursor: pointer;
-        text-decoration: none;
-        flex-shrink: 0;
-      }
-
-      .nav-logo-mark {
-        width: 22px;
-        height: 22px;
-        background: var(--violet);
-        border-radius: 3px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 11px;
-        font-weight: 700;
-        color: white;
-      }
-
-      .nav-logo-text {
-        font-size: 13px;
-        font-weight: 600;
-        color: var(--text);
-        letter-spacing: 0.03em;
-      }
-
-      .nav-logo-text span {
-        color: var(--violet);
-      }
-
-      .nav-items {
-        display: flex;
-        align-items: center;
-        flex: 1;
-        gap: 2px;
-      }
-
-      .nav-item {
-        font-size: 12px;
-        color: var(--text2);
-        padding: 4px 12px;
-        border-radius: 2px;
-        cursor: pointer;
-        transition: all 0.15s;
-        border: 1px solid transparent;
-        white-space: nowrap;
-      }
-
-      .nav-item:hover {
-        color: var(--text);
-        background: var(--panel2);
-      }
-      .nav-item.active {
-        color: var(--text);
-        background: var(--panel);
-        border-color: var(--border);
-      }
-
-      .nav-right {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding-left: 16px;
-        border-left: 1px solid var(--border);
-      }
-
-      /* Progress — Grafana style inline stat */
-      .nav-stat {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        font-size: 11px;
-      }
-
-      .nav-stat-label {
-        color: var(--muted);
-      }
-      .nav-stat-value {
-        color: var(--violet);
-        font-weight: 600;
-      }
-
-      .nav-progress-track {
-        width: 60px;
-        height: 3px;
-        background: var(--border2);
-        border-radius: 0;
-      }
-
-      .nav-progress-fill {
-        height: 100%;
-        background: var(--violet);
-        transition: width 0.5s ease;
-        width: 0%;
-      }
-
-      .btn-cta {
-        font-family: var(--font);
-        font-size: 11px;
-        font-weight: 600;
-        color: white;
-        background: var(--violet);
-        border: none;
-        padding: 5px 14px;
-        border-radius: 2px;
-        cursor: pointer;
-        letter-spacing: 0.04em;
-        transition: opacity 0.15s;
-        white-space: nowrap;
-      }
-      .btn-cta:hover {
-        opacity: 0.85;
-      }
-
-      /* ============================================================
-   VIEWS
-   ============================================================ */
-      .view {
-        display: none;
-        padding-top: 40px;
-      }
-      .view.active {
-        display: block;
-      }
-
-      /* ============================================================
-   HOME VIEW
-   ============================================================ */
-
-      /* Top alert bar — Sentry style */
-      .alert-bar {
-        background: var(--bg2);
-        border-bottom: 1px solid var(--border);
-        padding: 7px 16px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        font-size: 11px;
-        color: var(--text2);
-      }
-
-      .alert-dot {
-        width: 6px;
-        height: 6px;
-        background: var(--passed);
-        border-radius: 50%;
-        flex-shrink: 0;
-        animation: pulse 2.5s infinite;
-      }
-
-      .alert-text {
-        flex: 1;
-      }
-      .alert-text strong {
-        color: var(--text);
-      }
-      .alert-version {
-        font-size: 10px;
-        color: var(--muted);
-        padding: 2px 8px;
-        border: 1px solid var(--border);
-        border-radius: 2px;
-      }
-
-      /* Dashboard grid */
-      .dashboard {
-        padding: 12px 16px;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        max-width: 1200px;
-        margin: 0 auto;
-      }
-
-      /* Row layouts */
-      .row {
-        display: grid;
-        gap: 10px;
-      }
-      .row-stats {
-        grid-template-columns: repeat(4, 1fr);
-      }
-      .row-main {
-        grid-template-columns: 1fr;
-      }
-
-      /* STAT PANELS — Grafana single stat */
-      .stat-panel {
-        background: var(--panel);
-        border: 1px solid var(--border);
-        border-radius: 2px;
-        padding: 14px 16px;
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-        position: relative;
-        overflow: hidden;
-        transition: border-color 0.2s;
-      }
-
-      .stat-panel::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 2px;
-      }
-
-      .stat-panel.violet::before {
-        background: var(--violet);
-      }
-      .stat-panel.green::before {
-        background: var(--passed);
-      }
-      .stat-panel.cyan::before {
-        background: var(--skipped);
-      }
-      .stat-panel.amber::before {
-        background: var(--warning);
-      }
-
-      .stat-panel:hover {
-        border-color: var(--border2);
-      }
-
-      .stat-label {
-        font-size: 10px;
-        color: var(--muted);
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-      }
-
-      .stat-value {
-        font-size: 28px;
-        font-weight: 700;
-        line-height: 1;
-        letter-spacing: -0.02em;
-      }
-
-      .stat-panel.violet .stat-value {
-        color: var(--violet);
-      }
-      .stat-panel.green .stat-value {
-        color: var(--passed);
-      }
-      .stat-panel.cyan .stat-value {
-        color: var(--skipped);
-      }
-      .stat-panel.amber .stat-value {
-        color: var(--warning);
-      }
-
-      .stat-sub {
-        font-size: 10px;
-        color: var(--muted);
-      }
-
-      /* HERO PANEL */
-      .hero-panel .panel-body {
-        padding: 32px 32px 28px;
-        display: flex;
-        align-items: flex-end;
-        justify-content: space-between;
-        gap: 32px;
-        flex-wrap: wrap;
-      }
-
-      .hero-left {
-        flex: 1;
-        min-width: 300px;
-      }
-
-      .hero-eyebrow {
-        font-size: 10px;
-        color: var(--muted);
-        text-transform: uppercase;
-        letter-spacing: 0.14em;
-        margin-bottom: 14px;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-      }
-
-      .hero-eyebrow::before {
-        content: "";
-        width: 16px;
-        height: 1px;
-        background: var(--violet);
-      }
-
-      .hero-title {
-        font-size: clamp(28px, 4vw, 44px);
-        font-weight: 700;
-        line-height: 1.1;
-        letter-spacing: -0.02em;
-        color: var(--text);
-        margin-bottom: 14px;
-      }
-
-      .hero-title .hl {
-        color: var(--violet);
-      }
-
-      .hero-desc {
-        font-size: 12px;
-        color: var(--text2);
-        line-height: 1.8;
-        max-width: 480px;
-        margin-bottom: 24px;
-        font-family: var(--font-sans);
-      }
-
-      .hero-desc strong {
-        color: var(--text);
-        font-family: var(--font);
-      }
-
-      .hero-actions {
-        display: flex;
-        gap: 8px;
-        flex-wrap: wrap;
-      }
-
-      .btn-primary {
-        font-family: var(--font);
-        font-size: 12px;
-        font-weight: 600;
-        color: white;
-        background: var(--violet);
-        border: 1px solid var(--violet);
-        padding: 8px 20px;
-        border-radius: 2px;
-        cursor: pointer;
-        transition: opacity 0.15s;
-        letter-spacing: 0.04em;
-      }
-      .btn-primary:hover {
-        opacity: 0.85;
-      }
-
-      .btn-ghost {
-        font-family: var(--font);
-        font-size: 12px;
-        font-weight: 500;
-        color: var(--text2);
-        background: transparent;
-        border: 1px solid var(--border2);
-        padding: 8px 20px;
-        border-radius: 2px;
-        cursor: pointer;
-        transition: all 0.15s;
-        letter-spacing: 0.04em;
-      }
-      .btn-ghost:hover {
-        color: var(--text);
-        border-color: var(--violet);
-        background: var(--violet-dim);
-      }
-
-      /* Terminal block right side */
-      .hero-terminal {
-        background: var(--bg);
-        border: 1px solid var(--border);
-        border-radius: 2px;
-        width: 320px;
-        flex-shrink: 0;
-        overflow: hidden;
-      }
-
-      .terminal-bar {
-        background: var(--panel2);
-        border-bottom: 1px solid var(--border);
-        padding: 6px 12px;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        font-size: 10px;
-        color: var(--muted);
-      }
-
-      .terminal-dot {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-      }
-
-      .t-red {
-        background: #f87171;
-      }
-      .t-yellow {
-        background: #fbbf24;
-      }
-      .t-green {
-        background: #23d160;
-      }
-
-      .terminal-name {
-        margin-left: 4px;
-        font-size: 10px;
-      }
-
-      .terminal-body {
-        padding: 14px 16px;
-        font-size: 11px;
-        line-height: 2;
-      }
-
-      .t-line {
-        display: flex;
-        gap: 8px;
-      }
-      .t-prompt {
-        color: var(--passed);
-        flex-shrink: 0;
-      }
-      .t-cmd {
-        color: var(--text);
-      }
-      .t-flag {
-        color: var(--warning);
-      }
-      .t-arg {
-        color: var(--skipped);
-      }
-      .t-out {
-        color: var(--muted);
-        padding-left: 16px;
-      }
-      .t-ok {
-        color: var(--passed);
-        padding-left: 16px;
-      }
-      .t-cursor {
-        display: inline-block;
-        width: 7px;
-        height: 13px;
-        background: var(--violet);
-        vertical-align: middle;
-        animation: blink 1.1s step-end infinite;
-      }
-
-      @keyframes blink {
-        0%,
-        100% {
-          opacity: 1;
-        }
-        50% {
-          opacity: 0;
-        }
-      }
-
-      /* ============================================================
-   PIPELINE PANEL — GitLab CI style
-   ============================================================ */
-      .pipeline-wrap {
-        padding: 20px 20px 16px;
-        overflow-x: auto;
-      }
-
-      .pipeline-stages {
-        display: flex;
-        align-items: flex-start;
-        gap: 0;
-        min-width: max-content;
-      }
-
-      .pipeline-stage {
-        display: flex;
-        flex-direction: column;
-        gap: 0;
-        position: relative;
-      }
-
-      /* Connector arrow between stages */
-      .pipeline-stage:not(:last-child)::after {
-        content: "›";
-        position: absolute;
-        right: -14px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: var(--border2);
-        font-size: 18px;
-        z-index: 1;
-      }
-
-      .stage-label {
-        font-size: 9px;
-        text-transform: uppercase;
-        letter-spacing: 0.12em;
-        color: var(--muted);
-        padding: 0 12px 8px 12px;
-        border-bottom: 1px solid var(--border);
-        margin-bottom: 8px;
-        white-space: nowrap;
-      }
-
-      .stage-jobs {
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-        padding: 0 8px;
-      }
-
-      /* JOB CARD */
-      .job {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 7px 12px;
-        background: var(--panel2);
-        border: 1px solid var(--border);
-        border-radius: 2px;
-        cursor: pointer;
-        transition: all 0.15s;
-        min-width: 160px;
-        position: relative;
-      }
-
-      .job:hover {
-        border-color: var(--border2);
-        background: var(--bg2);
-      }
-
-      .job.status-passed {
-        border-left: 2px solid var(--passed);
-      }
-      .job.status-running {
-        border-left: 2px solid var(--running);
-      }
-      .job.status-pending {
-        border-left: 2px solid var(--pending);
-      }
-
-      .job-icon {
-        font-size: 14px;
-        flex-shrink: 0;
-      }
-
-      .job-info {
-        flex: 1;
-        min-width: 0;
-      }
-
-      .job-name {
-        font-size: 11px;
-        font-weight: 600;
-        color: var(--text);
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-
-      .job-tag {
-        font-size: 9px;
-        color: var(--muted);
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-      }
-
-      /* Status indicator */
-      .job-status {
-        display: flex;
-        align-items: center;
-        gap: 4px;
-        font-size: 9px;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        flex-shrink: 0;
-      }
-
-      .status-dot {
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        flex-shrink: 0;
-      }
-
-      .job.status-passed .status-dot {
-        background: var(--passed);
-      }
-      .job.status-running .status-dot {
-        background: var(--running);
-        animation: pulse 1.5s infinite;
-      }
-      .job.status-pending .status-dot {
-        background: var(--pending);
-      }
-
-      .job.status-passed .job-status {
-        color: var(--passed);
-      }
-      .job.status-running .job-status {
-        color: var(--running);
-      }
-      .job.status-pending .job-status {
-        color: var(--muted);
-      }
-
-      @keyframes pulse {
-        0%,
-        100% {
-          opacity: 1;
-          transform: scale(1);
-        }
-        50% {
-          opacity: 0.4;
-          transform: scale(0.7);
-        }
-      }
-
-      /* ============================================================
-   MODULE VIEW — Grafana split layout
-   ============================================================ */
-      #view-module {
-        display: none;
-        padding-top: 40px;
-      }
-
-      #view-module.active {
-        display: flex;
-        flex-direction: column;
-      }
-
-      .module-layout {
-        display: grid;
-        grid-template-columns: 220px 1fr;
-        min-height: calc(100vh - 40px);
-      }
-
-      /* LEFT SIDEBAR — Grafana nav panel */
-      .module-sidebar {
-        background: var(--bg2);
-        border-right: 1px solid var(--border);
-        padding: 12px 0;
-        overflow-y: auto;
-        position: sticky;
-        top: 40px;
-        height: calc(100vh - 40px);
-      }
-
-      .sidebar-section-label {
-        font-size: 9px;
-        text-transform: uppercase;
-        letter-spacing: 0.14em;
-        color: var(--muted);
-        padding: 8px 16px 6px;
-      }
-
-      .sidebar-item {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 8px 16px;
-        cursor: pointer;
-        transition: all 0.12s;
-        border-left: 2px solid transparent;
-        position: relative;
-      }
-
-      .sidebar-item:hover {
-        background: var(--panel);
-        color: var(--text);
-      }
-
-      .sidebar-item.active {
-        background: var(--violet-dim);
-        border-left-color: var(--violet);
-      }
-
-      .sidebar-item.s-passed {
-        border-left-color: var(--passed);
-      }
-      .sidebar-item.s-running {
-        border-left-color: var(--running);
-      }
-
-      .sidebar-icon {
-        font-size: 15px;
-        flex-shrink: 0;
-      }
-
-      .sidebar-meta {
-        flex: 1;
-        min-width: 0;
-      }
-
-      .sidebar-name {
-        font-size: 11px;
-        font-weight: 500;
-        color: var(--text2);
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-
-      .sidebar-item.active .sidebar-name,
-      .sidebar-item:hover .sidebar-name {
-        color: var(--text);
-      }
-
-      .sidebar-time {
-        font-size: 9px;
-        color: var(--muted);
-      }
-
-      .sidebar-status {
-        width: 14px;
-        height: 14px;
-        border-radius: 50%;
-        border: 1px solid var(--border2);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 8px;
-        flex-shrink: 0;
-        color: transparent;
-      }
-
-      .sidebar-item.s-passed .sidebar-status {
-        background: var(--passed);
-        border-color: var(--passed);
-        color: var(--bg);
-      }
-
-      .sidebar-item.s-running .sidebar-status {
-        background: var(--running-dim);
-        border-color: var(--running);
-        color: var(--running);
-      }
-
-      /* PROGRESS in sidebar bottom */
-      .sidebar-footer {
-        position: sticky;
-        bottom: 0;
-        background: var(--bg2);
-        border-top: 1px solid var(--border);
-        padding: 10px 16px;
-        margin-top: auto;
-      }
-
-      .sidebar-prog-label {
-        font-size: 9px;
-        color: var(--muted);
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        margin-bottom: 6px;
-        display: flex;
-        justify-content: space-between;
-      }
-
-      .sidebar-prog-label span {
-        color: var(--violet);
-      }
-
-      .sidebar-prog-bar {
-        height: 3px;
-        background: var(--border);
-        border-radius: 0;
-      }
-
-      .sidebar-prog-fill {
-        height: 100%;
-        background: linear-gradient(90deg, var(--violet), var(--passed));
-        transition: width 0.5s ease;
-      }
-
-      /* MODULE CONTENT AREA */
-      .module-main {
-        overflow-y: auto;
-        height: calc(100vh - 40px);
-        padding: 16px;
-        background: var(--bg);
-      }
-
-      .module-crumbs {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        font-size: 11px;
-        color: var(--muted);
-        margin-bottom: 14px;
-      }
-
-      .crumb {
-        cursor: pointer;
-        transition: color 0.15s;
-      }
-      .crumb:hover {
-        color: var(--text);
-      }
-      .crumb-sep {
-        color: var(--border2);
-      }
-      .crumb-active {
-        color: var(--violet);
-        cursor: default;
-      }
-
-      /* Module panels */
-      .module-panels {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-      }
-
-      /* Status bar — Sentry style */
-      .status-bar {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 8px 14px;
-        border-radius: 2px;
-        font-size: 11px;
-        border: 1px solid;
-        margin-bottom: 10px;
-      }
-
-      .status-bar.info {
-        background: var(--violet-dim);
-        border-color: var(--violet-line);
-        color: var(--text2);
-      }
-
-      .status-bar.info strong {
-        color: var(--violet);
-      }
-
-      /* Module header panel */
-      .mod-header-panel .panel-body {
-        padding: 20px 24px;
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-        gap: 20px;
-        flex-wrap: wrap;
-      }
-
-      .mod-num {
-        font-size: 10px;
-        color: var(--muted);
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        margin-bottom: 8px;
-      }
-
-      .mod-title {
-        font-size: 26px;
-        font-weight: 700;
-        letter-spacing: -0.02em;
-        line-height: 1.1;
-        margin-bottom: 10px;
-      }
-
-      .mod-title .accent {
-        color: var(--violet);
-      }
-
-      .mod-tags {
-        display: flex;
-        gap: 6px;
-        flex-wrap: wrap;
-      }
-
-      /* Coming soon content */
-      .module-placeholder {
-        text-align: center;
-        padding: 48px 32px;
-      }
-
-      .placeholder-icon {
-        font-size: 40px;
-        margin-bottom: 16px;
-      }
-
-      .placeholder-title {
-        font-size: 16px;
-        font-weight: 600;
-        color: var(--text);
-        margin-bottom: 8px;
-      }
-
-      .placeholder-sub {
-        font-size: 12px;
-        color: var(--text2);
-        line-height: 1.7;
-        max-width: 360px;
-        margin: 0 auto 24px;
-        font-family: var(--font-sans);
-      }
-
-      /* Module nav */
-      .mod-nav {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 12px 0 0;
-      }
-
-      .btn-nav {
-        font-family: var(--font);
-        font-size: 11px;
-        font-weight: 500;
-        color: var(--text2);
-        background: var(--panel);
-        border: 1px solid var(--border);
-        padding: 7px 16px;
-        border-radius: 2px;
-        cursor: pointer;
-        transition: all 0.15s;
-        letter-spacing: 0.04em;
-      }
-
-      .btn-nav:hover {
-        border-color: var(--violet);
-        color: var(--text);
-      }
-      .btn-nav:disabled {
-        opacity: 0.3;
-        cursor: not-allowed;
-      }
-      .btn-nav:disabled:hover {
-        border-color: var(--border);
-        color: var(--text2);
-      }
-
-      .btn-nav.primary {
-        background: var(--violet-dim);
-        border-color: var(--violet-line);
-        color: var(--violet);
-      }
-
-      .btn-nav.primary:hover {
-        background: var(--violet);
-        color: white;
-        border-color: var(--violet);
-      }
-
-      .btn-mark {
-        font-family: var(--font);
-        font-size: 11px;
-        font-weight: 600;
-        color: white;
-        background: var(--passed);
-        border: 1px solid var(--passed);
-        padding: 7px 20px;
-        border-radius: 2px;
-        cursor: pointer;
-        transition: opacity 0.15s;
-        letter-spacing: 0.04em;
-      }
-
-      .btn-mark:hover {
-        opacity: 0.8;
-      }
-      .btn-mark:disabled {
-        opacity: 0.4;
-        cursor: not-allowed;
-      }
-
-      /* ============================================================
-   ABOUT VIEW
-   ============================================================ */
-      #view-about .dashboard {
-        max-width: 720px;
-      }
-
-      /* ============================================================
-   ANIMATIONS
-   ============================================================ */
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(8px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      .animate {
-        animation: fadeIn 0.25s ease both;
-      }
-
-      .delay-1 {
-        animation-delay: 0.05s;
-      }
-      .delay-2 {
-        animation-delay: 0.1s;
-      }
-      .delay-3 {
-        animation-delay: 0.15s;
-      }
-      .delay-4 {
-        animation-delay: 0.2s;
-      }
-      .delay-5 {
-        animation-delay: 0.25s;
-      }
-
-      /* ============================================================
-   SCROLLBAR
-   ============================================================ */
-      ::-webkit-scrollbar {
-        width: 5px;
-        height: 5px;
-      }
-      ::-webkit-scrollbar-track {
-        background: var(--bg);
-      }
-      ::-webkit-scrollbar-thumb {
-        background: var(--border2);
-      }
-      ::-webkit-scrollbar-thumb:hover {
-        background: var(--muted);
-      }
-
-      /* ============================================================
-   RESPONSIVE
-   ============================================================ */
-      @media (max-width: 768px) {
-        .row-stats {
-          grid-template-columns: repeat(2, 1fr);
-        }
-        .hero-panel .panel-body {
-          flex-direction: column;
-        }
-        .hero-terminal {
-          width: 100%;
-        }
-        .module-layout {
-          grid-template-columns: 1fr;
-        }
-        .module-sidebar {
-          display: none;
-        }
-        .nav-items .nav-item:not(.always) {
-          display: none;
-        }
-      }
-    </style>
+    <!-- Styles -->
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/navbar.css" />
+    <link rel="stylesheet" href="assets/css/panels.css" />
+    <link rel="stylesheet" href="assets/css/pipeline.css" />
+    <link rel="stylesheet" href="assets/css/modules.css" />
   </head>
   <body>
     <!-- ============================================================
-     NAVBAR
-     ============================================================ -->
+       NAVBAR
+       ============================================================ -->
     <nav class="navbar">
-      <div class="nav-logo" onclick="showView('home')">
+      <div class="nav-logo" id="logo-home">
         <div class="nav-logo-mark">V</div>
         <span class="nav-logo-text">Via<span>Ops</span></span>
       </div>
 
       <div class="nav-items">
-        <span
-          class="nav-item always active"
-          id="nav-home"
-          onclick="showView('home')"
-          >Accueil</span
-        >
-        <span
-          class="nav-item always"
-          id="nav-module"
-          onclick="showView('module')"
-          >Modules</span
-        >
-        <span class="nav-item" id="nav-about" onclick="showView('about')"
-          >À propos</span
-        >
+        <span class="nav-item always active" id="nav-home">Accueil</span>
+        <span class="nav-item always" id="nav-module">Modules</span>
+        <span class="nav-item" id="nav-about">À propos</span>
       </div>
 
       <div class="nav-right">
@@ -1267,15 +48,15 @@
             <div class="nav-progress-fill" id="nav-prog-fill"></div>
           </div>
         </div>
-        <button class="btn-cta" onclick="showView('module')">Démarrer →</button>
+        <button class="btn-cta" id="btn-navbar-start">Démarrer →</button>
       </div>
     </nav>
 
     <!-- ============================================================
-     VIEW — HOME
-     ============================================================ -->
+       VIEW — HOME
+       ============================================================ -->
     <div id="view-home" class="view active">
-      <!-- Sentry-style status alert -->
+      <!-- Sentry alert bar -->
       <div class="alert-bar">
         <div class="alert-dot"></div>
         <span class="alert-text">
@@ -1286,7 +67,7 @@
       </div>
 
       <div class="dashboard">
-        <!-- STATS ROW -->
+        <!-- Stat panels -->
         <div class="row row-stats animate">
           <div class="stat-panel violet">
             <div class="stat-label">outils couverts</div>
@@ -1310,7 +91,7 @@
           </div>
         </div>
 
-        <!-- HERO PANEL -->
+        <!-- Hero panel -->
         <div class="panel hero-panel animate delay-1">
           <div class="panel-header">
             <span class="panel-header-icon">♾️</span>
@@ -1334,24 +115,16 @@
                 seulement, dans la logique d'un pipeline CI/CD réel.
               </p>
               <div class="hero-actions">
-                <button class="btn-primary" onclick="showView('module')">
+                <button class="btn-primary" id="btn-hero-start">
                   ▶ Démarrer le parcours
                 </button>
-                <button
-                  class="btn-ghost"
-                  onclick="
-                    scrollTo(
-                      0,
-                      document.getElementById('pipeline-anchor').offsetTop,
-                    )
-                  "
-                >
+                <button class="btn-ghost" id="btn-hero-scroll">
                   ↓ Voir le pipeline
                 </button>
               </div>
             </div>
 
-            <!-- Terminal block -->
+            <!-- Terminal -->
             <div class="hero-terminal">
               <div class="terminal-bar">
                 <div class="terminal-dot t-red"></div>
@@ -1361,8 +134,8 @@
               </div>
               <div class="terminal-body">
                 <div class="t-line">
-                  <span class="t-prompt">$</span
-                  ><span class="t-cmd"
+                  <span class="t-prompt">$</span>
+                  <span class="t-cmd"
                     >docker <span class="t-flag">build</span>
                     <span class="t-flag">-t</span>
                     <span class="t-arg">viaops:1.0</span> .</span
@@ -1378,8 +151,8 @@
                   <span class="t-ok">✓ Successfully built 3f9a2c1d</span>
                 </div>
                 <div class="t-line" style="margin-top: 6px">
-                  <span class="t-prompt">$</span
-                  ><span class="t-cmd"
+                  <span class="t-prompt">$</span>
+                  <span class="t-cmd"
                     >kubectl <span class="t-flag">apply</span>
                     <span class="t-flag">-f</span>
                     <span class="t-arg">deploy.yaml</span></span
@@ -1389,16 +162,16 @@
                   <span class="t-ok">✓ deployment.apps/viaops created</span>
                 </div>
                 <div class="t-line" style="margin-top: 6px">
-                  <span class="t-prompt">$</span
-                  ><span class="t-cmd"><span class="t-cursor"></span></span>
+                  <span class="t-prompt">$</span>
+                  <span class="t-cmd"><span class="t-cursor"></span></span>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- PIPELINE PANEL — GitLab CI style -->
-        <div class="panel animate delay-2" id="pipeline-anchor">
+        <!-- Pipeline panel -->
+        <div class="panel animate delay-2" id="pipeline-panel">
           <div class="panel-header">
             <span class="panel-header-icon">⚙️</span>
             <span class="panel-title">pipeline devops · 9 stages</span>
@@ -1407,13 +180,11 @@
             </div>
           </div>
           <div class="pipeline-wrap">
-            <div class="pipeline-stages" id="pipeline-stages">
-              <!-- Built by JS -->
-            </div>
+            <div class="pipeline-stages" id="pipeline-stages"></div>
           </div>
         </div>
 
-        <!-- HOW IT WORKS -->
+        <!-- Structure panel -->
         <div class="panel animate delay-3">
           <div class="panel-header">
             <span class="panel-header-icon">📋</span>
@@ -1589,15 +360,13 @@
     </div>
 
     <!-- ============================================================
-     VIEW — MODULE
-     ============================================================ -->
+       VIEW — MODULE
+       ============================================================ -->
     <div id="view-module" class="view">
       <div class="module-layout">
-        <!-- SIDEBAR -->
         <aside class="module-sidebar">
           <div class="sidebar-section-label">// parcours viaops</div>
           <div id="sidebar-list"></div>
-          <div style="flex: 1"></div>
           <div class="sidebar-footer">
             <div class="sidebar-prog-label">
               <span>progression</span>
@@ -1609,18 +378,15 @@
           </div>
         </aside>
 
-        <!-- MAIN CONTENT -->
-        <main class="module-main" id="module-main">
-          <!-- Filled by JS -->
-        </main>
+        <main class="module-main" id="module-main"></main>
       </div>
     </div>
 
     <!-- ============================================================
-     VIEW — ABOUT
-     ============================================================ -->
+       VIEW — ABOUT
+       ============================================================ -->
     <div id="view-about" class="view">
-      <div class="dashboard" id="about-dashboard">
+      <div class="dashboard" style="max-width: 720px">
         <div class="panel animate">
           <div class="panel-header">
             <span class="panel-header-icon">ℹ️</span>
@@ -1647,14 +413,7 @@
               vrai pipeline CI/CD, pour que n'importe qui comprenne les outils
               essentiels sans se noyer.
             </p>
-            <div
-              style="
-                display: flex;
-                gap: 6px;
-                flex-wrap: wrap;
-                margin-bottom: 24px;
-              "
-            >
+            <div style="display: flex; gap: 6px; flex-wrap: wrap">
               <span class="panel-badge green"
                 >Phase 1 — Shell & Navigation ✓</span
               >
@@ -1684,13 +443,12 @@
                   padding: 10px 14px;
                   background: var(--bg2);
                   border: 1px solid var(--border);
-                  font-size: 11px;
                 "
               >
                 <div
                   style="
-                    color: var(--muted);
                     font-size: 9px;
+                    color: var(--muted);
                     text-transform: uppercase;
                     letter-spacing: 0.1em;
                     margin-bottom: 4px;
@@ -1698,20 +456,21 @@
                 >
                   Frontend
                 </div>
-                <div style="color: var(--text)">HTML / CSS / JS</div>
+                <div style="font-size: 11px; color: var(--text)">
+                  HTML / CSS / JS
+                </div>
               </div>
               <div
                 style="
                   padding: 10px 14px;
                   background: var(--bg2);
                   border: 1px solid var(--border);
-                  font-size: 11px;
                 "
               >
                 <div
                   style="
-                    color: var(--muted);
                     font-size: 9px;
+                    color: var(--muted);
                     text-transform: uppercase;
                     letter-spacing: 0.1em;
                     margin-bottom: 4px;
@@ -1719,20 +478,19 @@
                 >
                   Container
                 </div>
-                <div style="color: var(--text)">Docker</div>
+                <div style="font-size: 11px; color: var(--text)">Docker</div>
               </div>
               <div
                 style="
                   padding: 10px 14px;
                   background: var(--bg2);
                   border: 1px solid var(--border);
-                  font-size: 11px;
                 "
               >
                 <div
                   style="
-                    color: var(--muted);
                     font-size: 9px;
+                    color: var(--muted);
                     text-transform: uppercase;
                     letter-spacing: 0.1em;
                     margin-bottom: 4px;
@@ -1740,20 +498,21 @@
                 >
                   CI/CD
                 </div>
-                <div style="color: var(--text)">GitHub Actions</div>
+                <div style="font-size: 11px; color: var(--text)">
+                  GitHub Actions
+                </div>
               </div>
               <div
                 style="
                   padding: 10px 14px;
                   background: var(--bg2);
                   border: 1px solid var(--border);
-                  font-size: 11px;
                 "
               >
                 <div
                   style="
-                    color: var(--muted);
                     font-size: 9px;
+                    color: var(--muted);
                     text-transform: uppercase;
                     letter-spacing: 0.1em;
                     margin-bottom: 4px;
@@ -1761,7 +520,9 @@
                 >
                   Hosting
                 </div>
-                <div style="color: var(--text)">GitHub Pages</div>
+                <div style="font-size: 11px; color: var(--text)">
+                  GitHub Pages
+                </div>
               </div>
             </div>
           </div>
@@ -1772,405 +533,81 @@
             <span class="panel-header-icon">👤</span>
             <span class="panel-title">auteur</span>
           </div>
-          <div class="panel-body">
-            <div
-              style="
-                font-size: 12px;
-                color: var(--text2);
-                font-family: var(--font-sans);
-                line-height: 1.8;
-              "
+          <div
+            class="panel-body"
+            style="
+              font-size: 12px;
+              color: var(--text2);
+              font-family: var(--font-sans);
+              line-height: 1.8;
+            "
+          >
+            Construit par
+            <strong style="color: var(--violet); font-family: var(--font)"
+              >Virtual Voyager</strong
             >
-              Construit par
-              <strong style="color: var(--violet); font-family: var(--font)"
-                >Virtual Voyager</strong
-              >
-              · Dakar, Sénégal · 2026<br />
-              MERN Stack Developer → Cloud & DevOps Engineer<br />
-              <a
-                href="https://linkedin.com/in/limamou-laye"
-                style="
-                  color: var(--skipped);
-                  text-decoration: none;
-                  font-family: var(--font);
-                  font-size: 11px;
-                "
-                >linkedin.com/in/limamou-laye</a
-              >
-            </div>
+            · Dakar, Sénégal · 2026<br />
+            MERN Stack Developer → Cloud &amp; DevOps Engineer<br />
+            <a
+              href="https://linkedin.com/in/limamou-laye"
+              style="
+                color: var(--skipped);
+                text-decoration: none;
+                font-family: var(--font);
+                font-size: 11px;
+              "
+              target="_blank"
+              rel="noopener"
+            >
+              linkedin.com/in/limamou-laye
+            </a>
           </div>
         </div>
       </div>
     </div>
 
     <!-- ============================================================
-     JAVASCRIPT
-     ============================================================ -->
+       SCRIPTS — order matters
+       ============================================================ -->
+    <script src="assets/js/data.js"></script>
+    <script src="assets/js/progress.js"></script>
+    <script src="assets/js/router.js"></script>
+    <script src="assets/js/pipeline.js"></script>
+    <script src="assets/js/sidebar.js"></script>
+    <script src="assets/js/modules.js"></script>
+
+    <!-- App init -->
     <script>
-      // ── DATA ──────────────────────────────────────────────────────
-      const MODULES = [
-        {
-          id: "devops",
-          icon: "♾️",
-          label: "DevOps",
-          tag: "Culture & CALMS",
-          time: "~10 min",
-          stage: "culture",
-        },
-        {
-          id: "docker",
-          icon: "🐳",
-          label: "Docker",
-          tag: "Conteneurisation",
-          time: "~10 min",
-          stage: "build",
-        },
-        {
-          id: "jenkins",
-          icon: "🔧",
-          label: "Jenkins",
-          tag: "CI/CD",
-          time: "~10 min",
-          stage: "ci",
-        },
-        {
-          id: "sonarqube",
-          icon: "🔍",
-          label: "SonarQube",
-          tag: "Qualité du code",
-          time: "~10 min",
-          stage: "test",
-        },
-        {
-          id: "kubernetes",
-          icon: "☸️",
-          label: "Kubernetes",
-          tag: "Orchestration",
-          time: "~10 min",
-          stage: "deploy",
-        },
-        {
-          id: "terraform",
-          icon: "🌍",
-          label: "Terraform",
-          tag: "IaC",
-          time: "~10 min",
-          stage: "infra",
-        },
-        {
-          id: "prometheus",
-          icon: "📊",
-          label: "Prometheus/Graf",
-          tag: "Monitoring",
-          time: "~10 min",
-          stage: "monitor",
-        },
-        {
-          id: "trivy",
-          icon: "🛡️",
-          label: "Trivy",
-          tag: "Sécurité",
-          time: "~10 min",
-          stage: "security",
-        },
-        {
-          id: "ia-devops",
-          icon: "🤖",
-          label: "IA pour DevOps",
-          tag: "AI/Ops",
-          time: "~10 min",
-          stage: "ai",
-        },
-      ];
-
-      // Pipeline stages grouping
-      const STAGES = [
-        { label: "Culture", jobs: [0] },
-        { label: "Build", jobs: [1] },
-        { label: "CI/CD", jobs: [2, 3] },
-        { label: "Security", jobs: [7] },
-        { label: "Deploy", jobs: [4, 5] },
-        { label: "Monitor", jobs: [6] },
-        { label: "AI/Ops", jobs: [8] },
-      ];
-
-      // ── STATE ─────────────────────────────────────────────────────
-      let currentModule = 0;
-      let completed = JSON.parse(
-        localStorage.getItem("viaops_v2_done") || "[]",
-      );
-
-      // ── HELPERS ───────────────────────────────────────────────────
-      function getStatus(idx) {
-        if (completed.includes(idx)) return "passed";
-        if (idx === currentModule) return "running";
-        return "pending";
-      }
-
-      function saveProgress() {
-        localStorage.setItem("viaops_v2_done", JSON.stringify(completed));
-      }
-
-      // ── PROGRESS UPDATE ───────────────────────────────────────────
-      function updateProgress() {
-        const pct = (completed.length / MODULES.length) * 100;
-        document.getElementById("nav-prog-fill").style.width = pct + "%";
-        document.getElementById("nav-prog-val").textContent =
-          completed.length + "/9";
-        const sf = document.getElementById("sidebar-prog-fill");
-        const sv = document.getElementById("sidebar-prog-val");
-        if (sf) sf.style.width = pct + "%";
-        if (sv) sv.textContent = completed.length + "/9";
-      }
-
-      // ── PIPELINE BUILD ────────────────────────────────────────────
-      function buildPipeline() {
-        const wrap = document.getElementById("pipeline-stages");
-        wrap.innerHTML = "";
-
-        STAGES.forEach((stage) => {
-          const stageEl = document.createElement("div");
-          stageEl.className = "pipeline-stage";
-
-          const lbl = document.createElement("div");
-          lbl.className = "stage-label";
-          lbl.textContent = stage.label;
-          stageEl.appendChild(lbl);
-
-          const jobs = document.createElement("div");
-          jobs.className = "stage-jobs";
-
-          stage.jobs.forEach((idx) => {
-            const m = MODULES[idx];
-            const status = getStatus(idx);
-            const statusText = {
-              passed: "✓ passed",
-              running: "▶ active",
-              pending: "● pending",
-            }[status];
-
-            const job = document.createElement("div");
-            job.className = `job status-${status}`;
-            job.innerHTML = `
-        <span class="job-icon">${m.icon}</span>
-        <div class="job-info">
-          <div class="job-name">${m.label}</div>
-          <div class="job-tag">${m.tag}</div>
-        </div>
-        <div class="job-status">
-          <div class="status-dot"></div>
-          <span>${statusText}</span>
-        </div>
-      `;
-            job.onclick = () => {
-              currentModule = idx;
-              showView("module");
-            };
-            jobs.appendChild(job);
-          });
-
-          stageEl.appendChild(jobs);
-          wrap.appendChild(stageEl);
+      // Wire up nav & buttons
+      document
+        .getElementById("logo-home")
+        .addEventListener("click", () => Router.show("home"));
+      document
+        .getElementById("nav-home")
+        .addEventListener("click", () => Router.show("home"));
+      document
+        .getElementById("nav-module")
+        .addEventListener("click", () => Router.show("module"));
+      document
+        .getElementById("nav-about")
+        .addEventListener("click", () => Router.show("about"));
+      document
+        .getElementById("btn-navbar-start")
+        .addEventListener("click", () => Router.show("module"));
+      document
+        .getElementById("btn-hero-start")
+        .addEventListener("click", () => Router.show("module"));
+      document
+        .getElementById("btn-hero-scroll")
+        .addEventListener("click", () => {
+          document
+            .getElementById("pipeline-panel")
+            .scrollIntoView({ behavior: "smooth" });
         });
-      }
 
-      // ── SIDEBAR BUILD ─────────────────────────────────────────────
-      function buildSidebar() {
-        const list = document.getElementById("sidebar-list");
-        list.innerHTML = "";
-
-        MODULES.forEach((m, i) => {
-          const status = getStatus(i);
-          const sClass = {
-            passed: "s-passed",
-            running: "s-running",
-            pending: "",
-          }[status];
-          const checkContent =
-            status === "passed" ? "✓" : status === "running" ? "▶" : "";
-
-          const el = document.createElement("div");
-          el.className = `sidebar-item ${sClass} ${i === currentModule ? "active" : ""}`;
-          el.id = "sb-" + i;
-          el.innerHTML = `
-      <span class="sidebar-icon">${m.icon}</span>
-      <div class="sidebar-meta">
-        <div class="sidebar-name">${m.label}</div>
-        <div class="sidebar-time">${m.time} · ${m.tag}</div>
-      </div>
-      <div class="sidebar-status">${checkContent}</div>
-    `;
-          el.onclick = () => {
-            currentModule = i;
-            renderModule(i);
-          };
-          list.appendChild(el);
-        });
-      }
-
-      // ── MODULE RENDER ─────────────────────────────────────────────
-      function renderModule(idx) {
-        currentModule = idx;
-        const m = MODULES[idx];
-        const main = document.getElementById("module-main");
-        const isDone = completed.includes(idx);
-
-        buildSidebar();
-        updateProgress();
-
-        main.innerHTML = `
-    <div class="animate">
-      <!-- Breadcrumbs -->
-      <div class="module-crumbs">
-        <span class="crumb" onclick="showView('home')">Accueil</span>
-        <span class="crumb-sep">/</span>
-        <span class="crumb" onclick="">Modules</span>
-        <span class="crumb-sep">/</span>
-        <span class="crumb-active">${m.label}</span>
-      </div>
-
-      <!-- Sentry status bar -->
-      <div class="status-bar info">
-        <span>⚙️</span>
-        <span>Module <strong>${String(idx + 1).padStart(2, "0")}</strong> · ${m.label} · Stage: <strong>${m.stage}</strong> · ${m.time}</span>
-        ${isDone ? '<span style="margin-left:auto; color:var(--passed); font-weight:600;">✓ complété</span>' : ""}
-      </div>
-
-      <div class="module-panels">
-
-        <!-- Header panel -->
-        <div class="panel mod-header-panel">
-          <div class="panel-header">
-            <span class="panel-header-icon">${m.icon}</span>
-            <span class="panel-title">module · ${m.label.toLowerCase()}</span>
-            <div class="panel-actions">
-              <span class="panel-badge violet">${m.tag}</span>
-              <span class="panel-badge ${isDone ? "green" : "amber"}">${isDone ? "passed" : "pending"}</span>
-            </div>
-          </div>
-          <div class="panel-body">
-            <div>
-              <div class="mod-num">// module ${String(idx + 1).padStart(2, "0")} of ${MODULES.length} · viaops pipeline</div>
-              <h2 class="mod-title">${m.icon} <span class="accent">${m.label}</span></h2>
-              <div class="mod-tags">
-                <span class="panel-badge cyan">⏱ ${m.time}</span>
-                <span class="panel-badge violet">${m.tag}</span>
-                <span class="panel-badge amber">fondamental</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Content placeholder -->
-        <div class="panel">
-          <div class="panel-header">
-            <span class="panel-header-icon">📄</span>
-            <span class="panel-title">contenu du module</span>
-            <span class="panel-badge amber">phase 2</span>
-          </div>
-          <div class="module-placeholder">
-            <div class="placeholder-icon">${m.icon}</div>
-            <div class="placeholder-title">Contenu en cours de rédaction</div>
-            <div class="placeholder-sub">
-              Le module <strong>${m.label}</strong> sera disponible en Phase 2.<br>
-              Structure, navigation et design : opérationnels ✓
-            </div>
-            <button class="btn-mark" id="btn-mark-${idx}" onclick="markDone(${idx})" ${isDone ? "disabled" : ""}>
-              ${isDone ? "✓ Module complété" : "✓ Marquer comme vu"}
-            </button>
-          </div>
-        </div>
-
-        <!-- Nav -->
-        <div class="mod-nav">
-          <button class="btn-nav" onclick="prevMod()" ${idx === 0 ? "disabled" : ""}>← Précédent</button>
-          <span style="font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:0.1em;">${idx + 1} / ${MODULES.length}</span>
-          <button class="btn-nav primary" onclick="nextMod()" ${idx === MODULES.length - 1 ? "disabled" : ""}>Suivant →</button>
-        </div>
-
-      </div>
-    </div>
-  `;
-      }
-
-      function markDone(idx) {
-        if (!completed.includes(idx)) {
-          completed.push(idx);
-          saveProgress();
-        }
-        buildPipeline();
-        buildSidebar();
-        updateProgress();
-        // Update UI
-        const btn = document.getElementById("btn-mark-" + idx);
-        if (btn) {
-          btn.textContent = "✓ Module complété";
-          btn.disabled = true;
-        }
-        // Update status bar
-        const sb = document.querySelector(".status-bar.info");
-        if (sb && !sb.querySelector('[style*="passed"]')) {
-          const span = document.createElement("span");
-          span.style.cssText =
-            "margin-left:auto; color:var(--passed); font-weight:600;";
-          span.textContent = "✓ complété";
-          sb.appendChild(span);
-        }
-        const badge = document.querySelector(
-          ".mod-header-panel .panel-badge.amber",
-        );
-        if (badge) {
-          badge.className = "panel-badge green";
-          badge.textContent = "passed";
-        }
-      }
-
-      function nextMod() {
-        if (currentModule < MODULES.length - 1) {
-          currentModule++;
-          renderModule(currentModule);
-          document.getElementById("module-main").scrollTop = 0;
-        }
-      }
-
-      function prevMod() {
-        if (currentModule > 0) {
-          currentModule--;
-          renderModule(currentModule);
-          document.getElementById("module-main").scrollTop = 0;
-        }
-      }
-
-      // ── VIEW SWITCHER ─────────────────────────────────────────────
-      function showView(name) {
-        document
-          .querySelectorAll(".view")
-          .forEach((v) => v.classList.remove("active"));
-        document
-          .querySelectorAll(".nav-item")
-          .forEach((l) => l.classList.remove("active"));
-
-        document.getElementById("view-" + name).classList.add("active");
-        const nl = document.getElementById("nav-" + name);
-        if (nl) nl.classList.add("active");
-
-        if (name === "module") {
-          buildSidebar();
-          renderModule(currentModule);
-        }
-        if (name === "home") {
-          buildPipeline();
-        }
-
-        window.scrollTo(0, 0);
-      }
-
-      // ── INIT ──────────────────────────────────────────────────────
-      (function init() {
-        buildPipeline();
-        buildSidebar();
-        updateProgress();
-      })();
+      // Boot
+      Pipeline.build();
+      updateAllProgress();
     </script>
   </body>
 </html>
