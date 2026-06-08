@@ -10,7 +10,7 @@ on:
 
 env:
   IMAGE_NAME: viaops
-  DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+  DOCKER_HUB_USERNAME: lims4
 
 jobs:
 
@@ -85,7 +85,6 @@ jobs:
     if: |
       github.ref == 'refs/heads/main' && 
       github.event_name == 'push' &&
-      secrets.DOCKER_HUB_USERNAME != '' &&
       secrets.DOCKER_HUB_TOKEN != ''
 
     steps:
@@ -98,14 +97,14 @@ jobs:
       - name: Login Docker Hub
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          username: lims4
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
       - name: Extraire les métadonnées Docker
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME }}
+          images: lims4/${{ env.IMAGE_NAME }}
           tags: |
             type=raw,value=latest
             type=sha,prefix=sha-
