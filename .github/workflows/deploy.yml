@@ -82,7 +82,11 @@ jobs:
     name: 📦 Publish — Docker Hub
     runs-on: ubuntu-latest
     needs: build
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    if: |
+      github.ref == 'refs/heads/main' && 
+      github.event_name == 'push' &&
+      secrets.DOCKER_HUB_USERNAME != '' &&
+      secrets.DOCKER_HUB_TOKEN != ''
 
     steps:
       - name: Checkout du code
@@ -139,8 +143,12 @@ jobs:
           cp index.html ./dist/
           cp nginx.conf ./dist/
           cp -r assets/ ./dist/assets/
-          # Créer dossier modules vide si absent
-          mkdir -p ./dist/modules
+          # Copier les modules si le dossier existe
+          if [ -d "./modules" ]; then
+            cp -r modules/ ./dist/modules/
+          else
+            mkdir -p ./dist/modules
+          fi
           echo "=== Contenu dist/ ==="
           find ./dist -type f | sort
 
