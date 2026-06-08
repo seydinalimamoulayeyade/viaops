@@ -1,0 +1,181 @@
+/* ============================================================
+   VIAOPS — main.css
+   Design tokens · Reset · Base layout
+   ============================================================ */
+
+/* ── TOKENS ────────────────────────────────────────────────── */
+:root {
+  /* Paper mode - softer dark base */
+  --bg:           #1A1A1A;
+  --bg2:          #222222;
+  --panel:        #252525;
+  --panel2:       #2A2A2A;
+  --border:       #333333;
+  --border2:      #3A3A3A;
+
+  /* ViaOps accent - violet only */
+  --violet:       #8B5CF6;
+  --violet-dim:   rgba(139, 92, 246, 0.08);
+  --violet-line:  rgba(139, 92, 246, 0.2);
+
+  /* Simplified status - violet shades only */
+  --passed:       #8B5CF6;
+  --passed-dim:   rgba(139, 92, 246, 0.08);
+  --running:      #8B5CF6;
+  --running-dim:  rgba(139, 92, 246, 0.08);
+  --pending:      #555555;
+  --skipped:      #8B5CF6;
+  --skipped-dim:  rgba(139, 92, 246, 0.08);
+  --warning:      #8B5CF6;
+  --danger:       #999999;
+
+  /* Text - improved readability */
+  --text:         #E8E8E8;
+  --text2:        #A0A0A0;
+  --muted:        #666666;
+
+  /* Typography */
+  --font:         'IBM Plex Mono', monospace;
+  --font-sans:    'IBM Plex Sans', sans-serif;
+}
+
+/* ── LIGHT MODE ─────────────────────────────────────────────── */
+:root[data-theme="light"] {
+  /* Light backgrounds */
+  --bg:           #FAFAFA;
+  --bg2:          #F5F5F5;
+  --panel:        #FFFFFF;
+  --panel2:       #F8F8F8;
+  --border:       #E0E0E0;
+  --border2:      #D0D0D0;
+
+  /* Accent stays same */
+  --violet:       #8B5CF6;
+  --violet-dim:   rgba(139, 92, 246, 0.06);
+  --violet-line:  rgba(139, 92, 246, 0.2);
+
+  /* Status */
+  --passed:       #8B5CF6;
+  --passed-dim:   rgba(139, 92, 246, 0.06);
+  --running:      #8B5CF6;
+  --running-dim:  rgba(139, 92, 246, 0.06);
+  --pending:      #BBBBBB;
+  --skipped:      #8B5CF6;
+  --skipped-dim:  rgba(139, 92, 246, 0.06);
+  --warning:      #8B5CF6;
+  --danger:       #777777;
+
+  /* Text inverted */
+  --text:         #1A1A1A;
+  --text2:        #555555;
+  --muted:        #999999;
+}
+
+/* Theme transition */
+html.theme-transitioning,
+html.theme-transitioning * {
+  transition: background-color 0.3s ease, 
+              color 0.3s ease, 
+              border-color 0.3s ease !important;
+}
+
+/* ── RESET ──────────────────────────────────────────────────── */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.7;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── VIEWS ──────────────────────────────────────────────────── */
+.view         { display: none; padding-top: 56px; }
+.view.active  { display: block; }
+
+#view-module        { display: none; padding-top: 56px; }
+#view-module.active { display: flex; flex-direction: column; }
+
+/* ── DASHBOARD GRID ─────────────────────────────────────────── */
+.dashboard {
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.row         { display: grid; gap: 16px; }
+.row-stats   { grid-template-columns: repeat(4, 1fr); }
+
+/* ── SHARED BUTTONS ─────────────────────────────────────────── */
+.btn-primary {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  color: white;
+  background: var(--violet);
+  border: none;
+  padding: 12px 28px;
+  border-radius: 6px;
+  cursor: pointer;
+  letter-spacing: 0;
+  transition: all 0.2s;
+  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.2);
+}
+.btn-primary:hover { 
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+
+.btn-ghost {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text2);
+  background: transparent;
+  border: 1px solid var(--border2);
+  padding: 12px 28px;
+  border-radius: 6px;
+  cursor: pointer;
+  letter-spacing: 0;
+  transition: all 0.2s;
+}
+.btn-ghost:hover {
+  color: var(--text);
+  border-color: var(--border);
+  background: var(--panel);
+}
+
+/* ── ANIMATIONS ─────────────────────────────────────────────── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate          { animation: fadeIn 0.4s ease both; }
+.delay-1          { animation-delay: 0.1s; }
+.delay-2          { animation-delay: 0.2s; }
+.delay-3          { animation-delay: 0.3s; }
+.delay-4          { animation-delay: 0.4s; }
+
+/* ── SCROLLBAR ──────────────────────────────────────────────── */
+::-webkit-scrollbar        { width: 8px; height: 8px; }
+::-webkit-scrollbar-track  { background: var(--bg); }
+::-webkit-scrollbar-thumb  { background: var(--border2); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+/* ── RESPONSIVE ─────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .row-stats { grid-template-columns: repeat(2, 1fr); }
+}

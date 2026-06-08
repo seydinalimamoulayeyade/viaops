@@ -1,0 +1,155 @@
+/* ============================================================
+   VIAOPS — shortcuts.css
+   Keyboard shortcuts modal
+   ============================================================ */
+
+.shortcuts-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.2s ease;
+}
+
+.shortcuts-overlay.closing {
+  animation: fadeOut 0.2s ease;
+}
+
+.shortcuts-modal {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  max-width: 500px;
+  width: 90%;
+  animation: slideUp 0.3s ease;
+}
+
+.shortcuts-header {
+  padding: 24px 28px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.shortcuts-header h3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0;
+}
+
+.shortcuts-close {
+  background: transparent;
+  border: none;
+  color: var(--text2);
+  font-size: 24px;
+  cursor: pointer;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.shortcuts-close:hover {
+  background: var(--bg2);
+  color: var(--text);
+}
+
+.shortcuts-body {
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.shortcuts-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.shortcuts-label {
+  font-size: 12px;
+  color: var(--violet);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.shortcuts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.shortcut-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 12px;
+  background: var(--bg2);
+  border-radius: 6px;
+}
+
+.shortcut-item kbd {
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 4px 10px;
+  min-width: 40px;
+  text-align: center;
+  box-shadow: 0 2px 0 var(--border);
+}
+
+.shortcut-item span {
+  font-size: 14px;
+  color: var(--text2);
+  font-family: var(--font-sans);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .shortcuts-modal {
+    max-width: 95%;
+  }
+  
+  .shortcuts-header {
+    padding: 20px;
+  }
+  
+  .shortcuts-body {
+    padding: 20px;
+  }
+}

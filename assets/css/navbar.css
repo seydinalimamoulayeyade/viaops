@@ -1,0 +1,202 @@
+/* ============================================================
+   VIAOPS — navbar.css
+   Top navigation bar — Modern minimal style
+   ============================================================ */
+
+.navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  height: 56px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  gap: 32px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* ── LOGO ───────────────────────────────────────────────────── */
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.nav-logo-mark {
+  width: 32px; height: 32px;
+  background: var(--violet);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  color: white;
+}
+
+.nav-logo-text {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+
+.nav-logo-text span { color: var(--violet); }
+
+/* ── NAV ITEMS ──────────────────────────────────────────────── */
+.nav-items {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  gap: 8px;
+}
+
+.nav-item {
+  font-size: 14px;
+  color: var(--text2);
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+  white-space: nowrap;
+  user-select: none;
+  font-family: var(--font-sans);
+}
+
+.nav-item:hover {
+  color: var(--text);
+  background: var(--bg2);
+}
+
+.nav-item.active {
+  color: var(--violet);
+  background: var(--violet-dim);
+}
+
+/* ── RIGHT SIDE ─────────────────────────────────────────────── */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav-stat {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+}
+
+.nav-stat-label { color: var(--text2); }
+.nav-stat-value { color: var(--violet); font-weight: 600; font-size: 14px; }
+
+.nav-progress-track {
+  width: 80px;
+  height: 4px;
+  background: var(--bg2);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.nav-progress-fill {
+  height: 100%;
+  background: var(--violet);
+  transition: width 0.5s ease;
+  width: 0%;
+  border-radius: 4px;
+}
+
+.btn-cta {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  color: white;
+  background: var(--violet);
+  border: none;
+  padding: 8px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  letter-spacing: 0;
+  transition: all 0.2s;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.2);
+}
+
+.btn-cta:hover { 
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+
+/* ── RESPONSIVE ─────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .navbar { padding: 0 16px; gap: 16px; height: 48px; }
+  .nav-items .nav-item:not(.always) { display: none; }
+  .nav-stat-label,
+  .nav-progress-track               { display: none; }
+  .nav-logo-mark { width: 28px; height: 28px; font-size: 14px; }
+  .nav-logo-text { font-size: 16px; }
+}
+
+
+/* ── THEME TOGGLE ───────────────────────────────────────────── */
+.theme-toggle {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 18px;
+}
+
+.theme-toggle:hover {
+  background: var(--panel);
+  border-color: var(--violet);
+  transform: rotate(180deg);
+}
+
+.theme-icon {
+  display: block;
+  line-height: 1;
+}
+
+
+/* ── HELP HINT ──────────────────────────────────────────────── */
+.nav-help-hint {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-help-hint:hover {
+  background: var(--bg2);
+  border-color: var(--violet);
+  transform: scale(1.05);
+}
+
+.nav-help-hint kbd {
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text2);
+}
+
+.nav-help-hint:hover kbd {
+  color: var(--violet);
+}

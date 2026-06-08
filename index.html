@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="ViaOps — La voie DevOps. 9 outils essentiels, structurés comme un vrai pipeline CI/CD."
+    />
+    <title>ViaOps — La voie DevOps</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/navbar.css" />
+    <link rel="stylesheet" href="assets/css/panels.css" />
+    <link rel="stylesheet" href="assets/css/pipeline.css" />
+    <link rel="stylesheet" href="assets/css/modules.css" />
+    <link rel="stylesheet" href="assets/css/shortcuts.css" />
+    <link rel="stylesheet" href="assets/css/certificate.css" />
+  </head>
+  <body>
+    <!-- ============================================================
+       NAVBAR
+       ============================================================ -->
+    <nav class="navbar">
+      <div class="nav-logo" id="logo-home">
+        <div class="nav-logo-mark">V</div>
+        <span class="nav-logo-text">Via<span>Ops</span></span>
+      </div>
+
+      <div class="nav-items">
+        <span class="nav-item always active" id="nav-home">Accueil</span>
+        <span class="nav-item always" id="nav-module">Modules</span>
+        <span class="nav-item" id="nav-about">À propos</span>
+      </div>
+
+      <div class="nav-right">
+        <div class="nav-stat">
+          <span class="nav-stat-label">progression</span>
+          <span class="nav-stat-value" id="nav-prog-val">0/9</span>
+          <div class="nav-progress-track">
+            <div class="nav-progress-fill" id="nav-prog-fill"></div>
+          </div>
+        </div>
+        <button class="nav-help-hint" onclick="Shortcuts.showHelp()" title="Raccourcis clavier">
+          <kbd>?</kbd>
+        </button>
+        <button class="btn-cta" id="btn-navbar-start">Démarrer →</button>
+      </div>
+    </nav>
+
+    <!-- ============================================================
+       VIEW — HOME
+       ============================================================ -->
+    <div id="view-home" class="view active">
+      <!-- Sentry alert bar -->
+      <div class="alert-bar">
+        <div class="alert-dot"></div>
+        <span class="alert-text">
+          <strong>ViaOps</strong> · Plateforme d'apprentissage DevOps — Phase 1
+          opérationnelle · 9 modules disponibles
+        </span>
+        <span class="alert-version">v1.0.0-phase1</span>
+      </div>
+
+      <div class="dashboard">
+        <!-- Stat panels -->
+        <div class="row row-stats animate">
+          <div class="stat-panel violet">
+            <div class="stat-label">outils couverts</div>
+            <div class="stat-value">9</div>
+            <div class="stat-sub">DevOps → IA</div>
+          </div>
+          <div class="stat-panel green">
+            <div class="stat-label">durée totale</div>
+            <div class="stat-value">~90</div>
+            <div class="stat-sub">minutes</div>
+          </div>
+          <div class="stat-panel cyan">
+            <div class="stat-label">prérequis</div>
+            <div class="stat-value">0</div>
+            <div class="stat-sub">bloquants</div>
+          </div>
+          <div class="stat-panel amber">
+            <div class="stat-label">coût</div>
+            <div class="stat-value">0€</div>
+            <div class="stat-sub">open source</div>
+          </div>
+        </div>
+
+        <!-- Hero panel -->
+        <div class="panel hero-panel animate delay-1">
+          <div class="panel-header">
+            <span class="panel-header-icon">♾️</span>
+            <span class="panel-title">viaops · la voie devops</span>
+            <div class="panel-actions">
+              <span class="panel-badge violet">pipeline</span>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div class="hero-left">
+              <div class="hero-eyebrow">plateforme d'apprentissage devops</div>
+              <h1 class="hero-title">
+                L'essentiel DevOps,<br />
+                <span class="hl">structuré comme</span><br />
+                un vrai pipeline.
+              </h1>
+              <p class="hero-desc">
+                <strong>9 outils</strong> incontournables — Docker, Kubernetes,
+                Terraform, Prometheus et plus — présentés avec l'essentiel
+                seulement, dans la logique d'un pipeline CI/CD réel.
+              </p>
+              <div class="hero-actions">
+                <button class="btn-primary" id="btn-hero-start">
+                  Démarrer le parcours →
+                </button>
+                <button class="btn-ghost" id="btn-hero-scroll">
+                  Voir le pipeline ↓
+                </button>
+              </div>
+            </div>
+
+            <!-- Terminal -->
+            <div class="hero-terminal">
+              <div class="terminal-bar">
+                <div class="terminal-dot t-red"></div>
+                <div class="terminal-dot t-yellow"></div>
+                <div class="terminal-dot t-green"></div>
+                <span class="terminal-name">viaops</span>
+              </div>
+              <div class="terminal-body">
+                <div class="t-line">
+                  <span class="t-prompt">$</span>
+                  <span class="t-cmd"
+                    >docker <span class="t-flag">build</span>
+                    <span class="t-flag">-t</span>
+                    <span class="t-arg">viaops:1.0</span> .</span
+                  >
+                </div>
+                <div class="t-line">
+                  <span class="t-ok">✓ Successfully built 3f9a2c1d</span>
+                </div>
+                <div class="t-line" style="margin-top: 10px">
+                  <span class="t-prompt">$</span>
+                  <span class="t-cmd"
+                    >kubectl <span class="t-flag">apply</span>
+                    <span class="t-flag">-f</span>
+                    <span class="t-arg">deploy.yaml</span></span
+                  >
+                </div>
+                <div class="t-line">
+                  <span class="t-ok">✓ deployment.apps/viaops created</span>
+                </div>
+                <div class="t-line" style="margin-top: 10px">
+                  <span class="t-prompt">$</span>
+                  <span class="t-cmd"><span class="t-cursor"></span></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pipeline panel -->
+        <div class="panel animate delay-2" id="pipeline-panel">
+          <div class="panel-header">
+            <span class="panel-header-icon">⚙️</span>
+            <span class="panel-title">pipeline devops · 9 stages</span>
+          </div>
+          <div class="pipeline-wrap">
+            <div class="pipeline-stages" id="pipeline-stages"></div>
+          </div>
+        </div>
+
+        <!-- Structure panel -->
+        <div class="panel animate delay-3">
+          <div class="panel-header">
+            <span class="panel-header-icon">📋</span>
+            <span class="panel-title">structure de chaque module</span>
+          </div>
+          <div class="panel-body">
+            <div class="structure-grid">
+              <div class="structure-card">
+                <div class="structure-num">01 · Problème</div>
+                <div class="structure-desc">
+                  Quelle douleur existait avant cet outil ? Pourquoi il est
+                  apparu.
+                </div>
+              </div>
+              <div class="structure-card">
+                <div class="structure-num">02 · Concepts clés</div>
+                <div class="structure-desc">
+                  3 à 5 notions fondamentales. Pas de blabla, que l'essentiel
+                  opérationnel.
+                </div>
+              </div>
+              <div class="structure-card">
+                <div class="structure-num">03 · Commande ref.</div>
+                <div class="structure-desc">
+                  La config ou commande centrale à connaître, annotée et
+                  expliquée.
+                </div>
+              </div>
+              <div class="structure-card">
+                <div class="structure-num">04 · Place pipeline</div>
+                <div class="structure-desc">
+                  Où cet outil s'insère dans la chaîne CI/CD et comment il
+                  s'articule.
+                </div>
+              </div>
+              <div class="structure-card">
+                <div class="structure-num">05 · Quiz & Entretien</div>
+                <div class="structure-desc">
+                  Valide tes acquis + ce que tu dois savoir dire face à un
+                  recruteur.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================
+       VIEW — MODULE
+       ============================================================ -->
+    <div id="view-module" class="view">
+      <div class="module-layout">
+        <aside class="module-sidebar">
+          <div class="sidebar-section-label">// parcours viaops</div>
+          <div id="sidebar-list"></div>
+          <div class="sidebar-footer">
+            <div class="sidebar-prog-label">
+              <span>progression</span>
+              <span id="sidebar-prog-val">0/9</span>
+            </div>
+            <div class="sidebar-prog-bar">
+              <div class="sidebar-prog-fill" id="sidebar-prog-fill"></div>
+            </div>
+          </div>
+        </aside>
+
+        <main class="module-main" id="module-main"></main>
+      </div>
+    </div>
+
+    <!-- ============================================================
+       VIEW — ABOUT
+       ============================================================ -->
+    <div id="view-about" class="view">
+      <div class="dashboard about-container">
+        <div class="panel animate">
+          <div class="panel-header">
+            <span class="panel-header-icon">ℹ️</span>
+            <span class="panel-title">à propos · viaops</span>
+            <span class="panel-badge violet">v1.0.0</span>
+          </div>
+          <div class="panel-body">
+            <p class="about-text">
+              Quand on débute en DevOps, la documentation est massive, les
+              tutoriels éparpillés, et on ne sait pas par où commencer.
+              <strong>ViaOps</strong>
+              est né de ce constat — une ressource gratuite, structurée comme un
+              vrai pipeline CI/CD, pour que n'importe qui comprenne les outils
+              essentiels sans se noyer.
+            </p>
+            <div class="about-badges">
+              <span class="panel-badge violet">Phase 2 — Contenu modules</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel animate delay-1">
+          <div class="panel-header">
+            <span class="panel-header-icon">🔧</span>
+            <span class="panel-title">stack technique</span>
+          </div>
+          <div class="panel-body">
+            <div class="tech-stack-grid">
+              <div class="tech-stack-item">
+                <div class="tech-stack-label">Frontend</div>
+                <div class="tech-stack-value">HTML / CSS / JS</div>
+              </div>
+              <div class="tech-stack-item">
+                <div class="tech-stack-label">Container</div>
+                <div class="tech-stack-value">Docker</div>
+              </div>
+              <div class="tech-stack-item">
+                <div class="tech-stack-label">CI/CD</div>
+                <div class="tech-stack-value">GitHub Actions</div>
+              </div>
+              <div class="tech-stack-item">
+                <div class="tech-stack-label">Hosting</div>
+                <div class="tech-stack-value">GitHub Pages</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel animate delay-2">
+          <div class="panel-header">
+            <span class="panel-header-icon">👤</span>
+            <span class="panel-title">auteur</span>
+          </div>
+          <div class="panel-body">
+            <div class="author-info">
+              Construit par
+              <strong>Virtual Voyager</strong>
+              · Dakar, Sénégal · 2026<br />
+              MERN Stack Developer → Cloud &amp; DevOps Engineer<br />
+              <a
+                href="https://linkedin.com/in/limamou-laye"
+                class="author-link"
+                target="_blank"
+                rel="noopener"
+              >
+                linkedin.com/in/limamou-laye
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================
+       SCRIPTS — order matters
+       ============================================================ -->
+    <script src="assets/js/data.js"></script>
+    <script src="assets/js/progress.js"></script>
+    <script src="assets/js/router.js"></script>
+    <script src="assets/js/pipeline.js"></script>
+    <script src="assets/js/sidebar.js"></script>
+    <script src="assets/js/modules.js"></script>
+    <script src="assets/js/shortcuts.js"></script>
+    <script src="assets/js/theme.js"></script>
+    <script src="assets/js/certificate.js"></script>
+
+    <!-- App init -->
+    <script>
+      // Wire up nav & buttons
+      document
+        .getElementById("logo-home")
+        .addEventListener("click", () => Router.show("home"));
+      document
+        .getElementById("nav-home")
+        .addEventListener("click", () => Router.show("home"));
+      document
+        .getElementById("nav-module")
+        .addEventListener("click", () => Router.show("module"));
+      document
+        .getElementById("nav-about")
+        .addEventListener("click", () => Router.show("about"));
+      document
+        .getElementById("btn-navbar-start")
+        .addEventListener("click", () => Router.show("module"));
+      document
+        .getElementById("btn-hero-start")
+        .addEventListener("click", () => Router.show("module"));
+      document
+        .getElementById("btn-hero-scroll")
+        .addEventListener("click", () => {
+          document
+            .getElementById("pipeline-panel")
+            .scrollIntoView({ behavior: "smooth" });
+        });
+
+      // Boot
+      Pipeline.build();
+      updateAllProgress();
+      ThemeManager.init();
+      Shortcuts.init();
+    </script>
+  </body>
+</html>

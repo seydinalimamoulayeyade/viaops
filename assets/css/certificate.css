@@ -1,0 +1,212 @@
+/* ============================================================
+   VIAOPS — certificate.css
+   Certificate modal and toast
+   ============================================================ */
+
+/* ── CERTIFICATE MODAL ──────────────────────────────────────── */
+.cert-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(6px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s ease;
+}
+
+.cert-overlay.closing {
+  animation: fadeOut 0.2s ease;
+}
+
+.cert-modal {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5);
+  max-width: 520px;
+  width: 90%;
+  animation: certSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cert-header {
+  padding: 32px 32px 24px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cert-header h3 {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0;
+}
+
+.cert-close {
+  background: transparent;
+  border: none;
+  color: var(--text2);
+  font-size: 28px;
+  cursor: pointer;
+  padding: 0;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.cert-close:hover {
+  background: var(--bg2);
+  color: var(--text);
+}
+
+.cert-body {
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.cert-congrats {
+  font-size: 16px;
+  color: var(--text);
+  line-height: 1.6;
+  font-family: var(--font-sans);
+  margin: 0;
+}
+
+.cert-congrats strong {
+  color: var(--violet);
+  font-weight: 600;
+}
+
+.cert-desc {
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.7;
+  font-family: var(--font-sans);
+  margin: 0;
+}
+
+.cert-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cert-form label {
+  font-size: 13px;
+  color: var(--text2);
+  font-weight: 600;
+  font-family: var(--font-sans);
+}
+
+.cert-form input {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  color: var(--text);
+  background: var(--bg2);
+  border: 2px solid var(--border);
+  padding: 12px 16px;
+  border-radius: 8px;
+  transition: all 0.2s;
+  outline: none;
+}
+
+.cert-form input:focus {
+  border-color: var(--violet);
+  background: var(--panel);
+}
+
+.cert-form input.error {
+  border-color: #F87171;
+  animation: shake 0.3s;
+}
+
+.cert-form input::placeholder {
+  color: var(--muted);
+}
+
+.cert-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.cert-actions .btn-ghost,
+.cert-actions .btn-primary {
+  flex: 1;
+  max-width: 180px;
+}
+
+/* ── SUCCESS TOAST ──────────────────────────────────────────── */
+.cert-toast {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: var(--violet);
+  color: white;
+  padding: 16px 28px;
+  border-radius: 12px;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 500;
+  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.4);
+  z-index: 1001;
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cert-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ── ANIMATIONS ─────────────────────────────────────────────── */
+@keyframes certSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-8px); }
+  75% { transform: translateX(8px); }
+}
+
+/* ── RESPONSIVE ─────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .cert-modal {
+    max-width: 95%;
+  }
+  
+  .cert-header {
+    padding: 24px 20px 20px;
+  }
+  
+  .cert-body {
+    padding: 24px 20px;
+  }
+  
+  .cert-actions {
+    flex-direction: column;
+  }
+  
+  .cert-actions .btn-ghost,
+  .cert-actions .btn-primary {
+    max-width: 100%;
+  }
+}

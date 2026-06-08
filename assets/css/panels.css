@@ -1,0 +1,313 @@
+/* ============================================================
+   VIAOPS — panels.css
+   Grafana panel system · Stat panels · Badges
+   ============================================================ */
+
+/* ── BASE PANEL ─────────────────────────────────────────────── */
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  background: var(--panel);
+  min-height: 50px;
+}
+
+.panel-header-icon {
+  font-size: 18px;
+  opacity: 0.8;
+}
+
+.panel-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  letter-spacing: 0.02em;
+  text-transform: none;
+  flex: 1;
+}
+
+.panel-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ── BADGES ─────────────────────────────────────────────────── */
+.panel-badge {
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: none;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  background: var(--bg2);
+  color: var(--text2);
+}
+
+.panel-badge.violet {
+  color: var(--violet);
+  background: var(--violet-dim);
+}
+
+.panel-badge.green {
+  color: var(--violet);
+  background: var(--violet-dim);
+}
+
+.panel-badge.cyan {
+  color: var(--violet);
+  background: var(--violet-dim);
+}
+
+.panel-badge.amber {
+  color: var(--text2);
+  background: var(--bg2);
+}
+
+.panel-badge.danger {
+  color: var(--text2);
+  background: var(--bg2);
+}
+
+/* ── PANEL BODY ─────────────────────────────────────────────── */
+.panel-body { padding: 32px; }
+
+/* ── STAT PANELS — Simplified ─────────────────────── */
+.stat-panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.2s;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.stat-panel:hover { 
+  border-color: var(--violet);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.stat-label {
+  font-size: 12px;
+  color: var(--text2);
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 500;
+}
+
+.stat-value {
+  font-size: 36px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--violet);
+}
+
+.stat-sub {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* ── ALERT BAR — Simplified ───────────────────────────────── */
+.alert-bar {
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  color: var(--text2);
+}
+
+.alert-dot {
+  width: 8px; height: 8px;
+  background: var(--violet);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.alert-text { flex: 1; }
+.alert-text strong { color: var(--text); }
+
+.alert-version {
+  font-size: 11px;
+  color: var(--text2);
+  padding: 4px 10px;
+  background: var(--bg2);
+  border-radius: 4px;
+}
+
+/* ── STATUS BAR — Simplified ─────────────────────────────── */
+.status-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  border-radius: 6px;
+  font-size: 13px;
+  border: 1px solid var(--border);
+  margin-bottom: 16px;
+  background: var(--panel);
+}
+
+.status-bar.info {
+  background: var(--violet-dim);
+  border-color: var(--border);
+  color: var(--text2);
+}
+
+.status-bar.info strong { color: var(--violet); }
+
+.status-bar.success {
+  background: var(--violet-dim);
+  border-color: var(--border);
+  color: var(--text2);
+}
+
+.status-bar.success strong { color: var(--violet); }
+
+
+/* ══════════════════════════════════════════════════════════════
+   CUSTOM SECTIONS STYLES
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── STRUCTURE GRID (Home page) ─────────────────────────────── */
+.structure-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.structure-card {
+  padding: 20px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.structure-card:hover {
+  border-color: var(--violet);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.structure-num {
+  font-size: 12px;
+  color: var(--violet);
+  text-transform: none;
+  letter-spacing: 0;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.structure-desc {
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.7;
+  font-family: var(--font-sans);
+}
+
+/* ── TECH STACK GRID (About page) ───────────────────────────── */
+.tech-stack-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+}
+
+.tech-stack-item {
+  padding: 16px 20px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.tech-stack-item:hover {
+  border-color: var(--violet);
+  background: var(--violet-dim);
+}
+
+.tech-stack-label {
+  font-size: 11px;
+  color: var(--text2);
+  text-transform: none;
+  letter-spacing: 0;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.tech-stack-value {
+  font-size: 13px;
+  color: var(--text);
+  font-family: var(--font-sans);
+}
+
+/* ── ABOUT PAGE STYLES ──────────────────────────────────────── */
+.about-container {
+  max-width: 720px;
+}
+
+.about-text {
+  font-size: 15px;
+  color: var(--text2);
+  line-height: 1.8;
+  max-width: 600px;
+  font-family: var(--font-sans);
+  margin-bottom: 24px;
+}
+
+.about-text strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.about-badges {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.author-info {
+  font-size: 14px;
+  color: var(--text2);
+  font-family: var(--font-sans);
+  line-height: 1.8;
+}
+
+.author-info strong {
+  color: var(--violet);
+  font-family: var(--font);
+  font-weight: 600;
+}
+
+.author-link {
+  color: var(--violet);
+  text-decoration: none;
+  font-family: var(--font);
+  font-size: 13px;
+  transition: opacity 0.2s;
+}
+
+.author-link:hover {
+  opacity: 0.7;
+  text-decoration: underline;
+}
