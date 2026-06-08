@@ -1,9 +1,10 @@
 /* ============================================================
    VIAOPS — modules.js
-   Renders module content into #module-main
+   Renders module content — loads from modules/*.html via fetch
    ============================================================ */
 
 const ModuleView = {
+
   render(idx) {
     State.currentModule = idx;
     const m      = MODULES[idx];
@@ -14,7 +15,6 @@ const ModuleView = {
     main.innerHTML = `
       <div class="animate">
 
-        <!-- Breadcrumbs -->
         <div class="module-crumbs">
           <span class="crumb" id="crumb-home">Accueil</span>
           <span class="crumb-sep">/</span>
@@ -23,7 +23,6 @@ const ModuleView = {
           <span class="crumb-active">${m.label}</span>
         </div>
 
-        <!-- Sentry status bar -->
         <div class="status-bar ${isDone ? 'success' : 'info'}">
           <span>⚙️</span>
           <span>
@@ -39,7 +38,6 @@ const ModuleView = {
 
         <div class="module-panels">
 
-          <!-- Header panel -->
           <div class="panel mod-header-panel">
             <div class="panel-header">
               <span class="panel-header-icon">${m.icon}</span>
@@ -66,102 +64,152 @@ const ModuleView = {
             </div>
           </div>
 
-          <!-- Content placeholder — Phase 2 -->
-          <div class="panel">
-            <div class="panel-header">
-              <span class="panel-header-icon">📄</span>
-              <span class="panel-title">contenu du module</span>
-              <span class="panel-badge amber">phase 2</span>
-            </div>
-            <div class="module-placeholder">
-              <div class="placeholder-icon">${m.icon}</div>
-              <div class="placeholder-title">Contenu en cours de rédaction</div>
-              <div class="placeholder-sub">
-                Le module <strong>${m.label}</strong> sera disponible en Phase 2.<br>
-                Structure, navigation et design : opérationnels ✓
-              </div>
-              <button
-                class="btn-mark"
-                id="btn-mark-${idx}"
-                ${isDone ? 'disabled' : ''}
-              >
-                ${isDone ? '✓ Module complété' : '✓ Marquer comme vu'}
-              </button>
+          <div id="module-body-content">
+            <div class="module-loading">
+              <div class="loading-bar"></div>
+              <span>Chargement...</span>
             </div>
           </div>
 
-          <!-- Navigation -->
           <div class="mod-nav">
-            <button class="btn-nav" id="btn-prev" ${idx === 0 ? 'disabled' : ''}>
-              ← Précédent
-            </button>
+            <button class="btn-nav" id="btn-prev"
+              ${idx === 0 ? 'disabled' : ''}>← Précédent</button>
             <span class="mod-nav-center">${idx + 1} / ${MODULES.length}</span>
             <button class="btn-nav primary" id="btn-next"
-              ${idx === MODULES.length - 1 ? 'disabled' : ''}>
-              Suivant →
-            </button>
+              ${idx === MODULES.length - 1 ? 'disabled' : ''}>Suivant →</button>
           </div>
 
         </div>
       </div>
     `;
 
-    // Event listeners
     document.getElementById('crumb-home')
       ?.addEventListener('click', () => Router.show('home'));
-
-    document.getElementById(`btn-mark-${idx}`)
-      ?.addEventListener('click', () => this.markDone(idx));
-
     document.getElementById('btn-prev')
       ?.addEventListener('click', () => this.prev());
-
     document.getElementById('btn-next')
       ?.addEventListener('click', () => this.next());
 
+    this.loadContent(idx);
     Sidebar.build();
     updateAllProgress();
     main.scrollTop = 0;
   },
 
+  async loadContent(idx) {
+    const m    = MODULES[idx];
+    const zone = document.getElementById('module-body-content');
+    if (!zone) return;
+
+    // Chemin relatif depuis la racine du site
+    const url  = `modules/${m.id}.html`;
+
+    try {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const html = await res.text();
+      zone.innerHTML = html;
+      this.initQuiz();
+      this.initMarkDone(idx);
+    } catch (e) {
+      console.error(`[ViaOps] Impossible de charger modules/${m.id}.html`, e);
+      zone.innerHTML = this.placeholder(m, idx);
+      document.getElementById(`btn-mark-${idx}`)
+        ?.addEventListener('click', () => this.markDone(idx));
+    }
+  },
+
+  placeholder(m, idx) {
+    return `
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-header-icon">📄</span>
+          <span class="panel-title">contenu du module</span>
+          <span class="panel-badge amber">à venir</span>
+        </div>
+        <div class="module-placeholder">
+          <div class="placeholder-icon">${m.icon}</div>
+          <div class="placeholder-title">Contenu en cours de rédaction</div>
+          <div class="placeholder-sub">
+            Le module <strong>${m.label}</strong> arrive bientôt.
+          </div>
+          <button class="btn-mark" id="btn-mark-${idx}"
+            ${Progress.has(idx) ? 'disabled' : ''}>
+            ${Progress.has(idx) ? '✓ Module complété' : '✓ Marquer comme vu'}
+          </button>
+        </div>
+      </div>
+    `;
+  },
+
+  initMarkDone(idx) {
+    if (Progress.has(idx)) {
+      const btn = document.getElementById(`btn-mark-${idx}`);
+      if (btn) { btn.textContent = '✓ Module complété'; btn.disabled = true; }
+    }
+    document.getElementById(`btn-mark-${idx}`)
+      ?.addEventListener('click', () => this.markDone(idx));
+  },
+
+  initQuiz() {
+    document.querySelectorAll('.quiz-block').forEach(block => {
+      block.querySelectorAll('.quiz-option').forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (block.dataset.answered) return;
+          block.dataset.answered = 'true';
+
+          const correct  = btn.dataset.correct === 'true';
+          const feedback = block.querySelector('.quiz-feedback');
+
+          block.querySelectorAll('.quiz-option').forEach(o => {
+            o.disabled = true;
+            if (o.dataset.correct === 'true') o.classList.add('correct');
+          });
+
+          if (!correct) btn.classList.add('wrong');
+          if (feedback) {
+            feedback.textContent = btn.dataset.feedback;
+            feedback.className   = `quiz-feedback show ${correct ? 'ok' : 'ko'}`;
+          }
+        });
+      });
+    });
+  },
+
   markDone(idx) {
     Progress.add(idx);
 
-    // Update mark button
     const btn = document.getElementById(`btn-mark-${idx}`);
     if (btn) { btn.textContent = '✓ Module complété'; btn.disabled = true; }
 
-    // Update status badge
     const badge = document.getElementById('status-badge');
-    if (badge) {
-      badge.className   = 'panel-badge green';
-      badge.textContent = 'passed';
-    }
+    if (badge) { badge.className = 'panel-badge green'; badge.textContent = 'passed'; }
 
-    // Update status bar
     const bar = document.querySelector('.status-bar');
     if (bar && !bar.classList.contains('success')) {
       bar.classList.replace('info', 'success');
-      const span = document.createElement('span');
-      span.style.cssText  = 'margin-left:auto;color:var(--passed);font-weight:600;';
-      span.textContent    = '✓ complété';
-      bar.appendChild(span);
+      const s = document.createElement('span');
+      s.style.cssText = 'margin-left:auto;color:var(--passed);font-weight:600;';
+      s.textContent   = '✓ complété';
+      bar.appendChild(s);
     }
 
     Sidebar.build();
     Pipeline.build();
     updateAllProgress();
+
+    if (Progress.count() === MODULES.length) {
+      setTimeout(() => Router.show('recap'), 800);
+    }
   },
 
   next() {
-    if (State.currentModule < MODULES.length - 1) {
+    if (State.currentModule < MODULES.length - 1)
       this.render(State.currentModule + 1);
-    }
   },
 
   prev() {
-    if (State.currentModule > 0) {
+    if (State.currentModule > 0)
       this.render(State.currentModule - 1);
-    }
   },
 };
