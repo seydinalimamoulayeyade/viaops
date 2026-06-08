@@ -1,0 +1,214 @@
+<!-- ============================================================
+     ViaOps · Module 08 · Trivy
+     Fragment HTML — chargé via fetch() dans index.html
+     ============================================================ -->
+
+<!-- 01 · Le problème -->
+<div class="panel">
+  <div class="panel-header">
+    <span class="panel-header-icon">🛡️</span>
+    <span class="panel-title">01 · le problème</span>
+    <span class="panel-badge cyan">security</span>
+  </div>
+  <div class="content-body">
+    <div class="content-section">
+      <div class="section-num">// avant trivy</div>
+      <div class="section-text">
+        Ton image Docker contient une version de nginx avec une CVE critique. Tu l'as déployée en prod.
+        Un attaquant exploite la faille. Ton équipe découvre ça 3 semaines après.
+        <strong>Trivy scanne images Docker, code, dépendances et détecte les vulnérabilités AVANT le déploiement.</strong>
+      </div>
+      <div class="analogy">
+        <div class="analogy-label">💡 Analogie</div>
+        <div class="analogy-text">
+          Trivy est comme un détecteur de métaux à l'aéroport. Il scanne ton bagage (image Docker)
+          avant l'embarquement (déploiement) et détecte tout ce qui est dangereux (CVEs, malwares, secrets exposés).
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 02 · Concepts clés -->
+<div class="panel">
+  <div class="panel-header">
+    <span class="panel-header-icon">🧠</span>
+    <span class="panel-title">02 · concepts clés</span>
+  </div>
+  <div class="content-body">
+    <div class="content-section">
+      <div class="section-num">// concepts trivy</div>
+      <table class="kv-table">
+        <thead>
+          <tr><th>Concept</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>CVE</td><td>Common Vulnerabilities and Exposures. Identifiant unique d'une faille de sécurité (CVE-2024-1234).</td></tr>
+          <tr><td>Severity</td><td>Gravité de la vulnérabilité : LOW, MEDIUM, HIGH, CRITICAL.</td></tr>
+          <tr><td>SBOM</td><td>Software Bill of Materials. Liste exhaustive de toutes les dépendances et leurs versions.</td></tr>
+          <tr><td>Scanner</td><td>Trivy supporte Docker images, filesystem, Git repos, Kubernetes manifests, IaC (Terraform).</td></tr>
+          <tr><td>Database</td><td>Trivy télécharge une base de vulnérabilités (NVD, Alpine SecDB, etc.) mise à jour quotidiennement.</td></tr>
+          <tr><td>Policy as Code</td><td>Définir des règles de sécurité en OPA/Rego. Bloquer le déploiement si CRITICAL présent.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <div class="content-section">
+      <div class="section-num">// shift left security</div>
+      <ul class="checklist">
+        <li><span class="check-arrow">▸</span><span><strong>Dev local :</strong> scanner avant commit avec pre-commit hook.</span></li>
+        <li><span class="check-arrow">▸</span><span><strong>CI/CD :</strong> intégrer Trivy dans le pipeline — build échoue si HIGH/CRITICAL.</span></li>
+        <li><span class="check-arrow">▸</span><span><strong>Registry :</strong> scanner les images dans le registry régulièrement (nouvelles CVEs).</span></li>
+        <li><span class="check-arrow">▸</span><span><strong>Runtime :</strong> scanner les conteneurs en prod avec Trivy Operator (Kubernetes).</span></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- 03 · Commandes de référence -->
+<div class="panel">
+  <div class="panel-header">
+    <span class="panel-header-icon">⌨️</span>
+    <span class="panel-title">03 · commandes de référence</span>
+  </div>
+  <div class="content-body">
+
+    <div class="content-section">
+      <div class="section-num">// commandes trivy essentielles</div>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-lang">bash</span>
+          <span>trivy cli</span>
+        </div>
+        <pre>
+<span class="c-comment"># Scanner une image Docker locale</span>
+trivy image <span class="c-value">mon-app:latest</span>
+
+<span class="c-comment"># Scanner uniquement les vulnérabilités HIGH et CRITICAL</span>
+trivy image <span class="c-flag">--severity</span> <span class="c-value">HIGH,CRITICAL</span> mon-app:latest
+
+<span class="c-comment"># Scanner et exporter en JSON</span>
+trivy image <span class="c-flag">-f</span> json <span class="c-flag">-o</span> results.json mon-app:latest
+
+<span class="c-comment"># Scanner un dossier (code source + dépendances)</span>
+trivy fs <span class="c-flag">--security-checks</span> vuln,secret <span class="c-value">.</span>
+
+<span class="c-comment"># Scanner un repo Git distant</span>
+trivy repo <span class="c-value">https://github.com/user/repo</span>
+
+<span class="c-comment"># Scanner des manifests Kubernetes</span>
+trivy config <span class="c-value">./k8s/</span>
+
+<span class="c-comment"># Générer un SBOM</span>
+trivy image <span class="c-flag">--format</span> cyclonedx <span class="c-flag">-o</span> sbom.json mon-app:latest</pre>
+      </div>
+    </div>
+
+    <div class="content-section">
+      <div class="section-num">// intégration github actions</div>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-lang">yaml</span>
+          <span>.github/workflows/security.yml</span>
+        </div>
+        <pre>
+<span class="c-keyword">name:</span> Security Scan
+
+<span class="c-keyword">on:</span> [push, pull_request]
+
+<span class="c-keyword">jobs:</span>
+  <span class="c-keyword">trivy:</span>
+    <span class="c-keyword">runs-on:</span> ubuntu-latest
+    <span class="c-keyword">steps:</span>
+      - <span class="c-keyword">uses:</span> actions/checkout@v4
+
+      - <span class="c-keyword">name:</span> Build Docker image
+        <span class="c-keyword">run:</span> docker build <span class="c-flag">-t</span> <span class="c-value">mon-app:${{ github.sha }}</span> .
+
+      - <span class="c-keyword">name:</span> Run Trivy scanner
+        <span class="c-keyword">uses:</span> aquasecurity/trivy-action@master
+        <span class="c-keyword">with:</span>
+          <span class="c-keyword">image-ref:</span> <span class="c-string">'mon-app:${{ github.sha }}'</span>
+          <span class="c-keyword">format:</span> <span class="c-string">'sarif'</span>
+          <span class="c-keyword">output:</span> <span class="c-string">'trivy-results.sarif'</span>
+          <span class="c-keyword">severity:</span> <span class="c-string">'HIGH,CRITICAL'</span>
+          <span class="c-keyword">exit-code:</span> <span class="c-string">'1'</span>  <span class="c-comment"># Fail si vulnérabilités</span>
+
+      - <span class="c-keyword">name:</span> Upload results to GitHub Security
+        <span class="c-keyword">uses:</span> github/codeql-action/upload-sarif@v2
+        <span class="c-keyword">with:</span>
+          <span class="c-keyword">sarif_file:</span> <span class="c-string">'trivy-results.sarif'</span></pre>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- 04 · Quiz -->
+<div class="panel">
+  <div class="panel-header">
+    <span class="panel-header-icon">🎯</span>
+    <span class="panel-title">04 · quiz de validation</span>
+  </div>
+  <div class="content-body">
+    <div class="quiz-block">
+      <div class="quiz-label">// question · module 08</div>
+      <div class="quiz-question">
+        Trivy détecte une CVE CRITICAL dans ton image Docker. Que doit-il se passer dans un pipeline CI/CD bien configuré ?
+      </div>
+      <div class="quiz-options">
+        <button class="quiz-option" data-correct="false"
+          data-feedback="Non — laisser passer une vulnérabilité CRITICAL en production est inacceptable. Le pipeline doit bloquer le déploiement.">
+          A. Un warning est affiché mais le déploiement continue normalement
+        </button>
+        <button class="quiz-option" data-correct="true"
+          data-feedback="✓ Correct ! Avec exit-code: 1, Trivy fait échouer le build si des vulnérabilités de la sévérité spécifiée sont détectées. L'image ne peut pas être déployée tant que la CVE n'est pas corrigée (mise à jour de l'image de base ou de la dépendance).">
+          B. Le build échoue immédiatement, le déploiement est bloqué
+        </button>
+        <button class="quiz-option" data-correct="false"
+          data-feedback="Non — Trivy détecte et rapporte, mais ne corrige pas automatiquement. C'est à l'équipe de mettre à jour les dépendances ou l'image de base.">
+          C. Trivy corrige automatiquement la vulnérabilité et rebuild l'image
+        </button>
+        <button class="quiz-option" data-correct="false"
+          data-feedback="Non — Trivy n'envoie pas d'emails directement. Il fait échouer le pipeline. C'est Jenkins/GitHub Actions qui notifie l'équipe de l'échec.">
+          D. Un email est envoyé à l'équipe de sécurité mais le code continue d'avancer
+        </button>
+      </div>
+      <div class="quiz-feedback"></div>
+    </div>
+  </div>
+</div>
+
+<!-- 05 · Entretien -->
+<div class="panel">
+  <div class="panel-header">
+    <span class="panel-header-icon">💼</span>
+    <span class="panel-title">05 · ce qu'il faut dire en entretien</span>
+    <span class="panel-badge amber">recruteur</span>
+  </div>
+  <div class="content-body">
+    <div class="entretien-box">
+      <div class="entretien-label">// questions fréquentes · réponses attendues</div>
+      <div class="entretien-item">
+        <span class="entretien-arrow">▸</span>
+        <span><strong style="color:var(--text)">"Pourquoi utiliser Trivy plutôt que Snyk ou Clair ?"</strong><br>
+        "Trivy est open source, gratuit, rapide et supporte plus de formats : images Docker, filesystem, Git repos, IaC, Kubernetes. Il est aussi plus facile à intégrer dans le CI/CD."</span>
+      </div>
+      <div class="entretien-item">
+        <span class="entretien-arrow">▸</span>
+        <span><strong style="color:var(--text)">"Comment Trivy détecte-t-il les vulnérabilités ?"</strong><br>
+        "Il extrait les dépendances et leurs versions de l'image (OS packages, libraries), puis les compare à une base de CVEs mise à jour quotidiennement depuis NVD, Alpine SecDB, etc."</span>
+      </div>
+      <div class="entretien-item">
+        <span class="entretien-arrow">▸</span>
+        <span><strong style="color:var(--text)">"C'est quoi le Shift Left Security ?"</strong><br>
+        "C'est détecter les failles de sécurité tôt dans le cycle — dès le dev, pas en prod. Trivy dans le CI/CD bloque le déploiement avant que la vulnérabilité n'atteigne la production."</span>
+      </div>
+    </div>
+    <div class="mark-done-row">
+      <button class="btn-mark" id="btn-mark-7">✓ Marquer comme vu</button>
+    </div>
+  </div>
+</div>

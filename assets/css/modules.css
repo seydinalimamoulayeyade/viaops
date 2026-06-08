@@ -302,13 +302,18 @@
 .content-body {
   display: flex;
   flex-direction: column;
-  gap: 28px;
+  gap: 32px;
+  padding: 8px;
 }
 
 .content-section {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px;
+  padding: 24px 28px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
 }
 
 .section-num {
@@ -334,15 +339,16 @@
 .section-divider {
   height: 1px;
   background: var(--border);
-  margin: 12px 0;
+  margin: 16px 0;
 }
 
 /* ── ANALOGY BOX ────────────────────────────────────────────── */
 .analogy {
-  background: var(--panel);
+  background: var(--bg2);
   border-left: 3px solid var(--violet);
   padding: 24px 28px;
-  border-radius: 6px;
+  border-radius: 8px;
+  margin: 8px 0;
 }
 
 .analogy-label {

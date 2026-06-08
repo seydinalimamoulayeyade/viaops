@@ -1,0 +1,176 @@
+<!-- ============================================================
+     ViaOps · Module 01 · DevOps
+     Fragment HTML — chargé via fetch() dans index.html
+     ============================================================ -->
+
+<!-- 01 · Le problème -->
+<div class="panel">
+  <div class="panel-header">
+    <span class="panel-header-icon">♾️</span>
+    <span class="panel-title">01 · le problème</span>
+    <span class="panel-badge violet">culture</span>
+  </div>
+  <div class="content-body">
+    <div class="content-section">
+      <div class="section-num">// contexte</div>
+      <div class="section-text">
+        Avant le DevOps, le développement et les opérations étaient deux silos séparés.
+        Les devs livraient du code, les ops le déployaient — souvent des semaines plus tard,
+        souvent avec des conflits. <strong>Résultat : des déploiements rares, risqués et douloureux.</strong>
+      </div>
+      <div class="analogy">
+        <div class="analogy-label">💡 Analogie</div>
+        <div class="analogy-text">
+          Imagine une chaîne de restauration où les cuisiniers ne parlent jamais aux serveurs.
+          Les plats arrivent froids, mal présentés, personne ne sait qui est responsable.
+          Le DevOps, c'est mettre tout le monde autour de la même table.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 02 · Concepts clés -->
+<div class="panel">
+  <div class="panel-header">
+    <span class="panel-header-icon">🧠</span>
+    <span class="panel-title">02 · concepts clés</span>
+  </div>
+  <div class="content-body">
+    <div class="content-section">
+      <div class="section-num">// CALMS — le framework DevOps</div>
+      <table class="kv-table">
+        <thead>
+          <tr><th>Concept</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>C — Culture</td><td>Collaboration entre Dev et Ops. Responsabilité partagée. Pas de silos.</td></tr>
+          <tr><td>A — Automatisation</td><td>Tout ce qui est répétitif doit être automatisé : tests, déploiements, infrastructure.</td></tr>
+          <tr><td>L — Lean</td><td>Éliminer les gaspillages. Livrer de la valeur en petits incréments continus.</td></tr>
+          <tr><td>M — Mesure</td><td>Tout mesurer : temps de déploiement, taux d'erreurs, disponibilité (SLI/SLO).</td></tr>
+          <tr><td>S — Sharing</td><td>Partager les outils, les pratiques, les post-mortems. Apprendre des échecs.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <div class="content-section">
+      <div class="section-num">// concepts fondamentaux</div>
+      <ul class="checklist">
+        <li><span class="check-arrow">▸</span><span><strong>CI — Intégration Continue :</strong> chaque commit déclenche automatiquement build + tests.</span></li>
+        <li><span class="check-arrow">▸</span><span><strong>CD — Déploiement Continu :</strong> le code validé part en production automatiquement.</span></li>
+        <li><span class="check-arrow">▸</span><span><strong>IaC — Infrastructure as Code :</strong> l'infra est définie en fichiers versionnés, pas cliquée à la main.</span></li>
+        <li><span class="check-arrow">▸</span><span><strong>Shift Left :</strong> tester et sécuriser tôt dans le cycle, pas à la fin.</span></li>
+        <li><span class="check-arrow">▸</span><span><strong>Feedback loop :</strong> réduire le temps entre un commit et le retour utilisateur.</span></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- 03 · Place dans le pipeline -->
+<div class="panel">
+  <div class="panel-header">
+    <span class="panel-header-icon">🗺️</span>
+    <span class="panel-title">03 · place dans le pipeline</span>
+  </div>
+  <div class="content-body">
+    <div class="content-section">
+      <div class="section-text">
+        Le DevOps n'est pas un outil — c'est la <strong>philosophie qui donne du sens
+        à tous les autres outils</strong> du pipeline. Sans culture DevOps, Docker reste
+        un outil de packaging, Kubernetes reste complexe, le monitoring reste réactif.
+      </div>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-lang">pipeline devops</span>
+          <span>vue globale</span>
+        </div>
+        <pre>
+<span class="c-comment"># Le cycle DevOps infini</span>
+
+  Plan → Code → Build → Test → Release → Deploy → Operate → Monitor
+    ↑                                                              ↓
+    └──────────────── Feedback continu ◄───────────────────────────┘
+
+<span class="c-comment"># Chaque outil ViaOps couvre une étape :</span>
+  <span class="c-keyword">DevOps</span>      → Culture (toutes les étapes)
+  <span class="c-keyword">Docker</span>      → Build / Package
+  <span class="c-keyword">Jenkins</span>     → CI/CD (Build → Test → Deploy)
+  <span class="c-keyword">SonarQube</span>   → Test (qualité du code)
+  <span class="c-keyword">Kubernetes</span>  → Deploy / Operate
+  <span class="c-keyword">Terraform</span>   → Infra as Code (Plan)
+  <span class="c-keyword">Prometheus</span>  → Monitor / Feedback
+  <span class="c-keyword">Trivy</span>       → Security (Shift Left)
+  <span class="c-keyword">IA DevOps</span>   → Accélérateur transversal</pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 04 · Quiz -->
+<div class="panel">
+  <div class="panel-header">
+    <span class="panel-header-icon">🎯</span>
+    <span class="panel-title">04 · quiz de validation</span>
+  </div>
+  <div class="content-body">
+    <div class="quiz-block">
+      <div class="quiz-label">// question · module 01</div>
+      <div class="quiz-question">
+        Dans le framework CALMS, que signifie le "L" et pourquoi est-il clé en DevOps ?
+      </div>
+      <div class="quiz-options">
+        <button class="quiz-option" data-correct="false"
+          data-feedback="Non — 'Linux' n'est pas dans CALMS. CALMS = Culture, Automatisation, Lean, Mesure, Sharing.">
+          A. Linux — le système d'exploitation de référence en DevOps
+        </button>
+        <button class="quiz-option" data-correct="true"
+          data-feedback="✓ Correct. Lean = éliminer les gaspillages et livrer en petits incréments. Il vient de la philosophie Lean Manufacturing appliquée au logiciel.">
+          B. Lean — éliminer les gaspillages, livrer en petits incréments
+        </button>
+        <button class="quiz-option" data-correct="false"
+          data-feedback="Non — 'Logging' est une pratique de monitoring mais n'est pas dans l'acronyme CALMS.">
+          C. Logging — centraliser tous les logs de production
+        </button>
+        <button class="quiz-option" data-correct="false"
+          data-feedback="Non — 'Launch' n'existe pas dans CALMS. Les 5 lettres : Culture, Automatisation, Lean, Mesure, Sharing.">
+          D. Launch — automatiser les mises en production
+        </button>
+      </div>
+      <div class="quiz-feedback"></div>
+    </div>
+  </div>
+</div>
+
+<!-- 05 · Entretien -->
+<div class="panel">
+  <div class="panel-header">
+    <span class="panel-header-icon">💼</span>
+    <span class="panel-title">05 · ce qu'il faut dire en entretien</span>
+    <span class="panel-badge amber">recruteur</span>
+  </div>
+  <div class="content-body">
+    <div class="entretien-box">
+      <div class="entretien-label">// questions fréquentes · réponses attendues</div>
+      <div class="entretien-item">
+        <span class="entretien-arrow">▸</span>
+        <span><strong style="color:var(--text)">"C'est quoi le DevOps pour toi ?"</strong><br>
+        "C'est une culture de collaboration entre Dev et Ops, basée sur l'automatisation et la livraison continue, pour réduire le temps entre un commit et la valeur livrée à l'utilisateur."</span>
+      </div>
+      <div class="entretien-item">
+        <span class="entretien-arrow">▸</span>
+        <span><strong style="color:var(--text)">"Quelle différence entre CI et CD ?"</strong><br>
+        "CI = intégrer et tester automatiquement à chaque commit. CD = déployer automatiquement le code validé en production ou en staging."</span>
+      </div>
+      <div class="entretien-item">
+        <span class="entretien-arrow">▸</span>
+        <span><strong style="color:var(--text)">"Qu'est-ce que le Shift Left ?"</strong><br>
+        "C'est tester et sécuriser tôt dans le cycle — pas attendre la fin pour trouver les bugs ou les vulnérabilités."</span>
+      </div>
+    </div>
+    <div class="mark-done-row">
+      <button class="btn-mark" id="btn-mark-0">✓ Marquer comme vu</button>
+    </div>
+  </div>
+</div>

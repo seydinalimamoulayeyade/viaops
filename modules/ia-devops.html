@@ -1,0 +1,239 @@
+<!-- ============================================================
+     ViaOps · Module 09 · IA pour DevOps
+     Fragment HTML — chargé via fetch() dans index.html
+     ============================================================ -->
+
+<!-- 01 · Le problème -->
+<div class="panel">
+  <div class="panel-header">
+    <span class="panel-header-icon">🤖</span>
+    <span class="panel-title">01 · le problème</span>
+    <span class="panel-badge cyan">ai</span>
+  </div>
+  <div class="content-body">
+    <div class="content-section">
+      <div class="section-num">// avant l'ia en devops</div>
+      <div class="section-text">
+        Écrire un Jenkinsfile = 30 minutes de doc. Débugger une erreur Kubernetes = 2h de StackOverflow.
+        Optimiser une requête Prometheus = essai-erreur. Comprendre une alerte cryptique = frustration.
+        <strong>L'IA accélère chaque étape : génère du code, explique les erreurs, optimise les configs, résume les logs.</strong>
+      </div>
+      <div class="analogy">
+        <div class="analogy-label">💡 Analogie</div>
+        <div class="analogy-text">
+          L'IA est comme un copilote expert DevOps dans ta voiture. Il ne conduit pas à ta place,
+          mais il anticipe les virages (erreurs), suggère le meilleur itinéraire (best practices),
+          et explique les panneaux complexes (logs, alertes).
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 02 · Concepts clés -->
+<div class="panel">
+  <div class="panel-header">
+    <span class="panel-header-icon">🧠</span>
+    <span class="panel-title">02 · concepts clés</span>
+  </div>
+  <div class="content-body">
+    <div class="content-section">
+      <div class="section-num">// use cases ia en devops</div>
+      <table class="kv-table">
+        <thead>
+          <tr><th>Use Case</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Code Generation</td><td>Générer Dockerfile, Jenkinsfile, manifests K8s, configs Terraform à partir d'une description.</td></tr>
+          <tr><td>Log Analysis</td><td>Analyser des milliers de lignes de logs et identifier la cause root d'un incident.</td></tr>
+          <tr><td>Incident Response</td><td>Proposer des actions de remédiation basées sur les alertes (rollback, scale up, restart).</td></tr>
+          <tr><td>Optimization</td><td>Suggérer des optimisations : réduire la taille d'image Docker, améliorer requêtes PromQL.</td></tr>
+          <tr><td>Documentation</td><td>Générer automatiquement la doc d'un pipeline ou d'une infra IaC.</td></tr>
+          <tr><td>Security Review</td><td>Détecter des mauvaises pratiques de sécurité dans les configs (secrets en clair, ports exposés).</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <div class="content-section">
+      <div class="section-num">// outils ia pour devops</div>
+      <ul class="checklist">
+        <li><span class="check-arrow">▸</span><span><strong>GitHub Copilot :</strong> autocomplete intelligent pour IaC, pipelines, configs.</span></li>
+        <li><span class="check-arrow">▸</span><span><strong>ChatGPT / Claude :</strong> expliquer erreurs, générer configs, reviewer du code.</span></li>
+        <li><span class="check-arrow">▸</span><span><strong>K8sGPT :</strong> diagnostiquer et corriger les problèmes Kubernetes automatiquement.</span></li>
+        <li><span class="check-arrow">▸</span><span><strong>Wiz / Snyk AI :</strong> détection de vulnérabilités avec suggestions de fix.</span></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- 03 · Commandes de référence -->
+<div class="panel">
+  <div class="panel-header">
+    <span class="panel-header-icon">⌨️</span>
+    <span class="panel-title">03 · commandes de référence</span>
+  </div>
+  <div class="content-body">
+
+    <div class="content-section">
+      <div class="section-num">// k8sgpt — diagnostic kubernetes avec ia</div>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-lang">bash</span>
+          <span>k8sgpt cli</span>
+        </div>
+        <pre>
+<span class="c-comment"># Installer K8sGPT</span>
+brew install k8sgpt
+
+<span class="c-comment"># Configurer avec OpenAI</span>
+k8sgpt auth add <span class="c-flag">--backend</span> openai <span class="c-flag">--token</span> <span class="c-value">sk-xxx</span>
+
+<span class="c-comment"># Analyser le cluster et détecter les problèmes</span>
+k8sgpt analyze
+
+<span class="c-comment"># Analyser avec explication détaillée IA</span>
+k8sgpt analyze <span class="c-flag">--explain</span>
+
+<span class="c-comment"># Filtrer par namespace</span>
+k8sgpt analyze <span class="c-flag">-n</span> <span class="c-value">production</span> <span class="c-flag">--explain</span>
+
+<span class="c-comment"># Exporter en JSON</span>
+k8sgpt analyze <span class="c-flag">-o</span> json <span class="c-flag">></span> report.json</pre>
+      </div>
+    </div>
+
+    <div class="content-section">
+      <div class="section-num">// prompts chatgpt pour devops</div>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-lang">prompts</span>
+          <span>exemples efficaces</span>
+        </div>
+        <pre>
+<span class="c-comment"># Générer un Dockerfile optimisé</span>
+<span class="c-string">"Crée un Dockerfile multi-stage pour une app Node.js Express,
+avec Alpine, non-root user, et healthcheck."</span>
+
+<span class="c-comment"># Expliquer une erreur Kubernetes</span>
+<span class="c-string">"Mon pod est en CrashLoopBackOff. Voici les logs: [coller logs].
+Quelle est la cause probable et comment la corriger ?"</span>
+
+<span class="c-comment"># Optimiser une requête PromQL</span>
+<span class="c-string">"J'ai cette requête PromQL:
+sum(rate(http_requests_total[5m])) by (status_code)
+Comment l'optimiser pour réduire la charge sur Prometheus ?"</span>
+
+<span class="c-comment"># Reviewer une config Terraform</span>
+<span class="c-string">"Voici mon main.tf pour AWS. Identifie les mauvaises pratiques
+de sécurité et suggère des améliorations."</span>
+
+<span class="c-comment"># Générer un Jenkinsfile</span>
+<span class="c-string">"Crée un Jenkinsfile déclaratif pour une app Python:
+build → test pytest → SonarQube → deploy sur K8s si branche main."</span></pre>
+      </div>
+    </div>
+
+    <div class="content-section">
+      <div class="section-num">// exemple — github copilot pour iac</div>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-lang">terraform</span>
+          <span>copilot autocomplete</span>
+        </div>
+        <pre>
+<span class="c-comment"># Tu tapes le commentaire, Copilot génère le code:</span>
+
+<span class="c-comment"># Create an S3 bucket with versioning and encryption</span>
+<span class="c-keyword">resource</span> <span class="c-string">"aws_s3_bucket"</span> <span class="c-string">"main"</span> {
+  bucket = <span class="c-string">"my-secure-bucket"</span>
+
+  versioning {
+    enabled = <span class="c-value">true</span>
+  }
+
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm = <span class="c-string">"AES256"</span>
+      }
+    }
+  }
+
+  lifecycle {
+    prevent_destroy = <span class="c-value">true</span>
+  }
+}</pre>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- 04 · Quiz -->
+<div class="panel">
+  <div class="panel-header">
+    <span class="panel-header-icon">🎯</span>
+    <span class="panel-title">04 · quiz de validation</span>
+  </div>
+  <div class="content-body">
+    <div class="quiz-block">
+      <div class="quiz-label">// question · module 09</div>
+      <div class="quiz-question">
+        Tu utilises K8sGPT pour diagnostiquer un cluster Kubernetes. Que fait cet outil ?
+      </div>
+      <div class="quiz-options">
+        <button class="quiz-option" data-correct="false"
+          data-feedback="Non — K8sGPT ne déploie rien. C'est un outil de diagnostic qui analyse l'état actuel du cluster pour détecter des problèmes.">
+          A. Il déploie automatiquement des pods en utilisant GPT pour optimiser les ressources
+        </button>
+        <button class="quiz-option" data-correct="true"
+          data-feedback="✓ Correct ! K8sGPT scanne le cluster Kubernetes, détecte les anomalies (pods en erreur, ressources mal configurées), et utilise un LLM (GPT, Claude) pour expliquer la cause root et proposer des solutions concrètes.">
+          B. Il analyse le cluster, détecte les problèmes et utilise l'IA pour expliquer la cause et proposer des solutions
+        </button>
+        <button class="quiz-option" data-correct="false"
+          data-feedback="Non — K8sGPT analyse le cluster Kubernetes en temps réel, il n'a pas besoin de logs externes. Il interroge directement l'API Kubernetes.">
+          C. Il génère des logs détaillés pour les envoyer à ChatGPT manuellement
+        </button>
+        <button class="quiz-option" data-correct="false"
+          data-feedback="Non — K8sGPT est un outil de diagnostic, pas de remplacement de kubectl. Il utilise kubectl en arrière-plan mais ajoute l'analyse IA.">
+          D. Il remplace kubectl en offrant une interface conversationnelle
+        </button>
+      </div>
+      <div class="quiz-feedback"></div>
+    </div>
+  </div>
+</div>
+
+<!-- 05 · Entretien -->
+<div class="panel">
+  <div class="panel-header">
+    <span class="panel-header-icon">💼</span>
+    <span class="panel-title">05 · ce qu'il faut dire en entretien</span>
+    <span class="panel-badge amber">recruteur</span>
+  </div>
+  <div class="content-body">
+    <div class="entretien-box">
+      <div class="entretien-label">// questions fréquentes · réponses attendues</div>
+      <div class="entretien-item">
+        <span class="entretien-arrow">▸</span>
+        <span><strong style="color:var(--text)">"Comment l'IA améliore-t-elle le DevOps ?"</strong><br>
+        "L'IA accélère la génération de code (IaC, pipelines), l'analyse de logs pour trouver les causes root, et propose des optimisations de configs. Elle réduit le MTTR (Mean Time To Recovery) en guidant l'incident response."</span>
+      </div>
+      <div class="entretien-item">
+        <span class="entretien-arrow">▸</span>
+        <span><strong style="color:var(--text)">"Quels sont les risques de l'IA en DevOps ?"</strong><br>
+        "L'IA peut générer du code non sécurisé ou non optimisé si on ne revoit pas. Elle ne remplace pas l'expertise — un DevOps doit comprendre ce que l'IA génère et l'ajuster. Toujours valider, tester, reviewer."</span>
+      </div>
+      <div class="entretien-item">
+        <span class="entretien-arrow">▸</span>
+        <span><strong style="color:var(--text)">"Cite un outil IA spécifique pour DevOps que tu as utilisé."</strong><br>
+        "K8sGPT pour diagnostiquer des problèmes Kubernetes avec explication IA, ou GitHub Copilot pour générer rapidement des Dockerfiles et configs Terraform optimisés."</span>
+      </div>
+    </div>
+    <div class="mark-done-row">
+      <button class="btn-mark" id="btn-mark-8">✓ Marquer comme vu</button>
+    </div>
+  </div>
+</div>

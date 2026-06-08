@@ -1,0 +1,229 @@
+<!-- ============================================================
+     ViaOps · Module 06 · Terraform
+     Fragment HTML — chargé via fetch() dans index.html
+     ============================================================ -->
+
+<!-- 01 · Le problème -->
+<div class="panel">
+  <div class="panel-header">
+    <span class="panel-header-icon">🌍</span>
+    <span class="panel-title">01 · le problème</span>
+    <span class="panel-badge cyan">infra</span>
+  </div>
+  <div class="content-body">
+    <div class="content-section">
+      <div class="section-num">// avant terraform</div>
+      <div class="section-text">
+        Créer une VM, un réseau, un load balancer sur AWS : 30 clics dans la console.
+        Reproduire en staging ? Re-cliquer. Auditer les changements ? Impossible.
+        Rollback une modif cassée ? Bonne chance.
+        <strong>Terraform définit l'infrastructure en code — versionné, auditable, reproductible.</strong>
+      </div>
+      <div class="analogy">
+        <div class="analogy-label">💡 Analogie</div>
+        <div class="analogy-text">
+          Terraform est comme un plan d'architecte. Au lieu de construire une maison en improvisant,
+          tu écris le plan une fois (fichiers .tf), et Terraform construit exactement la même maison
+          10 fois si besoin — dev, staging, prod.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 02 · Concepts clés -->
+<div class="panel">
+  <div class="panel-header">
+    <span class="panel-header-icon">🧠</span>
+    <span class="panel-title">02 · concepts clés</span>
+  </div>
+  <div class="content-body">
+    <div class="content-section">
+      <div class="section-num">// concepts terraform</div>
+      <table class="kv-table">
+        <thead>
+          <tr><th>Concept</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Provider</td><td>Plugin pour interagir avec un cloud (AWS, Azure, GCP) ou service (GitHub, Datadog).</td></tr>
+          <tr><td>Resource</td><td>Composant d'infra : VM, bucket S3, réseau. Défini en code et géré par Terraform.</td></tr>
+          <tr><td>State</td><td>Fichier terraform.tfstate qui trace l'état actuel de l'infra. Ne jamais l'éditer manuellement.</td></tr>
+          <tr><td>Plan</td><td>Terraform calcule les changements à appliquer (créer, modifier, détruire) avant exécution.</td></tr>
+          <tr><td>Module</td><td>Ensemble de ressources réutilisables. Comme une fonction en programmation.</td></tr>
+          <tr><td>Backend</td><td>Où stocker le state (local, S3, Terraform Cloud). S3 + DynamoDB pour le lock en équipe.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <div class="content-section">
+      <div class="section-num">// workflow terraform</div>
+      <ul class="checklist">
+        <li><span class="check-arrow">▸</span><span><strong>terraform init :</strong> télécharge les providers et initialise le backend.</span></li>
+        <li><span class="check-arrow">▸</span><span><strong>terraform plan :</strong> affiche un preview des changements sans rien appliquer.</span></li>
+        <li><span class="check-arrow">▸</span><span><strong>terraform apply :</strong> applique les changements et met à jour le state.</span></li>
+        <li><span class="check-arrow">▸</span><span><strong>terraform destroy :</strong> détruit toute l'infra définie.</span></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- 03 · Commandes de référence -->
+<div class="panel">
+  <div class="panel-header">
+    <span class="panel-header-icon">⌨️</span>
+    <span class="panel-title">03 · commandes de référence</span>
+  </div>
+  <div class="content-body">
+
+    <div class="content-section">
+      <div class="section-num">// main.tf — aws ec2 + s3</div>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-lang">terraform</span>
+          <span>infrastructure aws</span>
+        </div>
+        <pre>
+<span class="c-keyword">terraform</span> {
+  <span class="c-keyword">required_providers</span> {
+    aws = {
+      source  = <span class="c-string">"hashicorp/aws"</span>
+      version = <span class="c-string">"~> 5.0"</span>
+    }
+  }
+  <span class="c-keyword">backend</span> <span class="c-string">"s3"</span> {
+    bucket = <span class="c-string">"my-terraform-state"</span>
+    key    = <span class="c-string">"prod/terraform.tfstate"</span>
+    region = <span class="c-string">"eu-west-1"</span>
+  }
+}
+
+<span class="c-keyword">provider</span> <span class="c-string">"aws"</span> {
+  region = <span class="c-string">"eu-west-1"</span>
+}
+
+<span class="c-keyword">resource</span> <span class="c-string">"aws_instance"</span> <span class="c-string">"web"</span> {
+  ami           = <span class="c-string">"ami-0c55b159cbfafe1f0"</span>
+  instance_type = <span class="c-string">"t3.micro"</span>
+
+  tags = {
+    Name        = <span class="c-string">"ViaOps-Web"</span>
+    Environment = <span class="c-string">"production"</span>
+  }
+}
+
+<span class="c-keyword">resource</span> <span class="c-string">"aws_s3_bucket"</span> <span class="c-string">"assets"</span> {
+  bucket = <span class="c-string">"viaops-assets-bucket"</span>
+
+  versioning {
+    enabled = <span class="c-value">true</span>
+  }
+}
+
+<span class="c-keyword">output</span> <span class="c-string">"instance_ip"</span> {
+  value = aws_instance.web.public_ip
+}</pre>
+      </div>
+    </div>
+
+    <div class="content-section">
+      <div class="section-num">// commandes terraform essentielles</div>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-lang">bash</span>
+          <span>terraform cli</span>
+        </div>
+        <pre>
+<span class="c-comment"># Initialiser le projet</span>
+terraform init
+
+<span class="c-comment"># Prévisualiser les changements</span>
+terraform plan
+
+<span class="c-comment"># Appliquer les changements</span>
+terraform apply
+
+<span class="c-comment"># Appliquer sans confirmation</span>
+terraform apply <span class="c-flag">-auto-approve</span>
+
+<span class="c-comment"># Détruire toute l'infrastructure</span>
+terraform destroy
+
+<span class="c-comment"># Formater les fichiers .tf</span>
+terraform fmt
+
+<span class="c-comment"># Valider la syntaxe</span>
+terraform validate</pre>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- 04 · Quiz -->
+<div class="panel">
+  <div class="panel-header">
+    <span class="panel-header-icon">🎯</span>
+    <span class="panel-title">04 · quiz de validation</span>
+  </div>
+  <div class="content-body">
+    <div class="quiz-block">
+      <div class="quiz-label">// question · module 06</div>
+      <div class="quiz-question">
+        Tu modifies une ressource AWS directement dans la console (pas via Terraform). Que se passe-t-il au prochain <code style="color:var(--skipped);font-family:var(--font)">terraform apply</code> ?
+      </div>
+      <div class="quiz-options">
+        <button class="quiz-option" data-correct="false"
+          data-feedback="Non — Terraform ne détecte pas automatiquement les changements manuels. Il se base sur son state local, pas sur l'état réel du cloud.">
+          A. Terraform détecte automatiquement le changement et met à jour son state
+        </button>
+        <button class="quiz-option" data-correct="true"
+          data-feedback="✓ Correct ! Terraform compare son state avec le code .tf. Si tu as modifié manuellement dans la console, Terraform va recréer ou modifier la ressource pour qu'elle corresponde au code. Les changements manuels sont écrasés. C'est pourquoi on dit : never touch the console.">
+          B. Terraform réinitialise la ressource pour qu'elle corresponde au code .tf (écrase le changement manuel)
+        </button>
+        <button class="quiz-option" data-correct="false"
+          data-feedback="Non — Terraform n'échoue pas. Il recalcule l'état désiré et applique les changements pour revenir à l'état défini dans le code.">
+          C. Terraform échoue et refuse d'appliquer les changements
+        </button>
+        <button class="quiz-option" data-correct="false"
+          data-feedback="Non — Terraform ne fusionne pas les changements manuels avec le code. Il force l'état désiré défini dans les fichiers .tf.">
+          D. Terraform fusionne automatiquement les changements manuels avec le code
+        </button>
+      </div>
+      <div class="quiz-feedback"></div>
+    </div>
+  </div>
+</div>
+
+<!-- 05 · Entretien -->
+<div class="panel">
+  <div class="panel-header">
+    <span class="panel-header-icon">💼</span>
+    <span class="panel-title">05 · ce qu'il faut dire en entretien</span>
+    <span class="panel-badge amber">recruteur</span>
+  </div>
+  <div class="content-body">
+    <div class="entretien-box">
+      <div class="entretien-label">// questions fréquentes · réponses attendues</div>
+      <div class="entretien-item">
+        <span class="entretien-arrow">▸</span>
+        <span><strong style="color:var(--text)">"C'est quoi le state Terraform et pourquoi est-il critique ?"</strong><br>
+        "Le state (terraform.tfstate) trace l'état actuel de l'infra. Si tu le perds, Terraform ne sait plus ce qu'il gère et peut recréer ou détruire des ressources par erreur. En équipe, on le stocke dans S3 avec un lock DynamoDB."</span>
+      </div>
+      <div class="entretien-item">
+        <span class="entretien-arrow">▸</span>
+        <span><strong style="color:var(--text)">"Pourquoi faire un terraform plan avant apply ?"</strong><br>
+        "plan affiche un preview des changements — ce qui va être créé, modifié ou détruit. Ça évite les surprises et permet de valider avant d'appliquer réellement."</span>
+      </div>
+      <div class="entretien-item">
+        <span class="entretien-arrow">▸</span>
+        <span><strong style="color:var(--text)">"Comment gérer plusieurs environnements avec Terraform ?"</strong><br>
+        "Avec des workspaces (terraform workspace) ou des dossiers séparés (dev/, prod/) avec des fichiers tfvars différents. Chacun a son propre state."</span>
+      </div>
+    </div>
+    <div class="mark-done-row">
+      <button class="btn-mark" id="btn-mark-5">✓ Marquer comme vu</button>
+    </div>
+  </div>
+</div>
