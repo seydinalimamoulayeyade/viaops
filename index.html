@@ -23,6 +23,8 @@
     <link rel="stylesheet" href="assets/css/panels.css" />
     <link rel="stylesheet" href="assets/css/pipeline.css" />
     <link rel="stylesheet" href="assets/css/modules.css" />
+    <link rel="stylesheet" href="assets/css/shortcuts.css" />
+    <link rel="stylesheet" href="assets/css/certificate.css" />
   </head>
   <body>
     <!-- ============================================================
@@ -48,6 +50,9 @@
             <div class="nav-progress-fill" id="nav-prog-fill"></div>
           </div>
         </div>
+        <button class="nav-help-hint" onclick="Shortcuts.showHelp()" title="Raccourcis clavier">
+          <kbd>?</kbd>
+        </button>
         <button class="btn-cta" id="btn-navbar-start">Démarrer →</button>
       </div>
     </nav>
@@ -98,7 +103,6 @@
             <span class="panel-title">viaops · la voie devops</span>
             <div class="panel-actions">
               <span class="panel-badge violet">pipeline</span>
-              <span class="panel-badge green">actif</span>
             </div>
           </div>
           <div class="panel-body">
@@ -116,10 +120,10 @@
               </p>
               <div class="hero-actions">
                 <button class="btn-primary" id="btn-hero-start">
-                  ▶ Démarrer le parcours
+                  Démarrer le parcours →
                 </button>
                 <button class="btn-ghost" id="btn-hero-scroll">
-                  ↓ Voir le pipeline
+                  Voir le pipeline ↓
                 </button>
               </div>
             </div>
@@ -130,7 +134,7 @@
                 <div class="terminal-dot t-red"></div>
                 <div class="terminal-dot t-yellow"></div>
                 <div class="terminal-dot t-green"></div>
-                <span class="terminal-name">viaops ~ pipeline</span>
+                <span class="terminal-name">viaops</span>
               </div>
               <div class="terminal-body">
                 <div class="t-line">
@@ -142,15 +146,9 @@
                   >
                 </div>
                 <div class="t-line">
-                  <span class="t-out">✓ Step 1/6 : FROM node:20-alpine</span>
-                </div>
-                <div class="t-line">
-                  <span class="t-out">✓ Step 5/6 : COPY . .</span>
-                </div>
-                <div class="t-line">
                   <span class="t-ok">✓ Successfully built 3f9a2c1d</span>
                 </div>
-                <div class="t-line" style="margin-top: 6px">
+                <div class="t-line" style="margin-top: 10px">
                   <span class="t-prompt">$</span>
                   <span class="t-cmd"
                     >kubectl <span class="t-flag">apply</span>
@@ -161,7 +159,7 @@
                 <div class="t-line">
                   <span class="t-ok">✓ deployment.apps/viaops created</span>
                 </div>
-                <div class="t-line" style="margin-top: 6px">
+                <div class="t-line" style="margin-top: 10px">
                   <span class="t-prompt">$</span>
                   <span class="t-cmd"><span class="t-cursor"></span></span>
                 </div>
@@ -175,9 +173,6 @@
           <div class="panel-header">
             <span class="panel-header-icon">⚙️</span>
             <span class="panel-title">pipeline devops · 9 stages</span>
-            <div class="panel-actions">
-              <span class="panel-badge cyan">ci/cd</span>
-            </div>
           </div>
           <div class="pipeline-wrap">
             <div class="pipeline-stages" id="pipeline-stages"></div>
@@ -191,164 +186,38 @@
             <span class="panel-title">structure de chaque module</span>
           </div>
           <div class="panel-body">
-            <div
-              style="
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-                gap: 12px;
-              "
-            >
-              <div
-                style="
-                  padding: 14px;
-                  background: var(--bg2);
-                  border: 1px solid var(--border);
-                  border-radius: 2px;
-                "
-              >
-                <div
-                  style="
-                    font-size: 10px;
-                    color: var(--muted);
-                    text-transform: uppercase;
-                    letter-spacing: 0.1em;
-                    margin-bottom: 8px;
-                  "
-                >
-                  01 · Problème
-                </div>
-                <div
-                  style="
-                    font-size: 12px;
-                    color: var(--text2);
-                    line-height: 1.7;
-                    font-family: var(--font-sans);
-                  "
-                >
+            <div class="structure-grid">
+              <div class="structure-card">
+                <div class="structure-num">01 · Problème</div>
+                <div class="structure-desc">
                   Quelle douleur existait avant cet outil ? Pourquoi il est
                   apparu.
                 </div>
               </div>
-              <div
-                style="
-                  padding: 14px;
-                  background: var(--bg2);
-                  border: 1px solid var(--border);
-                  border-radius: 2px;
-                "
-              >
-                <div
-                  style="
-                    font-size: 10px;
-                    color: var(--muted);
-                    text-transform: uppercase;
-                    letter-spacing: 0.1em;
-                    margin-bottom: 8px;
-                  "
-                >
-                  02 · Concepts clés
-                </div>
-                <div
-                  style="
-                    font-size: 12px;
-                    color: var(--text2);
-                    line-height: 1.7;
-                    font-family: var(--font-sans);
-                  "
-                >
+              <div class="structure-card">
+                <div class="structure-num">02 · Concepts clés</div>
+                <div class="structure-desc">
                   3 à 5 notions fondamentales. Pas de blabla, que l'essentiel
                   opérationnel.
                 </div>
               </div>
-              <div
-                style="
-                  padding: 14px;
-                  background: var(--bg2);
-                  border: 1px solid var(--border);
-                  border-radius: 2px;
-                "
-              >
-                <div
-                  style="
-                    font-size: 10px;
-                    color: var(--muted);
-                    text-transform: uppercase;
-                    letter-spacing: 0.1em;
-                    margin-bottom: 8px;
-                  "
-                >
-                  03 · Commande ref.
-                </div>
-                <div
-                  style="
-                    font-size: 12px;
-                    color: var(--text2);
-                    line-height: 1.7;
-                    font-family: var(--font-sans);
-                  "
-                >
+              <div class="structure-card">
+                <div class="structure-num">03 · Commande ref.</div>
+                <div class="structure-desc">
                   La config ou commande centrale à connaître, annotée et
                   expliquée.
                 </div>
               </div>
-              <div
-                style="
-                  padding: 14px;
-                  background: var(--bg2);
-                  border: 1px solid var(--border);
-                  border-radius: 2px;
-                "
-              >
-                <div
-                  style="
-                    font-size: 10px;
-                    color: var(--muted);
-                    text-transform: uppercase;
-                    letter-spacing: 0.1em;
-                    margin-bottom: 8px;
-                  "
-                >
-                  04 · Place pipeline
-                </div>
-                <div
-                  style="
-                    font-size: 12px;
-                    color: var(--text2);
-                    line-height: 1.7;
-                    font-family: var(--font-sans);
-                  "
-                >
+              <div class="structure-card">
+                <div class="structure-num">04 · Place pipeline</div>
+                <div class="structure-desc">
                   Où cet outil s'insère dans la chaîne CI/CD et comment il
                   s'articule.
                 </div>
               </div>
-              <div
-                style="
-                  padding: 14px;
-                  background: var(--bg2);
-                  border: 1px solid var(--border);
-                  border-radius: 2px;
-                "
-              >
-                <div
-                  style="
-                    font-size: 10px;
-                    color: var(--muted);
-                    text-transform: uppercase;
-                    letter-spacing: 0.1em;
-                    margin-bottom: 8px;
-                  "
-                >
-                  05 · Quiz & Entretien
-                </div>
-                <div
-                  style="
-                    font-size: 12px;
-                    color: var(--text2);
-                    line-height: 1.7;
-                    font-family: var(--font-sans);
-                  "
-                >
+              <div class="structure-card">
+                <div class="structure-num">05 · Quiz & Entretien</div>
+                <div class="structure-desc">
                   Valide tes acquis + ce que tu dois savoir dire face à un
                   recruteur.
                 </div>
@@ -386,7 +255,7 @@
        VIEW — ABOUT
        ============================================================ -->
     <div id="view-about" class="view">
-      <div class="dashboard" style="max-width: 720px">
+      <div class="dashboard about-container">
         <div class="panel animate">
           <div class="panel-header">
             <span class="panel-header-icon">ℹ️</span>
@@ -394,33 +263,16 @@
             <span class="panel-badge violet">v1.0.0</span>
           </div>
           <div class="panel-body">
-            <p
-              style="
-                font-size: 13px;
-                color: var(--text2);
-                line-height: 1.9;
-                max-width: 580px;
-                font-family: var(--font-sans);
-                margin-bottom: 20px;
-              "
-            >
+            <p class="about-text">
               Quand on débute en DevOps, la documentation est massive, les
               tutoriels éparpillés, et on ne sait pas par où commencer.
-              <strong style="color: var(--text); font-family: var(--font)"
-                >ViaOps</strong
-              >
+              <strong>ViaOps</strong>
               est né de ce constat — une ressource gratuite, structurée comme un
               vrai pipeline CI/CD, pour que n'importe qui comprenne les outils
               essentiels sans se noyer.
             </p>
-            <div style="display: flex; gap: 6px; flex-wrap: wrap">
-              <span class="panel-badge green"
-                >Phase 1 — Shell & Navigation ✓</span
-              >
+            <div class="about-badges">
               <span class="panel-badge violet">Phase 2 — Contenu modules</span>
-              <span class="panel-badge cyan"
-                >Phase 3 — Docker + CI/CD deploy</span
-              >
             </div>
           </div>
         </div>
@@ -431,98 +283,22 @@
             <span class="panel-title">stack technique</span>
           </div>
           <div class="panel-body">
-            <div
-              style="
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-                gap: 8px;
-              "
-            >
-              <div
-                style="
-                  padding: 10px 14px;
-                  background: var(--bg2);
-                  border: 1px solid var(--border);
-                "
-              >
-                <div
-                  style="
-                    font-size: 9px;
-                    color: var(--muted);
-                    text-transform: uppercase;
-                    letter-spacing: 0.1em;
-                    margin-bottom: 4px;
-                  "
-                >
-                  Frontend
-                </div>
-                <div style="font-size: 11px; color: var(--text)">
-                  HTML / CSS / JS
-                </div>
+            <div class="tech-stack-grid">
+              <div class="tech-stack-item">
+                <div class="tech-stack-label">Frontend</div>
+                <div class="tech-stack-value">HTML / CSS / JS</div>
               </div>
-              <div
-                style="
-                  padding: 10px 14px;
-                  background: var(--bg2);
-                  border: 1px solid var(--border);
-                "
-              >
-                <div
-                  style="
-                    font-size: 9px;
-                    color: var(--muted);
-                    text-transform: uppercase;
-                    letter-spacing: 0.1em;
-                    margin-bottom: 4px;
-                  "
-                >
-                  Container
-                </div>
-                <div style="font-size: 11px; color: var(--text)">Docker</div>
+              <div class="tech-stack-item">
+                <div class="tech-stack-label">Container</div>
+                <div class="tech-stack-value">Docker</div>
               </div>
-              <div
-                style="
-                  padding: 10px 14px;
-                  background: var(--bg2);
-                  border: 1px solid var(--border);
-                "
-              >
-                <div
-                  style="
-                    font-size: 9px;
-                    color: var(--muted);
-                    text-transform: uppercase;
-                    letter-spacing: 0.1em;
-                    margin-bottom: 4px;
-                  "
-                >
-                  CI/CD
-                </div>
-                <div style="font-size: 11px; color: var(--text)">
-                  GitHub Actions
-                </div>
+              <div class="tech-stack-item">
+                <div class="tech-stack-label">CI/CD</div>
+                <div class="tech-stack-value">GitHub Actions</div>
               </div>
-              <div
-                style="
-                  padding: 10px 14px;
-                  background: var(--bg2);
-                  border: 1px solid var(--border);
-                "
-              >
-                <div
-                  style="
-                    font-size: 9px;
-                    color: var(--muted);
-                    text-transform: uppercase;
-                    letter-spacing: 0.1em;
-                    margin-bottom: 4px;
-                  "
-                >
-                  Hosting
-                </div>
-                <div style="font-size: 11px; color: var(--text)">
-                  GitHub Pages
-                </div>
+              <div class="tech-stack-item">
+                <div class="tech-stack-label">Hosting</div>
+                <div class="tech-stack-value">GitHub Pages</div>
               </div>
             </div>
           </div>
@@ -533,34 +309,21 @@
             <span class="panel-header-icon">👤</span>
             <span class="panel-title">auteur</span>
           </div>
-          <div
-            class="panel-body"
-            style="
-              font-size: 12px;
-              color: var(--text2);
-              font-family: var(--font-sans);
-              line-height: 1.8;
-            "
-          >
-            Construit par
-            <strong style="color: var(--violet); font-family: var(--font)"
-              >Virtual Voyager</strong
-            >
-            · Dakar, Sénégal · 2026<br />
-            MERN Stack Developer → Cloud &amp; DevOps Engineer<br />
-            <a
-              href="https://linkedin.com/in/limamou-laye"
-              style="
-                color: var(--skipped);
-                text-decoration: none;
-                font-family: var(--font);
-                font-size: 11px;
-              "
-              target="_blank"
-              rel="noopener"
-            >
-              linkedin.com/in/limamou-laye
-            </a>
+          <div class="panel-body">
+            <div class="author-info">
+              Construit par
+              <strong>Virtual Voyager</strong>
+              · Dakar, Sénégal · 2026<br />
+              MERN Stack Developer → Cloud &amp; DevOps Engineer<br />
+              <a
+                href="https://linkedin.com/in/limamou-laye"
+                class="author-link"
+                target="_blank"
+                rel="noopener"
+              >
+                linkedin.com/in/limamou-laye
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -575,6 +338,9 @@
     <script src="assets/js/pipeline.js"></script>
     <script src="assets/js/sidebar.js"></script>
     <script src="assets/js/modules.js"></script>
+    <script src="assets/js/shortcuts.js"></script>
+    <script src="assets/js/theme.js"></script>
+    <script src="assets/js/certificate.js"></script>
 
     <!-- App init -->
     <script>
@@ -608,6 +374,8 @@
       // Boot
       Pipeline.build();
       updateAllProgress();
+      ThemeManager.init();
+      Shortcuts.init();
     </script>
   </body>
 </html>
