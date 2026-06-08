@@ -17,3 +17,8 @@ Thumbs.db
 # Temp / preview files
 *-preview*.html
 *-bundle*.html
+
+# Documentation
+DESIGN_REFONTE.md
+FONCTIONNALITES.md
+PHASE2_COMPLETE.md
