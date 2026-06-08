@@ -15,6 +15,11 @@ const Progress = {
     if (!current.includes(idx)) {
       current.push(idx);
       localStorage.setItem(STORAGE_KEY, JSON.stringify(current));
+      
+      // Check for certificate eligibility
+      if (current.length === MODULES.length) {
+        setTimeout(() => Certificate.check(), 500);
+      }
     }
   },
 
@@ -24,6 +29,10 @@ const Progress = {
 
   count() {
     return this.get().length;
+  },
+  
+  getCompleted() {
+    return this.count();
   },
 
   reset() {
