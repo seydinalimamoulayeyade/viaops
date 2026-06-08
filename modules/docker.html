@@ -1,0 +1,233 @@
+<!-- ============================================================
+     ViaOps · Module 02 · Docker
+     Fragment HTML — chargé via fetch() dans index.html
+     ============================================================ -->
+
+<!-- 01 · Le problème -->
+<div class="panel">
+  <div class="panel-header">
+    <span class="panel-header-icon">🐳</span>
+    <span class="panel-title">01 · le problème</span>
+    <span class="panel-badge cyan">build</span>
+  </div>
+  <div class="content-body">
+    <div class="content-section">
+      <div class="section-num">// avant docker</div>
+      <div class="section-text">
+        "Ça marche sur ma machine" — la phrase la plus redoutée en équipe.
+        Chaque environnement avait ses propres dépendances, versions, configs.
+        Déployer une app = des heures de configuration manuelle, des bugs impossibles à reproduire.
+        <strong>Docker résout ça en empaquetant l'app et tout son environnement dans un conteneur portable.</strong>
+      </div>
+      <div class="analogy">
+        <div class="analogy-label">💡 Analogie</div>
+        <div class="analogy-text">
+          Un conteneur Docker = un conteneur maritime. Peu importe ce qu'il contient,
+          il s'adapte à n'importe quel navire, port, grue. Ton app tourne
+          de la même façon sur ton laptop, en CI/CD, ou en production AWS.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 02 · Concepts clés -->
+<div class="panel">
+  <div class="panel-header">
+    <span class="panel-header-icon">🧠</span>
+    <span class="panel-title">02 · concepts clés</span>
+  </div>
+  <div class="content-body">
+    <div class="content-section">
+      <div class="section-num">// image vs conteneur</div>
+      <table class="kv-table">
+        <thead>
+          <tr><th>Concept</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Image</td><td>Template figé, read-only. Le blueprint de ton app. Construite avec un Dockerfile.</td></tr>
+          <tr><td>Conteneur</td><td>Instance vivante d'une image. Possède son propre layer d'écriture éphémère.</td></tr>
+          <tr><td>Dockerfile</td><td>Fichier texte avec les instructions pour construire une image, couche par couche.</td></tr>
+          <tr><td>Registry</td><td>Dépôt d'images. Docker Hub est le public, tu peux avoir le tien en privé.</td></tr>
+          <tr><td>Volume</td><td>Stockage persistant monté dans le conteneur. Les données survivent au redémarrage.</td></tr>
+          <tr><td>Network</td><td>Les conteneurs d'un même Compose se parlent via leur nom de service.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <div class="content-section">
+      <div class="section-num">// analogie POO</div>
+      <div class="analogy">
+        <div class="analogy-label">💡 Image vs Conteneur</div>
+        <div class="analogy-text">
+          Image = la <strong>classe</strong> en POO. Conteneur = l'<strong>instance</strong>.
+          Tu peux créer 10 conteneurs à partir d'une même image — chacun isolé,
+          chacun avec son propre état.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 03 · Commandes de référence -->
+<div class="panel">
+  <div class="panel-header">
+    <span class="panel-header-icon">⌨️</span>
+    <span class="panel-title">03 · commandes de référence</span>
+  </div>
+  <div class="content-body">
+
+    <div class="content-section">
+      <div class="section-num">// dockerfile — node.js app</div>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-lang">Dockerfile</span>
+          <span>multi-stage · production ready</span>
+        </div>
+        <pre>
+<span class="c-comment"># Stage 1 — builder</span>
+<span class="c-keyword">FROM</span> node:20-alpine <span class="c-keyword">AS</span> builder
+<span class="c-keyword">WORKDIR</span> /app
+<span class="c-keyword">COPY</span> package*.json ./
+<span class="c-keyword">RUN</span> npm ci
+<span class="c-keyword">COPY</span> . .
+<span class="c-keyword">RUN</span> npm run build
+
+<span class="c-comment"># Stage 2 — production (image légère)</span>
+<span class="c-keyword">FROM</span> node:20-alpine <span class="c-keyword">AS</span> production
+<span class="c-keyword">WORKDIR</span> /app
+<span class="c-keyword">COPY</span> --from=builder /app/dist ./dist
+<span class="c-keyword">COPY</span> package*.json ./
+<span class="c-keyword">RUN</span> npm ci <span class="c-flag">--only=production</span>
+<span class="c-keyword">EXPOSE</span> 3000
+<span class="c-keyword">CMD</span> [<span class="c-string">"node"</span>, <span class="c-string">"dist/server.js"</span>]</pre>
+      </div>
+    </div>
+
+    <div class="content-section">
+      <div class="section-num">// commandes essentielles</div>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-lang">bash</span>
+          <span>cli de référence</span>
+        </div>
+        <pre>
+<span class="c-comment"># Build une image</span>
+docker build <span class="c-flag">-t</span> <span class="c-value">mon-app:1.0</span> .
+
+<span class="c-comment"># Lancer un conteneur (detached + port mappé)</span>
+docker run <span class="c-flag">-d -p</span> <span class="c-value">3000:3000</span> <span class="c-flag">--name</span> <span class="c-value">api</span> mon-app:1.0
+
+<span class="c-comment"># Logs en temps réel</span>
+docker logs <span class="c-flag">-f</span> api
+
+<span class="c-comment"># Entrer dans un conteneur</span>
+docker exec <span class="c-flag">-it</span> api sh
+
+<span class="c-comment"># Stopper + supprimer</span>
+docker stop api && docker rm api
+
+<span class="c-comment"># Push sur Docker Hub</span>
+docker tag mon-app:1.0 <span class="c-value">username/mon-app:1.0</span>
+docker push <span class="c-value">username/mon-app:1.0</span></pre>
+      </div>
+    </div>
+
+    <div class="content-section">
+      <div class="section-num">// docker compose — stack MERN</div>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-lang">yaml</span>
+          <span>docker-compose.yml</span>
+        </div>
+        <pre>
+services:
+  <span class="c-keyword">api:</span>
+    build: .
+    ports: [<span class="c-string">"3000:3000"</span>]
+    environment:
+      - <span class="c-value">MONGO_URI=mongodb://db:27017/myapp</span>
+    depends_on: [db]
+
+  <span class="c-keyword">db:</span>
+    image: <span class="c-string">mongo:7</span>
+    volumes:
+      - <span class="c-value">mongo_data:/data/db</span>
+
+volumes:
+  mongo_data: <span class="c-comment"># persistance !</span></pre>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- 04 · Quiz -->
+<div class="panel">
+  <div class="panel-header">
+    <span class="panel-header-icon">🎯</span>
+    <span class="panel-title">04 · quiz de validation</span>
+  </div>
+  <div class="content-body">
+    <div class="quiz-block">
+      <div class="quiz-label">// question · module 02</div>
+      <div class="quiz-question">
+        Tu lances <code style="color:var(--skipped);font-family:var(--font)">docker run -p 8080:3000 mon-app</code>.
+        Quelle assertion est correcte ?
+      </div>
+      <div class="quiz-options">
+        <button class="quiz-option" data-correct="false"
+          data-feedback="Non — l'app écoute sur 3000 à l'intérieur du conteneur. Le port hôte est 8080.">
+          A. L'app écoute sur le port 8080 à l'intérieur du conteneur
+        </button>
+        <button class="quiz-option" data-correct="true"
+          data-feedback="✓ Correct ! Syntaxe -p HOST:CONTAINER : port 8080 sur l'hôte → port 3000 dans le conteneur. Accès via localhost:8080.">
+          B. Le port 8080 est sur l'hôte, le port 3000 est dans le conteneur
+        </button>
+        <button class="quiz-option" data-correct="false"
+          data-feedback="Non — tu spécifies explicitement les deux ports. Docker ne choisit pas automatiquement avec -p.">
+          C. Docker choisit automatiquement les ports disponibles
+        </button>
+        <button class="quiz-option" data-correct="false"
+          data-feedback="Non — sans volume défini, les données sont perdues à l'arrêt du conteneur. Toujours définir un volume pour la persistance.">
+          D. Les données du conteneur sont automatiquement persistées
+        </button>
+      </div>
+      <div class="quiz-feedback"></div>
+    </div>
+  </div>
+</div>
+
+<!-- 05 · Entretien -->
+<div class="panel">
+  <div class="panel-header">
+    <span class="panel-header-icon">💼</span>
+    <span class="panel-title">05 · ce qu'il faut dire en entretien</span>
+    <span class="panel-badge amber">recruteur</span>
+  </div>
+  <div class="content-body">
+    <div class="entretien-box">
+      <div class="entretien-label">// questions fréquentes · réponses attendues</div>
+      <div class="entretien-item">
+        <span class="entretien-arrow">▸</span>
+        <span><strong style="color:var(--text)">"Quelle différence entre image et conteneur ?"</strong><br>
+        "L'image est un template immutable — le blueprint. Le conteneur est une instance en cours d'exécution de cette image, avec son propre layer d'écriture."</span>
+      </div>
+      <div class="entretien-item">
+        <span class="entretien-arrow">▸</span>
+        <span><strong style="color:var(--text)">"C'est quoi un multi-stage build ?"</strong><br>
+        "C'est construire l'image en plusieurs étapes : une pour compiler, une pour la production. Résultat : une image légère qui ne contient que le strict nécessaire."</span>
+      </div>
+      <div class="entretien-item">
+        <span class="entretien-arrow">▸</span>
+        <span><strong style="color:var(--text)">"Pourquoi utiliser Docker Compose ?"</strong><br>
+        "Pour orchestrer plusieurs services localement en un seul fichier YAML — api, base de données, cache — et les démarrer d'une commande : docker compose up."</span>
+      </div>
+    </div>
+    <div class="mark-done-row">
+      <button class="btn-mark" id="btn-mark-1">✓ Marquer comme vu</button>
+    </div>
+  </div>
+</div>

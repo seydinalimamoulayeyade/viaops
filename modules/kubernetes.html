@@ -1,0 +1,218 @@
+<!-- ============================================================
+     ViaOps · Module 05 · Kubernetes
+     Fragment HTML — chargé via fetch() dans index.html
+     ============================================================ -->
+
+<!-- 01 · Le problème -->
+<div class="panel">
+  <div class="panel-header">
+    <span class="panel-header-icon">☸️</span>
+    <span class="panel-title">01 · le problème</span>
+    <span class="panel-badge cyan">deploy</span>
+  </div>
+  <div class="content-body">
+    <div class="content-section">
+      <div class="section-num">// avant kubernetes</div>
+      <div class="section-text">
+        Docker résout "ça marche sur ma machine", mais qui gère 100 conteneurs en production ?
+        Qui les redémarre si un crash ? Qui distribue la charge ? Qui scale automatiquement ?
+        <strong>Kubernetes orchestre des milliers de conteneurs : déploiement, scaling, self-healing, load balancing.</strong>
+      </div>
+      <div class="analogy">
+        <div class="analogy-label">💡 Analogie</div>
+        <div class="analogy-text">
+          Docker = une voiture. Kubernetes = la ville entière avec ses routes, feux de circulation, ambulances.
+          Il gère le trafic (load balancing), répare les pannes (self-healing), ajoute des routes si besoin (scaling).
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 02 · Concepts clés -->
+<div class="panel">
+  <div class="panel-header">
+    <span class="panel-header-icon">🧠</span>
+    <span class="panel-title">02 · concepts clés</span>
+  </div>
+  <div class="content-body">
+    <div class="content-section">
+      <div class="section-num">// concepts kubernetes</div>
+      <table class="kv-table">
+        <thead>
+          <tr><th>Concept</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Pod</td><td>Unité de base K8s. Encapsule 1+ conteneurs qui partagent réseau et stockage.</td></tr>
+          <tr><td>Deployment</td><td>Définit l'état désiré : 3 replicas de mon app. K8s garantit cet état en permanence.</td></tr>
+          <tr><td>Service</td><td>Point d'accès stable (IP fixe) pour un ensemble de pods. Load balancing intégré.</td></tr>
+          <tr><td>Namespace</td><td>Isolation logique. Séparer dev, staging, prod dans le même cluster.</td></tr>
+</tbody>
+      </table>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <div class="content-section">
+      <div class="section-num">// architecture k8s</div>
+      <ul class="checklist">
+        <li><span class="check-arrow">▸</span><span><strong>Control Plane :</strong> cerveau du cluster (API server, scheduler, controller).</span></li>
+        <li><span class="check-arrow">▸</span><span><strong>Worker Nodes :</strong> machines qui exécutent les pods.</span></li>
+        <li><span class="check-arrow">▸</span><span><strong>etcd :</strong> base de données clé-valeur qui stocke l'état du cluster.</span></li>
+        <li><span class="check-arrow">▸</span><span><strong>kubelet :</strong> agent sur chaque node qui communique avec l'API server.</span></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- 03 · Commandes de référence -->
+<div class="panel">
+  <div class="panel-header">
+    <span class="panel-header-icon">⌨️</span>
+    <span class="panel-title">03 · commandes de référence</span>
+  </div>
+  <div class="content-body">
+
+    <div class="content-section">
+      <div class="section-num">// deployment.yaml — node.js app</div>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-lang">yaml</span>
+          <span>deployment + service</span>
+        </div>
+        <pre>
+<span class="c-keyword">apiVersion:</span> apps/v1
+<span class="c-keyword">kind:</span> Deployment
+<span class="c-keyword">metadata:</span>
+  <span class="c-keyword">name:</span> mon-app
+<span class="c-keyword">spec:</span>
+  <span class="c-keyword">replicas:</span> <span class="c-value">3</span>  <span class="c-comment"># 3 pods identiques</span>
+  <span class="c-keyword">selector:</span>
+    <span class="c-keyword">matchLabels:</span>
+      <span class="c-keyword">app:</span> mon-app
+  <span class="c-keyword">template:</span>
+    <span class="c-keyword">metadata:</span>
+      <span class="c-keyword">labels:</span>
+        <span class="c-keyword">app:</span> mon-app
+    <span class="c-keyword">spec:</span>
+      <span class="c-keyword">containers:</span>
+      - <span class="c-keyword">name:</span> api
+        <span class="c-keyword">image:</span> <span class="c-value">username/mon-app:1.0</span>
+        <span class="c-keyword">ports:</span>
+        - <span class="c-keyword">containerPort:</span> <span class="c-value">3000</span>
+        <span class="c-keyword">env:</span>
+        - <span class="c-keyword">name:</span> NODE_ENV
+          <span class="c-keyword">value:</span> <span class="c-string">"production"</span>
+---
+<span class="c-keyword">apiVersion:</span> v1
+<span class="c-keyword">kind:</span> Service
+<span class="c-keyword">metadata:</span>
+  <span class="c-keyword">name:</span> mon-app-svc
+<span class="c-keyword">spec:</span>
+  <span class="c-keyword">selector:</span>
+    <span class="c-keyword">app:</span> mon-app
+  <span class="c-keyword">ports:</span>
+  - <span class="c-keyword">port:</span> <span class="c-value">80</span>
+    <span class="c-keyword">targetPort:</span> <span class="c-value">3000</span>
+  <span class="c-keyword">type:</span> LoadBalancer</pre>
+      </div>
+    </div>
+
+    <div class="content-section">
+      <div class="section-num">// commandes kubectl essentielles</div>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-lang">bash</span>
+          <span>kubectl cli</span>
+        </div>
+        <pre>
+<span class="c-comment"># Appliquer un fichier YAML</span>
+kubectl apply <span class="c-flag">-f</span> deployment.yaml
+
+<span class="c-comment"># Lister les pods</span>
+kubectl get pods
+
+<span class="c-comment"># Voir les logs d'un pod</span>
+kubectl logs <span class="c-value">mon-app-xyz123</span> <span class="c-flag">-f</span>
+
+<span class="c-comment"># Entrer dans un pod</span>
+kubectl exec <span class="c-flag">-it</span> <span class="c-value">mon-app-xyz123</span> <span class="c-flag">--</span> sh
+
+<span class="c-comment"># Scaler un deployment</span>
+kubectl scale deployment mon-app <span class="c-flag">--replicas=</span><span class="c-value">5</span>
+
+<span class="c-comment"># Rollback d'un deployment</span>
+kubectl rollout undo deployment/mon-app</pre>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- 04 · Quiz -->
+<div class="panel">
+  <div class="panel-header">
+    <span class="panel-header-icon">🎯</span>
+    <span class="panel-title">04 · quiz de validation</span>
+  </div>
+  <div class="content-body">
+    <div class="quiz-block">
+      <div class="quiz-label">// question · module 05</div>
+      <div class="quiz-question">
+        Tu définis <code style="color:var(--skipped);font-family:var(--font)">replicas: 3</code> dans un Deployment.
+        Un pod crash. Que se passe-t-il ?
+      </div>
+      <div class="quiz-options">
+        <button class="quiz-option" data-correct="false"
+          data-feedback="Non — Kubernetes ne notifie pas automatiquement. Il détecte le crash et recrée un pod pour maintenir l'état désiré (3 replicas).">
+          A. Kubernetes envoie une alerte mais ne fait rien
+        </button>
+        <button class="quiz-option" data-correct="true"
+          data-feedback="✓ Correct ! Le controller manager détecte que l'état actuel (2 pods) ≠ état désiré (3 pods). Il crée automatiquement un nouveau pod. C'est le self-healing.">
+          B. Kubernetes recrée automatiquement un pod pour maintenir 3 replicas
+        </button>
+        <button class="quiz-option" data-correct="false"
+          data-feedback="Non — Kubernetes gère automatiquement les replicas. Tu n'as pas besoin de relancer kubectl apply. C'est l'intérêt du state reconciliation.">
+          C. Il faut relancer kubectl apply pour recréer le pod
+        </button>
+        <button class="quiz-option" data-correct="false"
+          data-feedback="Non — Kubernetes tente de redémarrer le pod. Si échec répété, il reste en CrashLoopBackOff mais K8s maintient toujours le nombre de replicas.">
+          D. Le Deployment entier est supprimé
+        </button>
+      </div>
+      <div class="quiz-feedback"></div>
+    </div>
+  </div>
+</div>
+
+<!-- 05 · Entretien -->
+<div class="panel">
+  <div class="panel-header">
+    <span class="panel-header-icon">💼</span>
+    <span class="panel-title">05 · ce qu'il faut dire en entretien</span>
+    <span class="panel-badge amber">recruteur</span>
+  </div>
+  <div class="content-body">
+    <div class="entretien-box">
+      <div class="entretien-label">// questions fréquentes · réponses attendues</div>
+      <div class="entretien-item">
+        <span class="entretien-arrow">▸</span>
+        <span><strong style="color:var(--text)">"Quelle différence entre un Pod et un Deployment ?"</strong><br>
+        "Un Pod est l'unité d'exécution — un ou plusieurs conteneurs. Un Deployment gère plusieurs Pods identiques (replicas) et garantit leur état désiré avec self-healing et rolling updates."</span>
+      </div>
+      <div class="entretien-item">
+        <span class="entretien-arrow">▸</span>
+        <span><strong style="color:var(--text)">"C'est quoi un Service dans Kubernetes ?"</strong><br>
+        "C'est un point d'accès stable (IP fixe) pour un ensemble de Pods. Les Pods peuvent mourir et être recréés avec de nouvelles IPs, le Service lui reste constant et load balance entre eux."</span>
+      </div>
+      <div class="entretien-item">
+        <span class="entretien-arrow">▸</span>
+        <span><strong style="color:var(--text)">"Comment Kubernetes fait du self-healing ?"</strong><br>
+        "Le controller manager surveille en permanence l'état actuel vs l'état désiré. Si un Pod crash, il en recrée un automatiquement pour maintenir le nombre de replicas défini."</span>
+      </div>
+    </div>
+    <div class="mark-done-row">
+      <button class="btn-mark" id="btn-mark-4">✓ Marquer comme vu</button>
+    </div>
+  </div>
+</div>

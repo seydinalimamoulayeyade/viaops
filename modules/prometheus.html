@@ -1,0 +1,228 @@
+<!-- ============================================================
+     ViaOps · Module 07 · Prometheus / Grafana
+     Fragment HTML — chargé via fetch() dans index.html
+     ============================================================ -->
+
+<!-- 01 · Le problème -->
+<div class="panel">
+  <div class="panel-header">
+    <span class="panel-header-icon">📊</span>
+    <span class="panel-title">01 · le problème</span>
+    <span class="panel-badge cyan">monitor</span>
+  </div>
+  <div class="content-body">
+    <div class="content-section">
+      <div class="section-num">// avant prometheus & grafana</div>
+      <div class="section-text">
+        Ton app est en prod. Utilisateurs se plaignent de lenteur. CPU à 90% ? Mémoire leak ?
+        Tu ne sais pas. Tu découvres les problèmes quand les utilisateurs râlent.
+        <strong>Prometheus collecte les métriques en temps réel. Grafana les affiche. Tu vois les problèmes avant les utilisateurs.</strong>
+      </div>
+      <div class="analogy">
+        <div class="analogy-label">💡 Analogie</div>
+        <div class="analogy-text">
+          Prometheus = capteurs médicaux (température, rythme cardiaque, pression).
+          Grafana = le moniteur à l'hôpital qui affiche les courbes en temps réel.
+          Si le cœur ralentit, l'alerte se déclenche avant l'arrêt cardiaque.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 02 · Concepts clés -->
+<div class="panel">
+  <div class="panel-header">
+    <span class="panel-header-icon">🧠</span>
+    <span class="panel-title">02 · concepts clés</span>
+  </div>
+  <div class="content-body">
+    <div class="content-section">
+      <div class="section-num">// concepts prometheus</div>
+      <table class="kv-table">
+        <thead>
+          <tr><th>Concept</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Métrique</td><td>Donnée numérique horodatée : CPU, RAM, nombre de requêtes HTTP, latence.</td></tr>
+          <tr><td>Scraping</td><td>Prometheus interroge (pull) les services toutes les X secondes via HTTP /metrics.</td></tr>
+          <tr><td>Time Series</td><td>Séquence de valeurs dans le temps. Ex: cpu_usage{instance="api"} = [45, 47, 52, 89...].</td></tr>
+          <tr><td>PromQL</td><td>Langage de requête pour interroger les métriques. Ex: rate(http_requests[5m]).</td></tr>
+          <tr><td>Exporter</td><td>Service qui expose des métriques au format Prometheus (/metrics endpoint).</td></tr>
+          <tr><td>Alertmanager</td><td>Gère les alertes : déduplique, route, envoie vers Slack, email, PagerDuty.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <div class="content-section">
+      <div class="section-num">// types de métriques</div>
+      <ul class="checklist">
+        <li><span class="check-arrow">▸</span><span><strong>Counter :</strong> compteur qui ne fait qu'augmenter (nombre de requêtes, erreurs).</span></li>
+        <li><span class="check-arrow">▸</span><span><strong>Gauge :</strong> valeur qui monte et descend (CPU, RAM, température).</span></li>
+        <li><span class="check-arrow">▸</span><span><strong>Histogram :</strong> distribution de valeurs (latence p50, p95, p99).</span></li>
+        <li><span class="check-arrow">▸</span><span><strong>Summary :</strong> comme histogram mais avec calcul côté client.</span></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- 03 · Commandes de référence -->
+<div class="panel">
+  <div class="panel-header">
+    <span class="panel-header-icon">⌨️</span>
+    <span class="panel-title">03 · commandes de référence</span>
+  </div>
+  <div class="content-body">
+
+    <div class="content-section">
+      <div class="section-num">// prometheus.yml — configuration</div>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-lang">yaml</span>
+          <span>prometheus config</span>
+        </div>
+        <pre>
+<span class="c-keyword">global:</span>
+  <span class="c-keyword">scrape_interval:</span> <span class="c-value">15s</span>  <span class="c-comment"># Scraper toutes les 15s</span>
+
+<span class="c-keyword">scrape_configs:</span>
+  - <span class="c-keyword">job_name:</span> <span class="c-string">'node-exporter'</span>
+    <span class="c-keyword">static_configs:</span>
+      - <span class="c-keyword">targets:</span> [<span class="c-string">'localhost:9100'</span>]
+
+  - <span class="c-keyword">job_name:</span> <span class="c-string">'api'</span>
+    <span class="c-keyword">static_configs:</span>
+      - <span class="c-keyword">targets:</span> [<span class="c-string">'api:3000'</span>]
+    <span class="c-keyword">metrics_path:</span> <span class="c-string">'/metrics'</span>
+
+<span class="c-keyword">alerting:</span>
+  <span class="c-keyword">alertmanagers:</span>
+    - <span class="c-keyword">static_configs:</span>
+        - <span class="c-keyword">targets:</span> [<span class="c-string">'alertmanager:9093'</span>]</pre>
+      </div>
+    </div>
+
+    <div class="content-section">
+      <div class="section-num">// docker compose — prometheus + grafana</div>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-lang">yaml</span>
+          <span>docker-compose.yml</span>
+        </div>
+        <pre>
+<span class="c-keyword">services:</span>
+  <span class="c-keyword">prometheus:</span>
+    image: <span class="c-string">prom/prometheus:latest</span>
+    ports: [<span class="c-string">"9090:9090"</span>]
+    volumes:
+      - <span class="c-value">./prometheus.yml:/etc/prometheus/prometheus.yml</span>
+
+  <span class="c-keyword">grafana:</span>
+    image: <span class="c-string">grafana/grafana:latest</span>
+    ports: [<span class="c-string">"3000:3000"</span>]
+    environment:
+      - <span class="c-value">GF_SECURITY_ADMIN_PASSWORD=admin</span>
+    volumes:
+      - <span class="c-value">grafana_data:/var/lib/grafana</span>
+
+<span class="c-keyword">volumes:</span>
+  grafana_data:</pre>
+      </div>
+    </div>
+
+    <div class="content-section">
+      <div class="section-num">// promql — requêtes essentielles</div>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-lang">promql</span>
+          <span>requêtes de base</span>
+        </div>
+        <pre>
+<span class="c-comment"># CPU usage moyen</span>
+<span class="c-keyword">avg</span>(rate(cpu_usage[5m]))
+
+<span class="c-comment"># Nombre de requêtes HTTP par seconde</span>
+<span class="c-keyword">rate</span>(http_requests_total[1m])
+
+<span class="c-comment"># Latence p95 (95e percentile)</span>
+<span class="c-keyword">histogram_quantile</span>(<span class="c-value">0.95</span>, http_request_duration_seconds)
+
+<span class="c-comment"># Taux d'erreur 5xx</span>
+<span class="c-keyword">sum</span>(rate(http_requests_total{status=~<span class="c-string">"5.."</span>}[5m]))
+
+<span class="c-comment"># Mémoire disponible par instance</span>
+node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * <span class="c-value">100</span></pre>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- 04 · Quiz -->
+<div class="panel">
+  <div class="panel-header">
+    <span class="panel-header-icon">🎯</span>
+    <span class="panel-title">04 · quiz de validation</span>
+  </div>
+  <div class="content-body">
+    <div class="quiz-block">
+      <div class="quiz-label">// question · module 07</div>
+      <div class="quiz-question">
+        Prometheus utilise un modèle "pull". Qu'est-ce que cela signifie ?
+      </div>
+      <div class="quiz-options">
+        <button class="quiz-option" data-correct="false"
+          data-feedback="Non — c'est l'inverse. Les services n'envoient rien. Prometheus interroge activement les services toutes les X secondes.">
+          A. Les services envoient leurs métriques à Prometheus automatiquement
+        </button>
+        <button class="quiz-option" data-correct="true"
+          data-feedback="✓ Correct ! Prometheus scrape (interroge) les endpoints /metrics de chaque service à intervalles réguliers (défini dans scrape_interval). C'est le modèle pull, contrairement à un modèle push où les services enverraient les métriques.">
+          B. Prometheus interroge régulièrement les services via HTTP pour récupérer les métriques
+        </button>
+        <button class="quiz-option" data-correct="false"
+          data-feedback="Non — Prometheus collecte les métriques en temps réel via scraping HTTP, pas en lisant des fichiers logs.">
+          C. Prometheus lit les fichiers logs pour extraire les métriques
+        </button>
+        <button class="quiz-option" data-correct="false"
+          data-feedback="Non — Grafana est uniquement une interface de visualisation. Prometheus est responsable de la collecte des métriques.">
+          D. Grafana collecte les métriques et les transmet à Prometheus
+        </button>
+      </div>
+      <div class="quiz-feedback"></div>
+    </div>
+  </div>
+</div>
+
+<!-- 05 · Entretien -->
+<div class="panel">
+  <div class="panel-header">
+    <span class="panel-header-icon">💼</span>
+    <span class="panel-title">05 · ce qu'il faut dire en entretien</span>
+    <span class="panel-badge amber">recruteur</span>
+  </div>
+  <div class="content-body">
+    <div class="entretien-box">
+      <div class="entretien-label">// questions fréquentes · réponses attendues</div>
+      <div class="entretien-item">
+        <span class="entretien-arrow">▸</span>
+        <span><strong style="color:var(--text)">"Quelle différence entre Prometheus et Grafana ?"</strong><br>
+        "Prometheus collecte et stocke les métriques en time series. Grafana se connecte à Prometheus et affiche les dashboards avec des graphiques. Prometheus = backend, Grafana = frontend."</span>
+      </div>
+      <div class="entretien-item">
+        <span class="entretien-arrow">▸</span>
+        <span><strong style="color:var(--text)">"C'est quoi un Exporter ?"</strong><br>
+        "Un service qui expose des métriques au format Prometheus via un endpoint HTTP /metrics. Exemple : node_exporter pour les métriques système (CPU, RAM, disque)."</span>
+      </div>
+      <div class="entretien-item">
+        <span class="entretien-arrow">▸</span>
+        <span><strong style="color:var(--text)">"Comment configurer une alerte dans Prometheus ?"</strong><br>
+        "On écrit des règles d'alerte en PromQL dans un fichier de config. Si la condition est remplie, Prometheus envoie l'alerte à Alertmanager qui la route vers Slack, email ou PagerDuty."</span>
+      </div>
+    </div>
+    <div class="mark-done-row">
+      <button class="btn-mark" id="btn-mark-6">✓ Marquer comme vu</button>
+    </div>
+  </div>
+</div>

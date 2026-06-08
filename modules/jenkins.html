@@ -1,0 +1,229 @@
+<!-- ============================================================
+     ViaOps · Module 03 · Jenkins
+     Fragment HTML — chargé via fetch() dans index.html
+     ============================================================ -->
+
+<!-- 01 · Le problème -->
+<div class="panel">
+  <div class="panel-header">
+    <span class="panel-header-icon">🔧</span>
+    <span class="panel-title">01 · le problème</span>
+    <span class="panel-badge cyan">ci/cd</span>
+  </div>
+  <div class="content-body">
+    <div class="content-section">
+      <div class="section-num">// avant jenkins</div>
+      <div class="section-text">
+        Chaque commit nécessitait des étapes manuelles : build local, tests à la main, déploiement SSH.
+        Résultat : oublis fréquents, tests sautés, bugs en production, équipes bottleneck.
+        <strong>Jenkins automatise toute la chaîne — chaque commit déclenche build, test et déploiement automatiquement.</strong>
+      </div>
+      <div class="analogy">
+        <div class="analogy-label">💡 Analogie</div>
+        <div class="analogy-text">
+          Jenkins est comme une chaîne de production automobile. Chaque pièce (commit) passe par les mêmes étapes
+          dans le même ordre — inspection (tests), assemblage (build), validation (deploy staging).
+          Zéro improvisation, zéro oubli.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 02 · Concepts clés -->
+<div class="panel">
+  <div class="panel-header">
+    <span class="panel-header-icon">🧠</span>
+    <span class="panel-title">02 · concepts clés</span>
+  </div>
+  <div class="content-body">
+    <div class="content-section">
+      <div class="section-num">// concepts jenkins</div>
+      <table class="kv-table">
+        <thead>
+          <tr><th>Concept</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Pipeline</td><td>Fichier Jenkinsfile versioned avec le code. Définit toutes les étapes (stages) du CI/CD.</td></tr>
+          <tr><td>Stage</td><td>Étape logique : Build, Test, Deploy. Chaque stage contient plusieurs steps.</td></tr>
+          <tr><td>Agent</td><td>Machine (node) où Jenkins exécute le pipeline. Peut être Docker, VM, ou Kubernetes pod.</td></tr>
+          <tr><td>Declarative vs Scripted</td><td>Declarative = syntaxe simple, structurée. Scripted = Groovy pur, plus flexible mais complexe.</td></tr>
+          <tr><td>Webhook</td><td>Git déclenche automatiquement Jenkins à chaque push via un webhook HTTP.</td></tr>
+          <tr><td>Artifact</td><td>Fichier produit par le build (JAR, image Docker) stocké pour déploiement ultérieur.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <div class="content-section">
+      <div class="section-num">// types de pipelines</div>
+      <ul class="checklist">
+        <li><span class="check-arrow">▸</span><span><strong>Freestyle :</strong> interface graphique cliquable, limité, legacy.</span></li>
+        <li><span class="check-arrow">▸</span><span><strong>Declarative Pipeline :</strong> Jenkinsfile moderne, syntaxe claire, recommandé.</span></li>
+        <li><span class="check-arrow">▸</span><span><strong>Multibranch :</strong> détecte automatiquement les branches avec Jenkinsfile et build chacune.</span></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- 03 · Commandes de référence -->
+<div class="panel">
+  <div class="panel-header">
+    <span class="panel-header-icon">⌨️</span>
+    <span class="panel-title">03 · commandes de référence</span>
+  </div>
+  <div class="content-body">
+
+    <div class="content-section">
+      <div class="section-num">// jenkinsfile — declarative pipeline</div>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-lang">Jenkinsfile</span>
+          <span>pipeline déclaratif · node.js</span>
+        </div>
+        <pre>
+<span class="c-keyword">pipeline</span> {
+  <span class="c-keyword">agent</span> {
+    <span class="c-keyword">docker</span> { image <span class="c-string">'node:20-alpine'</span> }
+  }
+
+  <span class="c-keyword">environment</span> {
+    <span class="c-value">CI</span> = <span class="c-string">'true'</span>
+  }
+
+  <span class="c-keyword">stages</span> {
+    <span class="c-keyword">stage</span>(<span class="c-string">'Install'</span>) {
+      <span class="c-keyword">steps</span> {
+        sh <span class="c-string">'npm ci'</span>
+      }
+    }
+
+    <span class="c-keyword">stage</span>(<span class="c-string">'Test'</span>) {
+      <span class="c-keyword">steps</span> {
+        sh <span class="c-string">'npm run test'</span>
+      }
+    }
+
+    <span class="c-keyword">stage</span>(<span class="c-string">'Build'</span>) {
+      <span class="c-keyword">steps</span> {
+        sh <span class="c-string">'npm run build'</span>
+        <span class="c-keyword">archiveArtifacts</span> artifacts: <span class="c-string">'dist/**'</span>
+      }
+    }
+
+    <span class="c-keyword">stage</span>(<span class="c-string">'Deploy'</span>) {
+      <span class="c-keyword">when</span> { branch <span class="c-string">'main'</span> }
+      <span class="c-keyword">steps</span> {
+        sh <span class="c-string">'./deploy.sh production'</span>
+      }
+    }
+  }
+
+  <span class="c-keyword">post</span> {
+    <span class="c-keyword">always</span> {
+      <span class="c-keyword">junit</span> <span class="c-string">'test-results/*.xml'</span>
+    }
+    <span class="c-keyword">failure</span> {
+      <span class="c-keyword">mail</span> to: <span class="c-string">'team@company.com'</span>,
+           subject: <span class="c-string">"Pipeline Failed: ${env.JOB_NAME}"</span>
+    }
+  }
+}</pre>
+      </div>
+    </div>
+
+    <div class="content-section">
+      <div class="section-num">// commandes jenkins cli</div>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-lang">bash</span>
+          <span>jenkins cli</span>
+        </div>
+        <pre>
+<span class="c-comment"># Installer Jenkins avec Docker</span>
+docker run <span class="c-flag">-d -p</span> <span class="c-value">8080:8080 -p 50000:50000</span> \
+  <span class="c-flag">-v</span> jenkins_home:/var/jenkins_home \
+  <span class="c-flag">--name</span> jenkins jenkins/jenkins:lts
+
+<span class="c-comment"># Récupérer le mot de passe initial</span>
+docker exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword
+
+<span class="c-comment"># Déclencher un build via CLI</span>
+java <span class="c-flag">-jar</span> jenkins-cli.jar <span class="c-flag">-s</span> http://localhost:8080/ build <span class="c-value">mon-projet</span>
+
+<span class="c-comment"># Créer un job depuis un fichier XML</span>
+java <span class="c-flag">-jar</span> jenkins-cli.jar create-job <span class="c-value">my-job</span> <span class="c-flag">&lt;</span> job-config.xml</pre>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- 04 · Quiz -->
+<div class="panel">
+  <div class="panel-header">
+    <span class="panel-header-icon">🎯</span>
+    <span class="panel-title">04 · quiz de validation</span>
+  </div>
+  <div class="content-body">
+    <div class="quiz-block">
+      <div class="quiz-label">// question · module 03</div>
+      <div class="quiz-question">
+        Dans un Jenkinsfile déclaratif, tu utilises <code style="color:var(--skipped);font-family:var(--font)">when { branch 'main' }</code>.
+        Que se passe-t-il ?
+      </div>
+      <div class="quiz-options">
+        <button class="quiz-option" data-correct="false"
+          data-feedback="Non — 'when' est une condition. Le stage s'exécute uniquement si la condition est vraie.">
+          A. Le stage s'exécute pour toutes les branches
+        </button>
+        <button class="quiz-option" data-correct="true"
+          data-feedback="✓ Correct ! La directive 'when { branch 'main' }' limite l'exécution du stage uniquement aux commits sur la branche main. Idéal pour le déploiement production.">
+          B. Le stage s'exécute uniquement pour les commits sur la branche main
+        </button>
+        <button class="quiz-option" data-correct="false"
+          data-feedback="Non — 'when' filtre l'exécution du stage, mais les autres stages continuent normalement.">
+          C. Tout le pipeline est annulé si on n'est pas sur main
+        </button>
+        <button class="quiz-option" data-correct="false"
+          data-feedback="Non — 'when' est une directive conditionnelle Jenkins. Elle ne vérifie pas l'existence d'une branche mais évalue si on est dessus.">
+          D. Jenkins vérifie si la branche main existe dans le repo
+        </button>
+      </div>
+      <div class="quiz-feedback"></div>
+    </div>
+  </div>
+</div>
+
+<!-- 05 · Entretien -->
+<div class="panel">
+  <div class="panel-header">
+    <span class="panel-header-icon">💼</span>
+    <span class="panel-title">05 · ce qu'il faut dire en entretien</span>
+    <span class="panel-badge amber">recruteur</span>
+  </div>
+  <div class="content-body">
+    <div class="entretien-box">
+      <div class="entretien-label">// questions fréquentes · réponses attendues</div>
+      <div class="entretien-item">
+        <span class="entretien-arrow">▸</span>
+        <span><strong style="color:var(--text)">"Pourquoi utiliser un Jenkinsfile plutôt qu'une config graphique ?"</strong><br>
+        "Le Jenkinsfile est versionné avec le code — chaque branche a son propre pipeline. C'est auditable, reproductible et collaboratif via Git."</span>
+      </div>
+      <div class="entretien-item">
+        <span class="entretien-arrow">▸</span>
+        <span><strong style="color:var(--text)">"Différence entre agent any et agent docker ?"</strong><br>
+        "agent any utilise n'importe quel agent disponible. agent docker lance un conteneur éphémère avec l'image spécifiée — isolation garantie, environnement reproductible."</span>
+      </div>
+      <div class="entretien-item">
+        <span class="entretien-arrow">▸</span>
+        <span><strong style="color:var(--text)">"Comment gérer les secrets dans Jenkins ?"</strong><br>
+        "Avec Jenkins Credentials. On stocke les secrets (tokens, passwords) dans Jenkins et on y accède via withCredentials() dans le pipeline — jamais en clair dans le code."</span>
+      </div>
+    </div>
+    <div class="mark-done-row">
+      <button class="btn-mark" id="btn-mark-2">✓ Marquer comme vu</button>
+    </div>
+  </div>
+</div>
