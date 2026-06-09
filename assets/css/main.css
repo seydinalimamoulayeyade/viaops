@@ -99,11 +99,26 @@ body {
 }
 
 /* ── VIEWS ──────────────────────────────────────────────────── */
-.view         { display: none; padding-top: 56px; }
+.view {
+  display: none;
+  padding-top: 56px;
+  animation: fadeInView 0.4s ease both;
+}
 .view.active  { display: block; }
 
 #view-module        { display: none; padding-top: 56px; }
 #view-module.active { display: flex; flex-direction: column; }
+
+@keyframes fadeInView {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
 /* ── DASHBOARD GRID ─────────────────────────────────────────── */
 .dashboard {
@@ -168,6 +183,19 @@ body {
 .delay-2          { animation-delay: 0.2s; }
 .delay-3          { animation-delay: 0.3s; }
 .delay-4          { animation-delay: 0.4s; }
+
+/* ── FOCUS STATES (Accessibility) ───────────────────────────── */
+*:focus-visible {
+  outline: 2px solid var(--violet);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--violet);
+  outline-offset: 3px;
+}
 
 /* ── SCROLLBAR ──────────────────────────────────────────────── */
 ::-webkit-scrollbar        { width: 8px; height: 8px; }

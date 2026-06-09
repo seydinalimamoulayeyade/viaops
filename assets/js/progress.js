@@ -42,6 +42,38 @@ const Progress = {
   percent() {
     return Math.round((this.count() / MODULES.length) * 100);
   },
+
+  // Export progress as JSON
+  export() {
+    const completed = this.get();
+    const data = {
+      version: '1.0',
+      timestamp: new Date().toISOString(),
+      totalModules: MODULES.length,
+      completedModules: completed.length,
+      completedIds: completed.map(idx => MODULES[idx].id),
+      percentComplete: this.percent(),
+      modules: MODULES.map((m, idx) => ({
+        id: m.id,
+        label: m.label,
+        completed: completed.includes(idx)
+      }))
+    };
+    return JSON.stringify(data, null, 2);
+  },
+
+  // Download progress as JSON file
+  download() {
+    const data = this.export();
+    const blob = new Blob([data], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    const date = new Date().toISOString().split('T')[0];
+    link.download = `viaops-progress-${date}.json`;
+    link.href = url;
+    link.click();
+    URL.revokeObjectURL(url);
+  }
 };
 
 /* Update all progress indicators across the UI */

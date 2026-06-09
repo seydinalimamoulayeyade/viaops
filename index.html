@@ -25,6 +25,8 @@
     <link rel="stylesheet" href="assets/css/modules.css" />
     <link rel="stylesheet" href="assets/css/shortcuts.css" />
     <link rel="stylesheet" href="assets/css/certificate.css" />
+    <link rel="stylesheet" href="assets/css/scroll-to-top.css" />
+    <link rel="stylesheet" href="assets/css/progress-menu.css" />
   </head>
   <body>
     <!-- ============================================================
@@ -341,6 +343,9 @@
     <script src="assets/js/shortcuts.js"></script>
     <script src="assets/js/theme.js"></script>
     <script src="assets/js/certificate.js"></script>
+    <script src="assets/js/scroll-to-top.js"></script>
+    <script src="assets/js/search.js"></script>
+    <script src="assets/js/progress-menu.js"></script>
 
     <!-- App init -->
     <script>
@@ -376,6 +381,17 @@
       updateAllProgress();
       ThemeManager.init();
       Shortcuts.init();
+      ScrollToTop.init();
+      ProgressMenu.init();
+      
+      // Module search will initialize when entering module view
+      Router.originalShow = Router.show;
+      Router.show = function(name) {
+        Router.originalShow.call(this, name);
+        if (name === 'module') {
+          setTimeout(() => ModuleSearch.init(), 100);
+        }
+      };
     </script>
   </body>
 </html>

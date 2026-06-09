@@ -2,7 +2,7 @@
 
 **Plateforme d'apprentissage DevOps** — 9 outils essentiels en 10 minutes chacun, structurés comme un vrai pipeline CI/CD.
 
-[![Version](https://img.shields.io/badge/version-1.0.0-violet.svg)](https://github.com/seydinalimamoulayeyade/viaops)
+[![Version](https://img.shields.io/badge/version-1.1.0-violet.svg)](https://github.com/seydinalimamoulayeyade/viaops)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Docker](https://img.shields.io/badge/docker-lims4%2Fviaops-blue.svg)](https://hub.docker.com/r/lims4/viaops)
 
@@ -66,11 +66,19 @@ docker run -p 8080:80 lims4/viaops:latest
 
 ## ✨ Fonctionnalités
 
+### Core
 - 🎨 **Design Paper Mode** — Mode sombre/clair avec toggle
 - ⌨️ **Raccourcis clavier** — `H`/`M`/`A`/`←`/`→`/`?`
 - 🏆 **Certificat PNG** — Auto-généré à 9/9 modules
 - 📱 **100% Responsive** — Mobile-first
 - 🚀 **0 dépendances** — Vanilla JS/CSS
+
+### Nouveautés v1.1.0
+- 🔝 **Scroll to Top** — Bouton flottant pour remonter rapidement
+- 🔍 **Recherche modules** — Filtre temps réel dans la sidebar
+- 📊 **Menu progression** — Export JSON, partage, réinitialisation
+- ♿ **Accessibilité** — Focus states WCAG 2.1 AA
+- ✨ **Transitions fluides** — Animations entre les vues
 
 ---
 
@@ -83,7 +91,15 @@ CI/CD       →  GitHub Actions
 Hosting     →  GitHub Pages
 ```
 
-**~3,500 lignes de code · 0 framework · 0 build step**
+**~4,200 lignes de code · 0 framework · 0 build step**
+
+---
+
+## 📖 Documentation
+
+- 📋 **[CHANGELOG.md](CHANGELOG.md)** — Détails des changements v1.1.0
+- 🧪 **[GUIDE_TEST.md](GUIDE_TEST.md)** — Guide de test complet
+- 📊 **[RESUME_AMELIORATIONS.md](RESUME_AMELIORATIONS.md)** — Résumé des améliorations
 
 ---
 

@@ -64,18 +64,18 @@ const Shortcuts = {
   navigatePrevModule() {
     const currentView = document.querySelector('.view.active');
     if (currentView && currentView.id === 'view-module') {
-      const currentModuleId = window.currentModuleId || 0;
-      const prevId = currentModuleId > 0 ? currentModuleId - 1 : MODULES.length - 1;
-      ModuleView.load(prevId);
+      if (State.currentModule > 0) {
+        ModuleView.render(State.currentModule - 1);
+      }
     }
   },
 
   navigateNextModule() {
     const currentView = document.querySelector('.view.active');
     if (currentView && currentView.id === 'view-module') {
-      const currentModuleId = window.currentModuleId || 0;
-      const nextId = currentModuleId < MODULES.length - 1 ? currentModuleId + 1 : 0;
-      ModuleView.load(nextId);
+      if (State.currentModule < MODULES.length - 1) {
+        ModuleView.render(State.currentModule + 1);
+      }
     }
   },
 

@@ -198,8 +198,9 @@ const ModuleView = {
     Pipeline.build();
     updateAllProgress();
 
+    // Trigger certificate check when all modules completed
     if (Progress.count() === MODULES.length) {
-      setTimeout(() => Router.show('recap'), 800);
+      setTimeout(() => Certificate.check(), 500);
     }
   },
 
