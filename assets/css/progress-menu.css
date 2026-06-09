@@ -1,0 +1,169 @@
+/* ============================================================
+   VIAOPS — progress-menu.css
+   Progress menu dropdown styles
+   ============================================================ */
+
+.progress-menu-btn {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text2);
+  line-height: 1;
+}
+
+.progress-menu-btn:hover,
+.progress-menu-btn.active {
+  background: var(--panel);
+  border-color: var(--violet);
+  color: var(--violet);
+}
+
+.progress-menu {
+  position: absolute;
+  top: 48px;
+  right: 0;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  min-width: 240px;
+  z-index: 300;
+  animation: menuSlideIn 0.2s ease;
+  overflow: hidden;
+}
+
+.progress-menu.closing {
+  animation: menuSlideOut 0.15s ease forwards;
+}
+
+@keyframes menuSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes menuSlideOut {
+  to {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+
+.progress-menu-header {
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--bg2);
+}
+
+.progress-menu-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  font-family: var(--font-sans);
+}
+
+.progress-menu-stat {
+  font-size: 12px;
+  color: var(--violet);
+  font-weight: 600;
+  font-family: var(--font);
+}
+
+.progress-menu-divider {
+  height: 1px;
+  background: var(--border);
+}
+
+.progress-menu-item {
+  width: 100%;
+  background: transparent;
+  border: none;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 14px;
+  color: var(--text2);
+  font-family: var(--font-sans);
+  text-align: left;
+}
+
+.progress-menu-item:hover {
+  background: var(--bg2);
+  color: var(--text);
+}
+
+.progress-menu-item.danger {
+  color: var(--muted);
+}
+
+.progress-menu-item.danger:hover {
+  background: rgba(239, 68, 68, 0.1);
+  color: #EF4444;
+}
+
+.menu-icon {
+  font-size: 16px;
+  flex-shrink: 0;
+  opacity: 0.8;
+}
+
+.progress-toast {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 14px;
+  color: var(--text);
+  font-family: var(--font-sans);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  z-index: 500;
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.progress-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .progress-menu {
+    right: -8px;
+    min-width: 220px;
+  }
+  
+  .progress-toast {
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    transform: translateY(20px);
+  }
+  
+  .progress-toast.show {
+    transform: translateY(0);
+  }
+}
