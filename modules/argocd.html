@@ -1,0 +1,209 @@
+<!-- ============================================================
+     ViaOps · Module 10 · ArgoCD (BONUS)
+     Fragment HTML — chargé via fetch() dans index.html
+     ============================================================ -->
+
+<!-- 01 · Le problème -->
+<div class="panel">
+  <div class="panel-header">
+    <span class="panel-header-icon">🔄</span>
+    <span class="panel-title">01 · le problème</span>
+    <span class="panel-badge violet">gitops</span>
+  </div>
+  <div class="content-body">
+    <div class="content-section">
+      <div class="section-num">// avant argocd</div>
+      <div class="section-text">
+        Jenkins build et teste ton code, Kubernetes peut l'exécuter, mais qui déploie vers K8s ?
+        Qui garantit que ton cluster reflète exactement le code Git ? Qui détecte les drifts de config ?
+        <strong>ArgoCD automatise le déploiement GitOps : ton repo Git est la source de vérité, ArgoCD synchronise K8s automatiquement.</strong>
+      </div>
+      <div class="analogy">
+        <div class="analogy-label">💡 Analogie</div>
+        <div class="analogy-text">
+          Git = le plan d'architecte. Kubernetes = le chantier. ArgoCD = le contremaître qui vérifie que
+          le chantier correspond au plan, répare les écarts automatiquement, et prévient si quelqu'un modifie sans permission.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 02 · Concepts clés -->
+<div class="panel">
+  <div class="panel-header">
+    <span class="panel-header-icon">🧠</span>
+    <span class="panel-title">02 · concepts clés</span>
+  </div>
+  <div class="content-body">
+    <div class="content-section">
+      <div class="section-num">// concepts argocd</div>
+      <table class="kv-table">
+        <thead>
+          <tr><th>Concept</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>GitOps</td><td>Philosophie : Git est la source unique de vérité. Tout changement passe par Git (pull request).</td></tr>
+          <tr><td>Application</td><td>Objet ArgoCD qui lie un repo Git à un namespace K8s. Définit quoi déployer et où.</td></tr>
+          <tr><td>Sync</td><td>ArgoCD compare Git vs K8s. Si différence détectée, il synchronise (manuel ou auto).</td></tr>
+          <tr><td>Drift Detection</td><td>Détection automatique si quelqu'un modifie K8s directement (kubectl apply). ArgoCD alerte ou rollback.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <div class="content-section">
+      <div class="section-num">// workflow gitops avec argocd</div>
+      <ul class="checklist">
+        <li><span class="check-arrow">▸</span><span><strong>Développeur :</strong> Push code → Jenkins CI build/test → Push image Docker.</span></li>
+        <li><span class="check-arrow">▸</span><span><strong>DevOps :</strong> Update deployment.yaml avec nouvelle image → Commit Git.</span></li>
+        <li><span class="check-arrow">▸</span><span><strong>ArgoCD :</strong> Détecte changement Git → Sync automatique vers K8s → Deploy.</span></li>
+        <li><span class="check-arrow">▸</span><span><strong>Monitoring :</strong> Prometheus surveille la nouvelle version. Si erreur → Rollback Git.</span></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- 03 · Commandes de référence -->
+<div class="panel">
+  <div class="panel-header">
+    <span class="panel-header-icon">⌨️</span>
+    <span class="panel-title">03 · commandes de référence</span>
+  </div>
+  <div class="content-body">
+
+    <div class="content-section">
+      <div class="section-num">// application.yaml — argocd app</div>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-lang">yaml</span>
+          <span>argocd application</span>
+        </div>
+        <pre>
+<span class="c-keyword">apiVersion:</span> argoproj.io/v1alpha1
+<span class="c-keyword">kind:</span> Application
+<span class="c-keyword">metadata:</span>
+  <span class="c-keyword">name:</span> mon-app
+  <span class="c-keyword">namespace:</span> argocd
+<span class="c-keyword">spec:</span>
+  <span class="c-keyword">project:</span> default
+  <span class="c-keyword">source:</span>
+    <span class="c-keyword">repoURL:</span> <span class="c-value">https://github.com/user/mon-app</span>
+    <span class="c-keyword">targetRevision:</span> <span class="c-value">HEAD</span>  <span class="c-comment"># Branche main</span>
+    <span class="c-keyword">path:</span> <span class="c-value">k8s</span>  <span class="c-comment"># Dossier contenant les manifests K8s</span>
+  <span class="c-keyword">destination:</span>
+    <span class="c-keyword">server:</span> <span class="c-value">https://kubernetes.default.svc</span>
+    <span class="c-keyword">namespace:</span> <span class="c-value">production</span>
+  <span class="c-keyword">syncPolicy:</span>
+    <span class="c-keyword">automated:</span>
+      <span class="c-keyword">prune:</span> <span class="c-value">true</span>  <span class="c-comment"># Supprimer ressources absentes de Git</span>
+      <span class="c-keyword">selfHeal:</span> <span class="c-value">true</span>  <span class="c-comment"># Rollback si drift détecté</span>
+    <span class="c-keyword">syncOptions:</span>
+    - <span class="c-string">CreateNamespace=true</span></pre>
+      </div>
+    </div>
+
+    <div class="content-section">
+      <div class="section-num">// commandes argocd cli</div>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-lang">bash</span>
+          <span>argocd cli</span>
+        </div>
+        <pre>
+<span class="c-comment"># Créer une application</span>
+argocd app create mon-app \
+  <span class="c-flag">--repo</span> https://github.com/user/mon-app \
+  <span class="c-flag">--path</span> k8s \
+  <span class="c-flag">--dest-server</span> https://kubernetes.default.svc \
+  <span class="c-flag">--dest-namespace</span> production
+
+<span class="c-comment"># Lister les applications</span>
+argocd app list
+
+<span class="c-comment"># Voir le statut de sync</span>
+argocd app get mon-app
+
+<span class="c-comment"># Synchroniser manuellement</span>
+argocd app sync mon-app
+
+<span class="c-comment"># Rollback à une version précédente</span>
+argocd app rollback mon-app <span class="c-value">2</span>
+
+<span class="c-comment"># Voir les différences Git vs K8s</span>
+argocd app diff mon-app</pre>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- 04 · Quiz -->
+<div class="panel">
+  <div class="panel-header">
+    <span class="panel-header-icon">🎯</span>
+    <span class="panel-title">04 · quiz de validation</span>
+  </div>
+  <div class="content-body">
+    <div class="quiz-block">
+      <div class="quiz-label">// question · module 10</div>
+      <div class="quiz-question">
+        Tu as activé <code style="color:var(--skipped);font-family:var(--font)">selfHeal: true</code> dans ArgoCD.
+        Un collègue fait <code style="color:var(--skipped);font-family:var(--font)">kubectl scale deployment mon-app --replicas=10</code>.
+        Que se passe-t-il ?
+      </div>
+      <div class="quiz-options">
+        <button class="quiz-option" data-correct="false"
+          data-feedback="Non — Le selfHeal d'ArgoCD détecte le drift (K8s ≠ Git) et restaure l'état défini dans Git, annulant la modification manuelle.">
+          A. Le deployment reste scalé à 10 replicas
+        </button>
+        <button class="quiz-option" data-correct="true"
+          data-feedback="✓ Correct ! ArgoCD détecte que l'état K8s ne correspond plus à Git. Avec selfHeal activé, il force une resynchronisation et restore le nombre de replicas défini dans Git. C'est le principe GitOps : Git = source de vérité.">
+          B. ArgoCD détecte le drift et restaure automatiquement l'état défini dans Git
+        </button>
+        <button class="quiz-option" data-correct="false"
+          data-feedback="Non — Avec selfHeal activé, ArgoCD ne se contente pas d'alerter : il corrige automatiquement le drift en resynchronisant depuis Git.">
+          C. ArgoCD envoie une alerte mais ne modifie rien
+        </button>
+        <button class="quiz-option" data-correct="false"
+          data-feedback="Non — ArgoCD ne modifie jamais Git automatiquement. Git est la source de vérité, ArgoCD synchronise K8s vers Git, jamais l'inverse.">
+          D. ArgoCD met à jour le fichier Git avec replicas: 10
+        </button>
+      </div>
+      <div class="quiz-feedback"></div>
+    </div>
+  </div>
+</div>
+
+<!-- 05 · Entretien -->
+<div class="panel">
+  <div class="panel-header">
+    <span class="panel-header-icon">💼</span>
+    <span class="panel-title">05 · ce qu'il faut dire en entretien</span>
+    <span class="panel-badge amber">recruteur</span>
+  </div>
+  <div class="content-body">
+    <div class="entretien-box">
+      <div class="entretien-label">// questions fréquentes · réponses attendues</div>
+      <div class="entretien-item">
+        <span class="entretien-arrow">▸</span>
+        <span><strong style="color:var(--text)">"C'est quoi GitOps ?"</strong><br>
+        "GitOps est une philosophie où Git devient la source unique de vérité pour l'infrastructure et les déploiements. Tout changement passe par Git (pull request), et un outil comme ArgoCD synchronise automatiquement l'état désiré vers Kubernetes."</span>
+      </div>
+      <div class="entretien-item">
+        <span class="entretien-arrow">▸</span>
+        <span><strong style="color:var(--text)">"Différence entre CI et CD dans votre pipeline ?"</strong><br>
+        "CI (Jenkins) build et teste le code à chaque commit. CD (ArgoCD) déploie automatiquement vers Kubernetes quand le manifest Git change. Jenkins produit l'artefact, ArgoCD le déploie via GitOps."</span>
+      </div>
+      <div class="entretien-item">
+        <span class="entretien-arrow">▸</span>
+        <span><strong style="color:var(--text)">"Pourquoi ArgoCD plutôt que kubectl apply dans Jenkins ?"</strong><br>
+        "ArgoCD offre drift detection, rollback automatique, audit trail Git, et un état toujours synchronisé. kubectl apply dans Jenkins est unidirectionnel et ne détecte pas les modifications manuelles post-déploiement."</span>
+      </div>
+    </div>
+    <div class="mark-done-row">
+      <button class="btn-mark" id="btn-mark-9">✓ Marquer comme vu</button>
+    </div>
+  </div>
+</div>

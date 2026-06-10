@@ -1,11 +1,38 @@
 # ViaOps — Changelog
 
-**Date :** 9 juin 2026  
-**Version :** v1.1.0 - Améliorations & Corrections
+**Dernière mise à jour :** 10 juin 2026  
+**Versions :** v1.2.0 | v1.1.0
 
 ---
 
-## 🐛 **Bugs corrigés**
+## 🚀 **v1.2.0** - 10 juin 2026
+
+### ✨ Nouveautés
+
+#### Module Bonus : ArgoCD (GitOps) 🌟
+- **Ajout d'un 10ème module optionnel** sur le déploiement continu GitOps
+- Concepts clés : GitOps, Application ArgoCD, Sync automatique, Drift Detection
+- Commandes ArgoCD CLI complètes avec exemples annotés
+- Configuration YAML d'application ArgoCD prête à l'emploi
+- Quiz de validation + questions d'entretien GitOps
+- Badge **"bonus"** pour le différencier des modules fondamentaux
+
+#### Certificat amélioré
+- Le certificat mentionne maintenant le module bonus s'il est complété
+- Badge **"GitOps Expert 🌟"** sur le certificat
+- Le module bonus ne compte pas dans les 9 modules requis
+
+### 🛠️ Technique
+- Propriété `bonus: true` dans `data.js` pour marquer les modules optionnels
+- Stage "GitOps" ajouté au pipeline visuel
+- Logique du certificat adaptée pour ne compter que les modules core
+- Icône 🔄 pour ArgoCD
+
+---
+
+## 🐛 **v1.1.0** - 9 juin 2026
+
+### Bugs corrigés
 
 ### Bug #1 - Navigation module avec flèches ✓
 **Fichier :** `assets/js/shortcuts.js`

@@ -50,6 +50,14 @@ docker run -p 8080:80 lims4/viaops:latest
 
 **Total : ~90 minutes** pour l'essentiel DevOps.
 
+### 🌟 Module Bonus
+
+| Module | Thème | Durée |
+|--------|-------|-------|
+| 10 · **ArgoCD** | GitOps & Continuous Deployment | 10 min |
+
+Découvrez le GitOps avec ArgoCD pour automatiser vos déploiements Kubernetes !
+
 ---
 
 ## 📚 Structure de chaque module

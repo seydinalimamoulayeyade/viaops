@@ -5,8 +5,11 @@
 
 const Certificate = {
   check() {
+    const coreModules = MODULES.filter(m => !m.bonus);
     const completed = Progress.getCompleted();
-    if (completed === MODULES.length) {
+    const coreCompleted = coreModules.filter((_, idx) => Progress.has(idx)).length;
+    
+    if (coreCompleted === coreModules.length) {
       this.showModal();
     }
   },
@@ -18,6 +21,9 @@ const Certificate = {
     }
     sessionStorage.setItem('viaops-cert-shown', 'true');
 
+    // Check if bonus module is completed
+    const hasBonus = Progress.has(9); // ArgoCD is index 9
+
     const modal = `
       <div class="cert-overlay" id="cert-modal">
         <div class="cert-modal">
@@ -28,6 +34,7 @@ const Certificate = {
           <div class="cert-body">
             <p class="cert-congrats">
               Vous avez terminé les <strong>9 modules ViaOps</strong> ! 🎉
+              ${hasBonus ? '<br><span style="color:var(--passed);font-weight:600;">+ Module bonus ArgoCD (GitOps) 🌟</span>' : ''}
             </p>
             <p class="cert-desc">
               Générez votre certificat de complétion personnalisé pour valoriser votre parcours DevOps.
@@ -105,6 +112,11 @@ const Certificate = {
       year: 'numeric'
     });
 
+    const hasBonus = Progress.has(9);
+    const bonusText = hasBonus 
+      ? `<text x="600" y="590" font-family="IBM Plex Sans" font-size="14" font-weight="600" fill="#10B981" text-anchor="middle">+ Module bonus : ArgoCD (GitOps) 🌟</text>` 
+      : '';
+
     return `
 <svg width="1200" height="800" xmlns="http://www.w3.org/2000/svg">
   <!-- Background -->
@@ -137,6 +149,9 @@ const Certificate = {
   <!-- Description -->
   <text x="600" y="540" font-family="IBM Plex Sans" font-size="16" fill="#777777" text-anchor="middle">9 modules · Docker, Kubernetes, Jenkins, Terraform,</text>
   <text x="600" y="565" font-family="IBM Plex Sans" font-size="16" fill="#777777" text-anchor="middle">SonarQube, Prometheus, Trivy, IA pour DevOps</text>
+  
+  <!-- Bonus badge if completed -->
+  ${bonusText}
   
   <!-- Date -->
   <text x="600" y="640" font-family="IBM Plex Sans" font-size="16" fill="#999999" text-anchor="middle">Délivré le ${date}</text>

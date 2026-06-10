@@ -76,6 +76,15 @@ const MODULES = [
     time:  '~10 min',
     stage: 'ai',
   },
+  {
+    id:    'argocd',
+    icon:  '🔄',
+    label: 'ArgoCD',
+    tag:   'GitOps · CD',
+    time:  '~10 min',
+    stage: 'gitops',
+    bonus: true,
+  },
 ];
 
 /* Pipeline stages — GitLab CI grouping */
@@ -87,4 +96,5 @@ const STAGES = [
   { label: 'Deploy',   jobs: [4, 5] },
   { label: 'Monitor',  jobs: [6] },
   { label: 'AI/Ops',   jobs: [8] },
+  { label: 'GitOps',   jobs: [9], bonus: true },
 ];
