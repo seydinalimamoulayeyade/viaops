@@ -59,7 +59,7 @@ const ModuleView = {
               <div class="mod-tags">
                 <span class="panel-badge cyan">⏱ ${m.time}</span>
                 <span class="panel-badge violet">${m.tag}</span>
-                <span class="panel-badge amber">fondamental</span>
+                <span class="panel-badge ${m.bonus ? 'green' : 'amber'}">${m.bonus ? 'bonus' : 'fondamental'}</span>
               </div>
             </div>
           </div>
@@ -198,8 +198,10 @@ const ModuleView = {
     Pipeline.build();
     updateAllProgress();
 
-    // Trigger certificate check when all modules completed
-    if (Progress.count() === MODULES.length) {
+    // Trigger certificate check when all CORE modules completed (exclude bonus)
+    const coreModules = MODULES.filter(m => !m.bonus);
+    const coreCompleted = coreModules.filter((_, idx) => Progress.has(idx));
+    if (coreCompleted.length === coreModules.length) {
       setTimeout(() => Certificate.check(), 500);
     }
   },
