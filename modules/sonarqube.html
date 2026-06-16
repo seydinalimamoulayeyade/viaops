@@ -111,7 +111,7 @@ docker run <span class="c-flag">-d --name</span> sonarqube \
 <span class="c-keyword">sonar.exclusions</span>=<span class="c-value">**/*.test.js,node_modules/**</span>
 <span class="c-keyword">sonar.javascript.lcov.reportPaths</span>=<span class="c-value">coverage/lcov.info</span>
 <span class="c-keyword">sonar.host.url</span>=<span class="c-value">http://localhost:9000</span>
-<span class="c-keyword">sonar.login</span>=<span class="c-value">YOUR_TOKEN</span>
+<span class="c-keyword">sonar.token</span>=<span class="c-value">YOUR_TOKEN</span>
 
 <span class="c-comment"># Lancer l'analyse</span>
 npm run test <span class="c-flag">--</span> <span class="c-flag">--coverage</span>  <span class="c-comment"># Générer le coverage</span>

@@ -4,6 +4,18 @@
 
 ---
 
+## 🔧 v1.3.1 — 16 juin 2026
+
+### Conformité technique des modules (doc officielle des outils)
+- **Terraform** : bloc `versioning` inline remplacé par la ressource
+  `aws_s3_bucket_versioning` (déprécié depuis le provider AWS v4+)
+- **Trivy** : `--security-checks` → `--scanners` (option renommée)
+- **SonarQube** : `sonar.login` → `sonar.token` (SonarQube 10+)
+- **Prometheus** : `histogram_quantile` appliqué sur
+  `rate(..._bucket[5m])` (forme correcte de PromQL)
+
+---
+
 ## 🎨 v1.3.0 — 16 juin 2026
 
 ### Refonte design complète — « Modern SaaS + Editorial »

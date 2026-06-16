@@ -93,7 +93,7 @@ trivy image <span class="c-flag">--severity</span> <span class="c-value">HIGH,CR
 trivy image <span class="c-flag">-f</span> json <span class="c-flag">-o</span> results.json mon-app:latest
 
 <span class="c-comment"># Scanner un dossier (code source + dépendances)</span>
-trivy fs <span class="c-flag">--security-checks</span> vuln,secret <span class="c-value">.</span>
+trivy fs <span class="c-flag">--scanners</span> vuln,secret <span class="c-value">.</span>
 
 <span class="c-comment"># Scanner un repo Git distant</span>
 trivy repo <span class="c-value">https://github.com/user/repo</span>

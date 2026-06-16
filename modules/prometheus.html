@@ -147,7 +147,7 @@
 <span class="c-keyword">rate</span>(http_requests_total[1m])
 
 <span class="c-comment"># Latence p95 (95e percentile)</span>
-<span class="c-keyword">histogram_quantile</span>(<span class="c-value">0.95</span>, http_request_duration_seconds)
+<span class="c-keyword">histogram_quantile</span>(<span class="c-value">0.95</span>, rate(http_request_duration_seconds_bucket[5m]))
 
 <span class="c-comment"># Taux d'erreur 5xx</span>
 <span class="c-keyword">sum</span>(rate(http_requests_total{status=~<span class="c-string">"5.."</span>}[5m]))
