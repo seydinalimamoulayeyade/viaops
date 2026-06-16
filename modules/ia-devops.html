@@ -149,20 +149,24 @@ build → test pytest → SonarQube → deploy sur K8s si branche main."</span><
 <span class="c-keyword">resource</span> <span class="c-string">"aws_s3_bucket"</span> <span class="c-string">"main"</span> {
   bucket = <span class="c-string">"my-secure-bucket"</span>
 
-  versioning {
-    enabled = <span class="c-value">true</span>
-  }
-
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = <span class="c-string">"AES256"</span>
-      }
-    }
-  }
-
   lifecycle {
     prevent_destroy = <span class="c-value">true</span>
+  }
+}
+
+<span class="c-keyword">resource</span> <span class="c-string">"aws_s3_bucket_versioning"</span> <span class="c-string">"main"</span> {
+  bucket = aws_s3_bucket.main.id
+  versioning_configuration {
+    status = <span class="c-string">"Enabled"</span>
+  }
+}
+
+<span class="c-keyword">resource</span> <span class="c-string">"aws_s3_bucket_server_side_encryption_configuration"</span> <span class="c-string">"main"</span> {
+  bucket = aws_s3_bucket.main.id
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = <span class="c-string">"AES256"</span>
+    }
   }
 }</pre>
       </div>

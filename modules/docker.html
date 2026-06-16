@@ -100,7 +100,7 @@
 <span class="c-keyword">WORKDIR</span> /app
 <span class="c-keyword">COPY</span> --from=builder /app/dist ./dist
 <span class="c-keyword">COPY</span> package*.json ./
-<span class="c-keyword">RUN</span> npm ci <span class="c-flag">--only=production</span>
+<span class="c-keyword">RUN</span> npm ci <span class="c-flag">--omit=dev</span>
 <span class="c-keyword">EXPOSE</span> 3000
 <span class="c-keyword">CMD</span> [<span class="c-string">"node"</span>, <span class="c-string">"dist/server.js"</span>]</pre>
       </div>
