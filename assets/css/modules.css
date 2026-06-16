@@ -6,8 +6,8 @@
 /* ── MODULE LAYOUT ──────────────────────────────────────────── */
 .module-layout {
   display: grid;
-  grid-template-columns: 260px 1fr;
-  min-height: calc(100vh - 56px);
+  grid-template-columns: 280px 1fr;
+  min-height: calc(100vh - 64px);
 }
 
 /* ── SIDEBAR ────────────────────────────────────────────────── */
@@ -17,8 +17,8 @@
   padding: 24px 0;
   overflow-y: auto;
   position: sticky;
-  top: 56px;
-  height: calc(100vh - 56px);
+  top: 64px;
+  height: calc(100vh - 64px);
   display: flex;
   flex-direction: column;
 }
@@ -196,9 +196,16 @@
 /* ── MODULE MAIN CONTENT ────────────────────────────────────── */
 .module-main {
   overflow-y: auto;
-  height: calc(100vh - 56px);
-  padding: 32px 40px;
+  height: calc(100vh - 64px);
+  padding: 40px 40px 64px;
   background: var(--bg);
+}
+
+/* Colonne de lecture confortable (esprit éditorial) */
+.module-main > .animate,
+.module-main > div {
+  max-width: 860px;
+  margin: 0 auto;
 }
 
 /* ── BREADCRUMBS ────────────────────────────────────────────── */
@@ -541,13 +548,13 @@
   font-family: var(--font);
 }
 
-/* Code syntax highlighting - monochrome with violet accent */
+/* Code syntax highlighting - palette premium */
 .c-comment  { color: var(--muted); font-style: italic; }
-.c-keyword  { color: var(--violet); font-weight: 500; }
-.c-string   { color: var(--text); }
-.c-value    { color: var(--text2); }
-.c-flag     { color: var(--violet); }
-.c-ok       { color: var(--violet); font-weight: 500; }
+.c-keyword  { color: var(--violet-2); font-weight: 600; }
+.c-string   { color: var(--emerald); }
+.c-value    { color: var(--amber); }
+.c-flag     { color: var(--cyan); }
+.c-ok       { color: var(--emerald); font-weight: 500; }
 
 /* ── QUIZ BLOCK ─────────────────────────────────────────────── */
 .quiz-block {
@@ -616,9 +623,9 @@
 }
 
 .quiz-option.correct {
-  background: var(--violet-dim);
-  border-color: var(--violet);
-  color: var(--violet);
+  background: var(--passed-dim);
+  border-color: var(--passed);
+  color: var(--passed);
   font-weight: 600;
 }
 
@@ -644,8 +651,8 @@
 }
 
 .quiz-feedback.ok {
-  background: var(--violet-dim);
-  border: 1px solid var(--violet);
+  background: var(--passed-dim);
+  border: 1px solid var(--passed);
   color: var(--text);
 }
 
