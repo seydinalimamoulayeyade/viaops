@@ -48,7 +48,7 @@ const Pipeline = {
     if (!wrap) return;
     wrap.innerHTML = '';
 
-    STAGES.forEach(stage => {
+    STAGES.forEach((stage, sIdx) => {
       const stageEl = document.createElement('div');
       stageEl.className = 'pipeline-stage';
 
@@ -63,6 +63,18 @@ const Pipeline = {
 
       stageEl.appendChild(jobs);
       wrap.appendChild(stageEl);
+
+      // Connecteur entre les stages (flux du pipeline)
+      if (sIdx < STAGES.length - 1) {
+        const conn = document.createElement('div');
+        conn.className = 'stage-connector';
+        // Coloré si tous les modules du stage sont complétés
+        if (stage.jobs.every(j => Progress.has(j))) {
+          conn.classList.add('done');
+        }
+        conn.innerHTML = '<span class="connector-line"></span><span class="connector-arrow">▸</span>';
+        wrap.appendChild(conn);
+      }
     });
   },
 };

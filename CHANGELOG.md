@@ -4,6 +4,19 @@
 
 ---
 
+## 🏠 v1.4.0 — 16 juin 2026
+
+### Refonte de la page d'accueil
+- **Hero mis en avant** : placé en tête de page, bordure violette + glow
+- **Barre d'alerte supprimée** : accueil plus épuré
+- **Pipeline connecté** : connecteurs `▸` entre stages qui se colorent
+  selon la progression ; cartes cliquables (badge « cliquable »)
+- Pipeline responsive : wrap sur desktop, empilement vertical sur mobile
+- Suppression de la section « structure de chaque module » (redondante avec
+  le pipeline déjà cliquable)
+
+---
+
 ## 🔧 v1.3.1 — 16 juin 2026
 
 ### Conformité technique des modules (doc officielle des outils)

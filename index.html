@@ -63,19 +63,9 @@
        VIEW — HOME
        ============================================================ -->
     <div id="view-home" class="view active">
-      <!-- Alert bar -->
-      <div class="alert-bar">
-        <div class="alert-dot"></div>
-        <span class="alert-text">
-          <strong>ViaOps</strong> · Plateforme d'apprentissage DevOps —
-          10 modules disponibles (9 fondamentaux + 1 bonus GitOps)
-        </span>
-        <span class="alert-version">v1.3.0</span>
-      </div>
-
       <div class="dashboard">
         <!-- Stat panels -->
-        <div class="row row-stats animate">
+        <div class="row row-stats animate delay-1">
           <div class="stat-panel violet">
             <div class="stat-label">outils couverts</div>
             <div class="stat-value">10</div>
@@ -99,7 +89,7 @@
         </div>
 
         <!-- Hero panel -->
-        <div class="panel hero-panel animate delay-1">
+        <div class="panel hero-panel animate">
           <div class="panel-header">
             <span class="panel-header-icon">♾️</span>
             <span class="panel-title">viaops · la voie devops</span>
@@ -175,56 +165,12 @@
           <div class="panel-header">
             <span class="panel-header-icon">⚙️</span>
             <span class="panel-title">pipeline devops · 10 stages</span>
+            <div class="panel-actions">
+              <span class="panel-badge violet">cliquable</span>
+            </div>
           </div>
           <div class="pipeline-wrap">
             <div class="pipeline-stages" id="pipeline-stages"></div>
-          </div>
-        </div>
-
-        <!-- Structure panel -->
-        <div class="panel animate delay-3">
-          <div class="panel-header">
-            <span class="panel-header-icon">📋</span>
-            <span class="panel-title">structure de chaque module</span>
-          </div>
-          <div class="panel-body">
-            <div class="structure-grid">
-              <div class="structure-card">
-                <div class="structure-num">01 · Problème</div>
-                <div class="structure-desc">
-                  Quelle douleur existait avant cet outil ? Pourquoi il est
-                  apparu.
-                </div>
-              </div>
-              <div class="structure-card">
-                <div class="structure-num">02 · Concepts clés</div>
-                <div class="structure-desc">
-                  3 à 5 notions fondamentales. Pas de blabla, que l'essentiel
-                  opérationnel.
-                </div>
-              </div>
-              <div class="structure-card">
-                <div class="structure-num">03 · Commande ref.</div>
-                <div class="structure-desc">
-                  La config ou commande centrale à connaître, annotée et
-                  expliquée.
-                </div>
-              </div>
-              <div class="structure-card">
-                <div class="structure-num">04 · Place pipeline</div>
-                <div class="structure-desc">
-                  Où cet outil s'insère dans la chaîne CI/CD et comment il
-                  s'articule.
-                </div>
-              </div>
-              <div class="structure-card">
-                <div class="structure-num">05 · Quiz & Entretien</div>
-                <div class="structure-desc">
-                  Valide tes acquis + ce que tu dois savoir dire face à un
-                  recruteur.
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -262,7 +208,7 @@
           <div class="panel-header">
             <span class="panel-header-icon">ℹ️</span>
             <span class="panel-title">à propos · viaops</span>
-            <span class="panel-badge violet">v1.3.0</span>
+            <span class="panel-badge violet">v1.4.0</span>
           </div>
           <div class="panel-body">
             <p class="about-text">
