@@ -39,6 +39,25 @@
   padding: 0 4px;
 }
 
+/* ── CONNECTEUR ENTRE STAGES (flux pipeline) ────────────────── */
+.stage-connector {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding-top: 48px;
+  color: var(--border2);
+  flex: 0 0 auto;
+  transition: color 0.3s;
+}
+.connector-line {
+  width: 14px;
+  height: 2px;
+  background: currentColor;
+  border-radius: 2px;
+}
+.connector-arrow { font-size: 12px; line-height: 1; }
+.stage-connector.done { color: var(--passed); }
+
 /* ── JOB CARD ───────────────────────────────────────────────── */
 .job {
   display: flex;
@@ -142,6 +161,11 @@
 }
 
 /* ── HERO PANEL LAYOUT ──────────────────────────────────────── */
+.hero-panel {
+  order: -1;                 /* Hero mis en avant : toujours en tête */
+  border-color: var(--violet-line);
+  box-shadow: var(--shadow), var(--shadow-glow);
+}
 .hero-panel .panel-body {
   padding: 56px 44px;
   display: flex;
@@ -227,4 +251,7 @@
     flex: 1 1 150px;
   }
   .job:hover { transform: none; }
+
+  /* Connecteurs masqués en empilement vertical */
+  .stage-connector { display: none; }
 }
