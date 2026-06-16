@@ -13,6 +13,9 @@ const ModuleSearch = {
     const sidebar = document.querySelector('.module-sidebar');
     if (!sidebar) return;
 
+    // Éviter les doublons : ne rien faire si la barre existe déjà
+    if (sidebar.querySelector('.module-search')) return;
+
     const searchHTML = `
       <div class="module-search">
         <input 

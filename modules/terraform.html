@@ -115,9 +115,13 @@
 
 <span class="c-keyword">resource</span> <span class="c-string">"aws_s3_bucket"</span> <span class="c-string">"assets"</span> {
   bucket = <span class="c-string">"viaops-assets-bucket"</span>
+}
 
-  versioning {
-    enabled = <span class="c-value">true</span>
+<span class="c-comment"># Versioning = ressource séparée (provider AWS v4+)</span>
+<span class="c-keyword">resource</span> <span class="c-string">"aws_s3_bucket_versioning"</span> <span class="c-string">"assets"</span> {
+  bucket = aws_s3_bucket.assets.id
+  <span class="c-keyword">versioning_configuration</span> {
+    status = <span class="c-string">"Enabled"</span>
   }
 }
 
