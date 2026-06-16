@@ -1,202 +1,179 @@
 /* ============================================================
    VIAOPS — navbar.css
-   Top navigation bar — Modern minimal style
+   Top navigation — glassmorphism léger, premium
    ============================================================ */
 
 .navbar {
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 200;
-  height: 56px;
-  background: var(--panel);
+  height: 64px;
+  background: color-mix(in srgb, var(--bg) 72%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border);
   display: flex;
   align-items: center;
   padding: 0 24px;
-  gap: 32px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  gap: 28px;
 }
 
 /* ── LOGO ───────────────────────────────────────────────────── */
 .nav-logo {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 11px;
   cursor: pointer;
   text-decoration: none;
   flex-shrink: 0;
 }
 
 .nav-logo-mark {
-  width: 32px; height: 32px;
-  background: var(--violet);
-  border-radius: 6px;
+  width: 34px; height: 34px;
+  background: var(--grad);
+  border-radius: 9px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 900;
   color: white;
+  box-shadow: var(--shadow-glow);
 }
 
 .nav-logo-text {
   font-size: 18px;
-  font-weight: 600;
+  font-weight: 800;
   color: var(--text);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
 }
-
-.nav-logo-text span { color: var(--violet); }
+.nav-logo-text span { color: var(--violet-2); }
 
 /* ── NAV ITEMS ──────────────────────────────────────────────── */
 .nav-items {
   display: flex;
   align-items: center;
   flex: 1;
-  gap: 8px;
+  gap: 4px;
 }
 
 .nav-item {
   font-size: 14px;
+  font-weight: 500;
   color: var(--text2);
-  padding: 8px 16px;
-  border-radius: 6px;
+  padding: 8px 14px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.18s;
   border: none;
   white-space: nowrap;
   user-select: none;
   font-family: var(--font-sans);
+  background: transparent;
 }
-
-.nav-item:hover {
-  color: var(--text);
-  background: var(--bg2);
-}
-
-.nav-item.active {
-  color: var(--violet);
-  background: var(--violet-dim);
-}
+.nav-item:hover { color: var(--text); background: var(--panel2); }
+.nav-item.active { color: var(--text); background: var(--panel2); }
 
 /* ── RIGHT SIDE ─────────────────────────────────────────────── */
 .nav-right {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 14px;
 }
 
 .nav-stat {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   font-size: 13px;
+  color: var(--text2);
+  padding: 7px 12px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
 }
-
 .nav-stat-label { color: var(--text2); }
-.nav-stat-value { color: var(--violet); font-weight: 600; font-size: 14px; }
+.nav-stat-value { color: var(--text); font-weight: 700; font-size: 13px; }
 
 .nav-progress-track {
-  width: 80px;
-  height: 4px;
-  background: var(--bg2);
-  border-radius: 4px;
+  width: 60px;
+  height: 5px;
+  background: var(--panel2);
+  border-radius: 999px;
   overflow: hidden;
 }
-
 .nav-progress-fill {
   height: 100%;
-  background: var(--violet);
+  background: var(--grad);
   transition: width 0.5s ease;
   width: 0%;
-  border-radius: 4px;
+  border-radius: 999px;
 }
 
 .btn-cta {
   font-family: var(--font-sans);
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   color: white;
-  background: var(--violet);
+  background: var(--grad);
   border: none;
-  padding: 8px 20px;
-  border-radius: 6px;
+  padding: 10px 20px;
+  border-radius: 10px;
   cursor: pointer;
-  letter-spacing: 0;
   transition: all 0.2s;
   white-space: nowrap;
-  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.2);
+  box-shadow: var(--shadow-glow);
 }
-
-.btn-cta:hover { 
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+.btn-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(139, 92, 246, 0.4);
 }
-
-/* ── RESPONSIVE ─────────────────────────────────────────────── */
-@media (max-width: 768px) {
-  .navbar { padding: 0 16px; gap: 16px; height: 48px; }
-  .nav-items .nav-item:not(.always) { display: none; }
-  .nav-stat-label,
-  .nav-progress-track               { display: none; }
-  .nav-logo-mark { width: 28px; height: 28px; font-size: 14px; }
-  .nav-logo-text { font-size: 16px; }
-}
-
 
 /* ── THEME TOGGLE ───────────────────────────────────────────── */
 .theme-toggle {
-  background: var(--bg2);
+  background: var(--panel);
   border: 1px solid var(--border);
-  border-radius: 6px;
-  width: 40px;
-  height: 40px;
+  border-radius: 9px;
+  width: 38px; height: 38px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.2s;
-  font-size: 18px;
+  font-size: 16px;
 }
-
 .theme-toggle:hover {
-  background: var(--panel);
   border-color: var(--violet);
-  transform: rotate(180deg);
+  transform: translateY(-1px);
 }
-
-.theme-icon {
-  display: block;
-  line-height: 1;
-}
-
+.theme-icon { display: block; line-height: 1; }
 
 /* ── HELP HINT ──────────────────────────────────────────────── */
 .nav-help-hint {
-  background: transparent;
+  background: var(--panel);
   border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 6px 10px;
+  border-radius: 9px;
+  width: 38px; height: 38px;
   cursor: pointer;
   transition: all 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-
-.nav-help-hint:hover {
-  background: var(--bg2);
-  border-color: var(--violet);
-  transform: scale(1.05);
-}
-
+.nav-help-hint:hover { border-color: var(--violet); transform: translateY(-1px); }
 .nav-help-hint kbd {
   font-family: var(--font);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   color: var(--text2);
 }
+.nav-help-hint:hover kbd { color: var(--violet-2); }
 
-.nav-help-hint:hover kbd {
-  color: var(--violet);
+/* ── RESPONSIVE ─────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .navbar { padding: 0 16px; gap: 14px; height: 56px; }
+  .nav-items .nav-item:not(.always) { display: none; }
+  .nav-stat-label,
+  .nav-progress-track               { display: none; }
+  .nav-logo-mark { width: 30px; height: 30px; font-size: 14px; }
+  .nav-logo-text { font-size: 16px; }
 }
