@@ -24,7 +24,7 @@ const ModuleView = {
         </div>
 
         <div class="status-bar ${isDone ? 'success' : 'info'}">
-          <span>⚙️</span>
+          <span class="status-bar-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg></span>
           <span>
             Module <strong>${String(idx + 1).padStart(2, '0')}</strong>
             · ${m.label}
@@ -40,7 +40,7 @@ const ModuleView = {
 
           <div class="panel mod-header-panel">
             <div class="panel-header">
-              <span class="panel-header-icon">${m.icon}</span>
+              <span class="panel-header-icon"><img src="assets/img/logos/${m.id}.svg" alt="${m.label}" /></span>
               <span class="panel-title">module · ${m.label.toLowerCase()}</span>
               <div class="panel-actions">
                 <span class="panel-badge violet">${m.tag}</span>
@@ -54,7 +54,8 @@ const ModuleView = {
                 // module ${String(idx + 1).padStart(2, '0')} of ${MODULES.length} · viaops pipeline
               </div>
               <h2 class="mod-title">
-                ${m.icon} <span class="accent">${m.label}</span>
+                <img class="mod-title-logo" src="assets/img/logos/${m.id}.svg" alt="${m.label}" />
+                <span class="accent">${m.label}</span>
               </h2>
               <div class="mod-tags">
                 <span class="panel-badge cyan">⏱ ${m.time}</span>
@@ -109,7 +110,8 @@ const ModuleView = {
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const html = await res.text();
       zone.innerHTML = html;
-      this.initQuiz();
+      ContentPolish.apply();
+      Quiz.mount(idx);
       this.initMarkDone(idx);
     } catch (e) {
       console.error(`[ViaOps] Impossible de charger modules/${m.id}.html`, e);
@@ -123,7 +125,7 @@ const ModuleView = {
     return `
       <div class="panel">
         <div class="panel-header">
-          <span class="panel-header-icon">📄</span>
+          <span class="panel-header-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/></svg></span>
           <span class="panel-title">contenu du module</span>
           <span class="panel-badge amber">à venir</span>
         </div>
@@ -151,7 +153,8 @@ const ModuleView = {
       ?.addEventListener('click', () => this.markDone(idx));
   },
 
-  initQuiz() {
+  // Fallback pour les modules dont le quiz n'est pas encore migré dans quiz-data.js
+  initLegacyQuiz() {
     document.querySelectorAll('.quiz-block').forEach(block => {
       block.querySelectorAll('.quiz-option').forEach(btn => {
         btn.addEventListener('click', () => {

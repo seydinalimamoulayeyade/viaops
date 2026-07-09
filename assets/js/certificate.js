@@ -28,13 +28,13 @@ const Certificate = {
       <div class="cert-overlay" id="cert-modal">
         <div class="cert-modal">
           <div class="cert-header">
-            <h3>🏆 Félicitations !</h3>
+            <h3><svg class="cert-trophy" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg> Félicitations !</h3>
             <button class="cert-close" onclick="Certificate.closeModal()">✕</button>
           </div>
           <div class="cert-body">
             <p class="cert-congrats">
-              Vous avez terminé les <strong>9 modules ViaOps</strong> ! 🎉
-              ${hasBonus ? '<br><span style="color:var(--passed);font-weight:600;">+ Module bonus ArgoCD (GitOps) 🌟</span>' : ''}
+              Vous avez terminé les <strong>9 modules ViaOps</strong> !
+              ${hasBonus ? '<br><span style="color:var(--passed);font-weight:600;">+ Module bonus ArgoCD (GitOps)</span>' : ''}
             </p>
             <p class="cert-desc">
               Générez votre certificat de complétion personnalisé pour valoriser votre parcours DevOps.
@@ -114,7 +114,7 @@ const Certificate = {
 
     const hasBonus = Progress.has(9);
     const bonusText = hasBonus 
-      ? `<text x="600" y="590" font-family="IBM Plex Sans" font-size="14" font-weight="600" fill="#10B981" text-anchor="middle">+ Module bonus : ArgoCD (GitOps) 🌟</text>` 
+      ? `<text x="600" y="590" font-family="IBM Plex Sans" font-size="14" font-weight="600" fill="#10B981" text-anchor="middle">+ Module bonus : ArgoCD (GitOps)</text>` 
       : '';
 
     return `

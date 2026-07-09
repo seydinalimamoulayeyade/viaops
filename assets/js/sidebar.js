@@ -30,7 +30,7 @@ const Sidebar = {
       el.className = `sidebar-item ${statusClass} ${isActive ? 'active' : ''}`;
       el.id        = `sb-${i}`;
       el.innerHTML = `
-        <span class="sidebar-icon">${m.icon}</span>
+        <span class="sidebar-icon"><img src="assets/img/logos/${m.id}.svg" alt="${m.label}" loading="lazy" /></span>
         <div class="sidebar-meta">
           <div class="sidebar-name">${m.label}</div>
           <div class="sidebar-time">${m.time} · ${m.tag}</div>
