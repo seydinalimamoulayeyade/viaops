@@ -399,7 +399,7 @@
   padding: 24px 28px;
   background: var(--panel);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: var(--radius);
 }
 
 .section-num {
@@ -592,7 +592,7 @@
 
 /* Code syntax highlighting - palette premium */
 .c-comment  { color: var(--muted); font-style: italic; }
-.c-keyword  { color: var(--violet-2); font-weight: 600; }
+.c-keyword  { color: var(--coral); font-weight: 600; }
 .c-string   { color: var(--emerald); }
 .c-value    { color: var(--amber); }
 .c-flag     { color: var(--cyan); }
@@ -602,7 +602,7 @@
 .quiz-block {
   background: var(--panel);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: var(--radius);
   padding: 32px;
   margin: 8px 0;
 }
