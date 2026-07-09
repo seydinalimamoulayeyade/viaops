@@ -44,6 +44,7 @@
       <div class="nav-items">
         <span class="nav-item always active" id="nav-home">Accueil</span>
         <span class="nav-item always" id="nav-module">Modules</span>
+        <span class="nav-item" id="nav-capstone">Projet</span>
         <span class="nav-item" id="nav-about">À propos</span>
       </div>
 
@@ -234,10 +235,18 @@
     </div>
 
     <!-- ============================================================
+       VIEW — CAPSTONE (projet fil rouge)
+       ============================================================ -->
+    <div id="view-capstone" class="view">
+      <div id="capstone-main"></div>
+    </div>
+
+    <!-- ============================================================
        SCRIPTS — order matters
        ============================================================ -->
     <script src="assets/js/data.js"></script>
     <script src="assets/js/quiz-data.js"></script>
+    <script src="assets/js/capstone-data.js"></script>
     <script src="assets/js/progress.js"></script>
     <script src="assets/js/router.js"></script>
     <script src="assets/js/pipeline.js"></script>
@@ -245,6 +254,7 @@
     <script src="assets/js/modules.js"></script>
     <script src="assets/js/content-polish.js"></script>
     <script src="assets/js/quiz.js"></script>
+    <script src="assets/js/capstone.js"></script>
     <script src="assets/js/shortcuts.js"></script>
     <script src="assets/js/theme.js"></script>
     <script src="assets/js/certificate.js"></script>
@@ -268,6 +278,9 @@
         .getElementById("nav-about")
         .addEventListener("click", () => Router.show("about"));
       document
+        .getElementById("nav-capstone")
+        .addEventListener("click", () => Router.show("capstone"));
+      document
         .getElementById("btn-navbar-start")
         .addEventListener("click", () => Router.show("module"));
       document
@@ -283,6 +296,7 @@
 
       // Boot
       Pipeline.build();
+      Capstone.render();
       updateAllProgress();
       ThemeManager.init();
       Shortcuts.init();

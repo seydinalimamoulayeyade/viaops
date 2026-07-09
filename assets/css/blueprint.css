@@ -214,3 +214,98 @@
   .bp-stat:nth-child(1),
   .bp-stat:nth-child(2) { border-bottom: 1px solid var(--border); }
 }
+
+/* ============================================================
+   CAPSTONE — parcours fil rouge « De zéro à la prod »
+   ============================================================ */
+
+.cap-hero { margin-bottom: 48px; }
+.cap-hero .bp-h1 { margin-bottom: 18px; }
+.cap-hero .bp-lead { margin-bottom: 22px; }
+.cap-hero code {
+  font-family: var(--font); font-size: 13px;
+  background: var(--bg2); color: var(--violet);
+  padding: 2px 7px; border-radius: 3px;
+}
+.cap-repo {
+  display: inline-flex; align-items: stretch;
+  border: 1px solid var(--border2); border-radius: var(--radius-sm);
+  overflow: hidden; text-decoration: none; font-family: var(--font); font-size: 12px;
+}
+.cap-repo-k { background: var(--violet); color: #0E1B2B; padding: 7px 12px; font-weight: 600; letter-spacing: 0.08em; }
+.cap-repo-v { padding: 7px 14px; color: var(--text2); background: var(--panel); }
+.cap-repo:hover .cap-repo-v { color: var(--text); }
+
+/* ── Flux horizontal ───────────────────────────────────────── */
+.cap-flow {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 12px;
+  padding: 26px 24px; margin-bottom: 52px;
+  border: 1px solid var(--border2); border-radius: var(--radius);
+  background: var(--panel); position: relative; overflow-x: auto;
+}
+.cap-flow-node {
+  width: 46px; height: 46px; flex-shrink: 0;
+  border: 1px solid var(--border2); border-radius: 5px; background: var(--bg2);
+  display: grid; place-items: center;
+}
+.cap-flow-node img { width: 24px; height: 24px; }
+.cap-arrow { color: var(--violet); font-family: var(--font); flex-shrink: 0; }
+
+/* ── Stations ──────────────────────────────────────────────── */
+.cap-steps { display: flex; flex-direction: column; gap: 18px; margin-bottom: 48px; }
+.cap-step {
+  display: grid; grid-template-columns: 64px 1fr; gap: 20px;
+  border: 1px solid var(--border); border-radius: var(--radius);
+  background: var(--panel); padding: 24px;
+  position: relative;
+}
+.cap-step-side { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.cap-step-ref {
+  font-family: var(--font-display); font-size: 22px; font-weight: 700;
+  color: var(--coral); line-height: 1;
+}
+.cap-step-logo {
+  width: 44px; height: 44px; border: 1px solid var(--border2); border-radius: 5px;
+  background: var(--bg2); display: grid; place-items: center;
+}
+.cap-step-logo img { width: 24px; height: 24px; }
+.cap-step-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.cap-step-head h3 {
+  font-family: var(--font-display); font-size: 19px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.02em; color: var(--text);
+}
+.cap-step-desc { font-size: 14px; color: var(--text2); line-height: 1.7; margin: 8px 0 14px; }
+.cap-step-link {
+  font-family: var(--font); font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em;
+  color: var(--violet); background: transparent; border: 1px solid var(--violet-line);
+  padding: 6px 12px; border-radius: 3px; cursor: pointer; transition: all 0.18s; white-space: nowrap;
+}
+.cap-step-link:hover { background: var(--violet-dim); }
+
+/* Blocs de code du capstone */
+.cap-code { border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; }
+.cap-code-head {
+  font-family: var(--font); font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--violet); background: var(--bg2); padding: 8px 14px; border-bottom: 1px solid var(--border);
+}
+.cap-code pre {
+  font-family: var(--font); font-size: 12.5px; line-height: 1.7; color: var(--text);
+  padding: 16px; overflow-x: auto; white-space: pre;
+}
+
+/* ── Transversal (IA/Ops) ──────────────────────────────────── */
+.cap-transversal {
+  display: flex; align-items: flex-start; gap: 18px;
+  border: 1px dashed var(--border2); border-radius: var(--radius);
+  background: var(--coral-dim); padding: 22px 24px;
+}
+.cap-transversal h3 {
+  font-family: var(--font-display); font-size: 16px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.02em; color: var(--text); margin-bottom: 6px;
+}
+.cap-transversal p { font-size: 14px; color: var(--text2); line-height: 1.7; margin-bottom: 12px; }
+
+@media (max-width: 640px) {
+  .cap-step { grid-template-columns: 1fr; }
+  .cap-step-side { flex-direction: row; justify-content: flex-start; }
+}
