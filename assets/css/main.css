@@ -4,81 +4,98 @@
    Style : "Modern SaaS + Editorial" — violet signature
    ============================================================ */
 
-/* ── TOKENS · DARK (défaut) ─────────────────────────────────── */
+/* ── TOKENS · DARK "BLUEPRINT" (défaut) ─────────────────────── */
 :root {
-  --bg:           #0B0B0F;
-  --bg2:          #121218;
-  --panel:        #16161D;
-  --panel2:       #1C1C26;
-  --border:       rgba(255,255,255,0.08);
-  --border2:      rgba(255,255,255,0.14);
+  --bg:           #0E1B2B;
+  --bg2:          #0B1622;
+  --panel:        #12253A;
+  --panel2:       #17304A;
+  --border:       rgba(79, 209, 232, 0.16);
+  --border2:      rgba(79, 209, 232, 0.30);
 
-  /* Violet signature + accents secondaires */
-  --violet:       #8B5CF6;
-  --violet-2:     #A78BFA;
-  --violet-dim:   rgba(139, 92, 246, 0.12);
-  --violet-line:  rgba(139, 92, 246, 0.22);
-  --indigo:       #6366F1;
-  --cyan:         #22D3EE;
-  --emerald:      #34D399;
-  --amber:        #FBBF24;
+  /* Accent structurel = cyan (lignes) · signal = corail */
+  --violet:       #4FD1E8;
+  --violet-2:     #7FE2F2;
+  --violet-dim:   rgba(79, 209, 232, 0.12);
+  --violet-line:  rgba(79, 209, 232, 0.24);
+  --indigo:       #4FD1E8;
+  --cyan:         #4FD1E8;
+  --emerald:      #46E5A0;
+  --amber:        #F6A93B;
+  --coral:        #FF6B4A;
+  --coral-dim:    rgba(255, 107, 74, 0.14);
 
   /* Statuts */
-  --passed:       #34D399;
-  --passed-dim:   rgba(52, 211, 153, 0.12);
-  --running:      #8B5CF6;
-  --running-dim:  rgba(139, 92, 246, 0.12);
-  --pending:      #6B6B7B;
-  --skipped:      #A78BFA;
-  --skipped-dim:  rgba(139, 92, 246, 0.12);
-  --warning:      #FBBF24;
-  --danger:       #F87171;
+  --passed:       #46E5A0;
+  --passed-dim:   rgba(70, 229, 160, 0.12);
+  --running:      #4FD1E8;
+  --running-dim:  rgba(79, 209, 232, 0.12);
+  --pending:      #5E7385;
+  --skipped:      #7FE2F2;
+  --skipped-dim:  rgba(79, 209, 232, 0.12);
+  --warning:      #F6A93B;
+  --danger:       #FF6B4A;
 
   /* Texte */
-  --text:         #F4F4F6;
-  --text2:        #B4B4C0;
-  --muted:        #6B6B7B;
+  --text:         #EAF4F8;
+  --text2:        #9DB4C4;
+  --muted:        #5E7385;
+
+  /* Grille de fond (filigrane plan technique) */
+  --grid:         rgba(79, 209, 232, 0.06);
 
   /* Typographie */
   --font:         'JetBrains Mono', 'IBM Plex Mono', monospace;
   --font-sans:    'Inter', system-ui, sans-serif;
+  --font-display: 'Oswald', 'Inter', sans-serif;
 
   /* Dégradés & formes */
-  --grad:         linear-gradient(135deg, #8B5CF6 0%, #6366F1 100%);
-  --grad-soft:    linear-gradient(135deg, rgba(139,92,246,0.16), rgba(99,102,241,0.10));
-  --radius:       16px;
-  --radius-sm:    10px;
-  --shadow:       0 8px 30px rgba(0,0,0,0.35);
-  --shadow-glow:  0 8px 40px rgba(139,92,246,0.25);
+  --grad:         linear-gradient(135deg, #FF6B4A 0%, #FF8A63 100%);
+  --grad-soft:    linear-gradient(135deg, rgba(79,209,232,0.16), rgba(79,209,232,0.06));
+  --radius:       6px;
+  --radius-sm:    4px;
+  --shadow:       0 8px 30px rgba(0,0,0,0.45);
+  --shadow-glow:  0 6px 30px rgba(79,209,232,0.20);
 }
 
-/* ── TOKENS · LIGHT (doux, faible fatigue oculaire) ─────────── */
+/* ── TOKENS · LIGHT "BLUEPRINT INVERSÉ" (papier + lignes bleues) ─ */
 :root[data-theme="light"] {
-  --bg:           #ECEAF2;
-  --bg2:          #E4E1EC;
-  --panel:        #F6F4FA;
-  --panel2:       #EEEBF4;
-  --border:       rgba(30,25,50,0.10);
-  --border2:      rgba(30,25,50,0.16);
+  --bg:           #E8EEF3;
+  --bg2:          #DEE7EE;
+  --panel:        #F3F7FA;
+  --panel2:       #E6EEF3;
+  --border:       rgba(20,60,90,0.14);
+  --border2:      rgba(20,60,90,0.26);
 
-  --violet-dim:   rgba(139, 92, 246, 0.10);
-  --violet-line:  rgba(139, 92, 246, 0.20);
+  --violet:       #1483A6;
+  --violet-2:     #1483A6;
+  --violet-dim:   rgba(20,131,166,0.10);
+  --violet-line:  rgba(20,131,166,0.24);
+  --cyan:         #1483A6;
+  --emerald:      #0E9E68;
+  --coral:        #E3541F;
+  --coral-dim:    rgba(227,84,31,0.12);
 
-  --passed:       #10B981;
-  --passed-dim:   rgba(16, 185, 129, 0.10);
-  --running:      #8B5CF6;
-  --running-dim:  rgba(139, 92, 246, 0.10);
-  --pending:      #B5B0C2;
-  --skipped:      #8B5CF6;
-  --skipped-dim:  rgba(139, 92, 246, 0.10);
+  --passed:       #0E9E68;
+  --passed-dim:   rgba(14,158,104,0.10);
+  --running:      #1483A6;
+  --running-dim:  rgba(20,131,166,0.10);
+  --pending:      #9DB0BC;
+  --skipped:      #1483A6;
+  --skipped-dim:  rgba(20,131,166,0.10);
+  --warning:      #C57812;
+  --danger:       #E3541F;
 
-  --text:         #2E2A3A;
-  --text2:        #5A5568;
-  --muted:        #908BA0;
+  --text:         #16323F;
+  --text2:        #46606E;
+  --muted:        #7A94A2;
 
-  --grad-soft:    linear-gradient(135deg, rgba(139,92,246,0.10), rgba(99,102,241,0.06));
-  --shadow:       0 8px 26px rgba(60,50,90,0.10);
-  --shadow-glow:  0 8px 30px rgba(139,92,246,0.16);
+  --grid:         rgba(20,60,90,0.05);
+
+  --grad:         linear-gradient(135deg, #FF6B4A 0%, #E3541F 100%);
+  --grad-soft:    linear-gradient(135deg, rgba(20,131,166,0.10), rgba(20,131,166,0.05));
+  --shadow:       0 8px 26px rgba(30,60,90,0.12);
+  --shadow-glow:  0 6px 26px rgba(20,131,166,0.16);
 }
 
 /* Theme transition */
@@ -100,6 +117,10 @@ html { scroll-behavior: smooth; }
 
 body {
   background: var(--bg);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 32px 32px;
   color: var(--text);
   font-family: var(--font-sans);
   font-size: 15px;
@@ -109,19 +130,19 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Halo ambiant violet (premium) */
+/* Halo ambiant cyan (plan technique) */
 body::before {
   content: "";
   position: fixed;
   top: -220px; left: 50%;
   transform: translateX(-50%);
   width: 900px; height: 620px;
-  background: radial-gradient(ellipse at center, rgba(139,92,246,0.16), transparent 70%);
+  background: radial-gradient(ellipse at center, rgba(79,209,232,0.12), transparent 70%);
   pointer-events: none;
   z-index: 0;
 }
 :root[data-theme="light"] body::before {
-  background: radial-gradient(ellipse at center, rgba(139,92,246,0.10), transparent 70%);
+  background: radial-gradient(ellipse at center, rgba(20,131,166,0.08), transparent 70%);
 }
 
 /* ── VIEWS ──────────────────────────────────────────────────── */
