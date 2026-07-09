@@ -24,11 +24,12 @@
 }
 
 .sidebar-section-label {
-  font-size: 11px;
-  text-transform: none;
-  letter-spacing: 0;
-  color: var(--muted);
-  padding: 0 20px 12px;
+  font-family: var(--font);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--violet);
+  padding: 0 20px 14px;
   flex-shrink: 0;
   font-weight: 500;
 }
@@ -109,8 +110,19 @@
   border-left-color: var(--violet);
 }
 
-.sidebar-item.s-passed  { border-left-color: var(--violet); }
+.sidebar-item.s-passed  { border-left-color: var(--coral); }
 .sidebar-item.s-running { border-left-color: var(--violet); }
+
+.sidebar-ref {
+  font-family: var(--font);
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+  width: 16px;
+}
+.sidebar-item.active .sidebar-ref { color: var(--violet); }
+.sidebar-item.s-passed .sidebar-ref { color: var(--coral); }
 
 .sidebar-icon { flex-shrink: 0; width: 20px; height: 20px; display: grid; place-items: center; }
 .sidebar-icon img { width: 20px; height: 20px; display: block; }
@@ -134,21 +146,22 @@
 
 .sidebar-status {
   width: 18px; height: 18px;
-  border-radius: 50%;
-  border: 2px solid var(--border);
+  border-radius: 3px;
+  border: 1px solid var(--border2);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 10px;
+  font-family: var(--font);
   flex-shrink: 0;
   color: transparent;
   transition: all 0.2s;
 }
 
 .sidebar-item.s-passed .sidebar-status {
-  background: var(--violet);
-  border-color: var(--violet);
-  color: white;
+  background: var(--coral);
+  border-color: var(--coral);
+  color: #0E1B2B;
 }
 
 .sidebar-item.s-running .sidebar-status {
@@ -188,7 +201,7 @@
 
 .sidebar-prog-fill {
   height: 100%;
-  background: var(--violet);
+  background: var(--coral);
   transition: width 0.5s ease;
   width: 0%;
   border-radius: 4px;
@@ -237,19 +250,22 @@
 }
 
 .mod-num {
+  font-family: var(--font);
   font-size: 11px;
   color: var(--muted);
-  text-transform: none;
-  letter-spacing: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
   margin-bottom: 12px;
   font-weight: 500;
 }
 
 .mod-title {
-  font-size: 32px;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  line-height: 1.2;
+  font-family: var(--font-display);
+  font-size: 34px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  line-height: 1.1;
   margin-bottom: 12px;
   display: flex;
   align-items: center;
@@ -306,32 +322,34 @@
 }
 
 .btn-nav {
-  font-family: var(--font-sans);
-  font-size: 13px;
+  font-family: var(--font);
+  font-size: 12px;
   font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
   color: var(--text2);
   background: var(--panel);
-  border: 1px solid var(--border);
+  border: 1px solid var(--border2);
   padding: 10px 20px;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
   transition: all 0.2s;
-  letter-spacing: 0;
 }
 
 .btn-nav:hover              { border-color: var(--violet); color: var(--text); }
 .btn-nav:disabled           { opacity: 0.3; cursor: not-allowed; }
-.btn-nav:disabled:hover     { border-color: var(--border); color: var(--text2); }
+.btn-nav:disabled:hover     { border-color: var(--border2); color: var(--text2); }
 
 .btn-nav.primary {
-  background: var(--violet);
-  border-color: var(--violet);
-  color: white;
+  font-family: var(--font-display);
+  background: var(--coral);
+  border-color: var(--coral);
+  color: #0E1B2B;
 }
 
 .btn-nav.primary:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+  box-shadow: 0 6px 18px var(--coral-dim);
 }
 
 .btn-mark {
@@ -385,10 +403,11 @@
 }
 
 .section-num {
+  font-family: var(--font);
   font-size: 11px;
   color: var(--violet);
-  text-transform: none;
-  letter-spacing: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
   font-weight: 600;
 }
 
@@ -545,9 +564,10 @@
 }
 
 .code-block-lang {
-  color: var(--text2);
-  text-transform: none;
-  letter-spacing: 0;
+  font-family: var(--font);
+  color: var(--violet);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
   font-weight: 500;
 }
 
