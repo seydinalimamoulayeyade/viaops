@@ -2,7 +2,7 @@
 
 **Plateforme d'apprentissage DevOps** — 9 outils essentiels en 10 minutes chacun, structurés comme un vrai pipeline CI/CD.
 
-[![Version](https://img.shields.io/badge/version-1.5.0-violet.svg)](https://github.com/seydinalimamoulayeyade/viaops)
+[![Version](https://img.shields.io/badge/version-1.6.0-blue.svg)](https://github.com/seydinalimamoulayeyade/viaops)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Docker](https://img.shields.io/badge/docker-lims4%2Fviaops-blue.svg)](https://hub.docker.com/r/lims4/viaops)
 
@@ -80,6 +80,12 @@ Découvrez le GitOps avec ArgoCD pour automatiser vos déploiements Kubernetes !
 - 🏆 **Certificat PNG** — Auto-généré à 9/9 modules
 - 📱 **100% Responsive** — Mobile-first
 - 🚀 **0 dépendances** — Vanilla JS/CSS
+
+### Nouveautés v1.6.0 — Refonte « Blueprint »
+- **Nouvelle direction visuelle** — esthétique plan technique : fond ardoise + grille, lignes cyan, corail signal, police Oswald
+- **Pipeline câblé** — la Home présente le pipeline comme un schéma d'ingénieur annoté (références, cotation, fils)
+- **Parcours fil rouge « De zéro à la prod »** — une vue Projet qui relie les 10 modules en un déploiement complet, du `git push` à la production
+- **Thème clair repensé** en « blueprint inversé » (papier + lignes bleues)
 
 ### Nouveautés v1.5.0
 - **Quiz de validation** — 4 questions par module, une par une, avec feedback immédiat
