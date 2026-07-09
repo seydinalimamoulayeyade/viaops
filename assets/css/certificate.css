@@ -43,6 +43,14 @@
   font-weight: 600;
   color: var(--text);
   margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.cert-header h3 .cert-trophy {
+  width: 24px; height: 24px;
+  stroke: var(--amber); stroke-width: 1.8; fill: none;
+  stroke-linecap: round; stroke-linejoin: round;
 }
 
 .cert-close {

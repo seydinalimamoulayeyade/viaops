@@ -78,7 +78,8 @@
   box-shadow: var(--shadow-glow);
 }
 
-.job-icon { font-size: 22px; flex-shrink: 0; }
+.job-icon { flex-shrink: 0; width: 26px; height: 26px; display: grid; place-items: center; }
+.job-icon img { width: 26px; height: 26px; display: block; }
 .job-info { flex: 1; min-width: 0; }
 .job-name {
   font-size: 14px;
