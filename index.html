@@ -13,7 +13,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&family=Oswald:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
 
@@ -27,6 +27,7 @@
     <link rel="stylesheet" href="assets/css/certificate.css" />
     <link rel="stylesheet" href="assets/css/scroll-to-top.css" />
     <link rel="stylesheet" href="assets/css/progress-menu.css" />
+    <link rel="stylesheet" href="assets/css/blueprint.css" />
   </head>
   <body>
     <!-- ============================================================
@@ -34,8 +35,10 @@
        ============================================================ -->
     <nav class="navbar">
       <div class="nav-logo" id="logo-home">
-        <div class="nav-logo-mark">V</div>
-        <span class="nav-logo-text">Via<span>Ops</span></span>
+        <div class="nav-logo-mark">
+          <svg viewBox="0 0 24 24"><path d="M12 2 2 7l10 5 10-5-10-5Z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg>
+        </div>
+        <span class="nav-logo-text">VIA<span>OPS</span></span>
       </div>
 
       <div class="nav-items">
@@ -63,116 +66,69 @@
        VIEW — HOME
        ============================================================ -->
     <div id="view-home" class="view active">
-      <div class="dashboard">
-        <!-- Stat panels -->
-        <div class="row row-stats animate delay-1">
-          <div class="stat-panel violet">
-            <div class="stat-label">outils couverts</div>
-            <div class="stat-value">10</div>
-            <div class="stat-sub">DevOps → GitOps</div>
-          </div>
-          <div class="stat-panel green">
-            <div class="stat-label">durée totale</div>
-            <div class="stat-value">~100</div>
-            <div class="stat-sub">minutes</div>
-          </div>
-          <div class="stat-panel cyan">
-            <div class="stat-label">prérequis</div>
-            <div class="stat-value">0</div>
-            <div class="stat-sub">bloquants</div>
-          </div>
-          <div class="stat-panel amber">
-            <div class="stat-label">coût</div>
-            <div class="stat-value">0€</div>
-            <div class="stat-sub">open source</div>
-          </div>
-        </div>
+      <div class="bp-home">
 
-        <!-- Hero panel -->
-        <div class="panel hero-panel animate">
-          <div class="panel-header">
-            <span class="panel-header-icon"><svg viewBox="0 0 24 24"><path d="M6 16c-2.2 0-4-1.8-4-4s1.8-4 4-4c3 0 5 8 8 8 2.2 0 4-1.8 4-4s-1.8-4-4-4c-3 0-5 8-8 8Z"/></svg></span>
-            <span class="panel-title">viaops · la voie devops</span>
-            <div class="panel-actions">
-              <span class="panel-badge violet">pipeline</span>
+        <!-- HERO -->
+        <section class="bp-hero animate">
+          <div class="bp-hero-left">
+            <div class="bp-eyebrow">// plateforme d'apprentissage devops</div>
+            <h1 class="bp-h1">
+              L'essentiel<br />
+              DevOps, <span class="cy">câblé</span><br />
+              comme un pipeline.
+            </h1>
+            <p class="bp-lead">
+              10 outils incontournables — Docker, Kubernetes, Terraform,
+              Prometheus, ArgoCD — présentés dans la logique exacte d'un
+              pipeline CI/CD réel.
+            </p>
+            <div class="bp-actions">
+              <button class="bp-btn-solid" id="btn-hero-start">Démarrer le parcours</button>
+              <button class="bp-btn-line" id="btn-hero-scroll">Voir le schéma ↓</button>
             </div>
           </div>
-          <div class="panel-body">
-            <div class="hero-left">
-              <div class="hero-eyebrow">plateforme d'apprentissage devops</div>
-              <h1 class="hero-title">
-                L'essentiel DevOps,<br />
-                <span class="hl">structuré comme</span><br />
-                un vrai pipeline.
-              </h1>
-              <p class="hero-desc">
-                <strong>10 outils</strong> incontournables — Docker, Kubernetes,
-                Terraform, Prometheus, ArgoCD et plus — présentés avec l'essentiel
-                seulement, dans la logique d'un pipeline CI/CD réel.
-              </p>
-              <div class="hero-actions">
-                <button class="btn-primary" id="btn-hero-start">
-                  Démarrer le parcours →
-                </button>
-                <button class="btn-ghost" id="btn-hero-scroll">
-                  Voir le pipeline ↓
-                </button>
-              </div>
-            </div>
 
-            <!-- Terminal -->
-            <div class="hero-terminal">
-              <div class="terminal-bar">
-                <div class="terminal-dot t-red"></div>
-                <div class="terminal-dot t-yellow"></div>
-                <div class="terminal-dot t-green"></div>
-                <span class="terminal-name">viaops</span>
-              </div>
-              <div class="terminal-body">
-                <div class="t-line">
-                  <span class="t-prompt">$</span>
-                  <span class="t-cmd"
-                    >docker <span class="t-flag">build</span>
-                    <span class="t-flag">-t</span>
-                    <span class="t-arg">viaops:1.0</span> .</span
-                  >
-                </div>
-                <div class="t-line">
-                  <span class="t-ok">✓ Successfully built 3f9a2c1d</span>
-                </div>
-                <div class="t-line" style="margin-top: 10px">
-                  <span class="t-prompt">$</span>
-                  <span class="t-cmd"
-                    >kubectl <span class="t-flag">apply</span>
-                    <span class="t-flag">-f</span>
-                    <span class="t-arg">deploy.yaml</span></span
-                  >
-                </div>
-                <div class="t-line">
-                  <span class="t-ok">✓ deployment.apps/viaops created</span>
-                </div>
-                <div class="t-line" style="margin-top: 10px">
-                  <span class="t-prompt">$</span>
-                  <span class="t-cmd"><span class="t-cursor"></span></span>
-                </div>
-              </div>
+          <!-- Carte-schéma (terminal) -->
+          <div class="bp-scheme">
+            <span class="bp-corner tl"></span><span class="bp-corner tr"></span>
+            <span class="bp-corner bl"></span><span class="bp-corner br"></span>
+            <div class="bp-scheme-head">
+              <span>FIG. 01 — BUILD / DEPLOY SEQUENCE</span>
+              <span>REV. 1.5</span>
+            </div>
+            <div class="bp-term">
+              <div><span class="p">$</span> docker <span class="f">build</span> <span class="f">-t</span> viaops:1.5 .</div>
+              <div><span class="ok">✓ built 3f9a2c1d</span></div>
+              <div style="margin-top:6px"><span class="p">$</span> kubectl <span class="f">apply</span> <span class="f">-f</span> deploy.yaml</div>
+              <div><span class="ok">✓ deployment.apps/viaops created</span></div>
+              <div style="margin-top:6px"><span class="p">$</span> <span class="bp-cursor"></span></div>
             </div>
           </div>
-        </div>
+        </section>
 
-        <!-- Pipeline panel -->
-        <div class="panel animate delay-2" id="pipeline-panel">
-          <div class="panel-header">
-            <span class="panel-header-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg></span>
-            <span class="panel-title">pipeline devops · 10 stages</span>
-            <div class="panel-actions">
-              <span class="panel-badge violet">cliquable</span>
-            </div>
+        <!-- SPÉCIFICATIONS (stats) -->
+        <div class="bp-sheet-tag animate delay-1">Spécifications</div>
+        <section class="bp-stats animate delay-1">
+          <div class="bp-stat"><div class="k">Outils</div><div class="v">10</div><div class="u">devops → gitops</div></div>
+          <div class="bp-stat"><div class="k">Durée</div><div class="v">~100<small>m</small></div><div class="u">temps total</div></div>
+          <div class="bp-stat"><div class="k">Prérequis</div><div class="v">0</div><div class="u">bloquants</div></div>
+          <div class="bp-stat"><div class="k">Coût</div><div class="v">0<small>€</small></div><div class="u">open source</div></div>
+        </section>
+
+        <!-- SCHÉMA DU PIPELINE (signature) -->
+        <div class="bp-sheet-tag animate delay-2">Schéma du pipeline — 10 étages</div>
+        <section class="bp-pipe animate delay-2" id="pipeline-panel">
+          <div class="bp-dim">
+            <span class="tick"></span>
+            <span class="span"></span>
+            <span class="lbl">◄ SÉQUENCE COMPLÈTE · ~100 MIN ►</span>
+            <span class="span"></span>
+            <span class="tick"></span>
           </div>
-          <div class="pipeline-wrap">
-            <div class="pipeline-stages" id="pipeline-stages"></div>
-          </div>
-        </div>
+          <div class="bp-rail" id="pipeline-stages"></div>
+          <div class="bp-pipe-foot">// chaque étage = un module · cliquer pour ouvrir le plan détaillé</div>
+        </section>
+
       </div>
     </div>
 
