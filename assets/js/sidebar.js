@@ -30,6 +30,7 @@ const Sidebar = {
       el.className = `sidebar-item ${statusClass} ${isActive ? 'active' : ''}`;
       el.id        = `sb-${i}`;
       el.innerHTML = `
+        <span class="sidebar-ref">${String(i + 1).padStart(2, '0')}</span>
         <span class="sidebar-icon"><img src="assets/img/logos/${m.id}.svg" alt="${m.label}" loading="lazy" /></span>
         <div class="sidebar-meta">
           <div class="sidebar-name">${m.label}</div>

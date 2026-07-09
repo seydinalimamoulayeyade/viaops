@@ -5,6 +5,22 @@ Toutes les évolutions notables de ViaOps sont documentées ici.
 Le format s'inspire de [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/)
 et le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
+## [1.6.0] — 2026-07-09
+
+### Ajouté
+- **Parcours fil rouge « De zéro à la prod »** (vue Projet) : relie les 10 modules
+  en un scénario de déploiement complet, avec flux CI/CD, 9 étapes concrètes
+  (fichier/commande + lien vers le module) et bloc transversal IA/Ops.
+
+### Modifié
+- **Refonte visuelle complète — direction « Blueprint »** : re-mapping des tokens
+  (fond ardoise + grille filigrane, cyan structurel, corail signal), police display
+  Oswald, thème clair en « blueprint inversé ».
+- **Home** restructurée : hero avec carte-schéma, bandeau de spécifications, et
+  pipeline redessiné comme un schéma d'ingénieur câblé et annoté.
+- **Vue module** en index technique (références, en-têtes Oswald, annotations mono).
+- **Cohérence globale** : navbar, badges, coloration du code, rayons anguleux.
+
 ## [1.5.0] — 2026-07-09
 
 ### Ajouté
