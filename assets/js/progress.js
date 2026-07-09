@@ -4,6 +4,34 @@
    ============================================================ */
 
 const STORAGE_KEY = 'viaops_completed_v1';
+const SCORE_KEY   = 'viaops_scores_v1';
+
+/* ── SCORES ──────────────────────────────────────────────────
+   Meilleur score de quiz par module : { docker: 75, k8s: 100 }
+   Clé = id du module (cf. data.js), valeur = % (0–100).
+   ============================================================ */
+const Score = {
+  getAll() {
+    return JSON.parse(localStorage.getItem(SCORE_KEY) || '{}');
+  },
+
+  best(id) {
+    return this.getAll()[id] || 0;
+  },
+
+  // Ne conserve que le meilleur score
+  set(id, pct) {
+    const all = this.getAll();
+    if (pct > (all[id] || 0)) {
+      all[id] = pct;
+      localStorage.setItem(SCORE_KEY, JSON.stringify(all));
+    }
+  },
+
+  reset() {
+    localStorage.removeItem(SCORE_KEY);
+  },
+};
 
 const Progress = {
   get() {
