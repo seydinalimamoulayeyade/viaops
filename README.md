@@ -2,7 +2,7 @@
 
 **Plateforme d'apprentissage DevOps** — 9 outils essentiels en 10 minutes chacun, structurés comme un vrai pipeline CI/CD.
 
-[![Version](https://img.shields.io/badge/version-1.4.0-violet.svg)](https://github.com/seydinalimamoulayeyade/viaops)
+[![Version](https://img.shields.io/badge/version-1.5.0-violet.svg)](https://github.com/seydinalimamoulayeyade/viaops)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Docker](https://img.shields.io/badge/docker-lims4%2Fviaops-blue.svg)](https://hub.docker.com/r/lims4/viaops)
 
@@ -81,12 +81,18 @@ Découvrez le GitOps avec ArgoCD pour automatiser vos déploiements Kubernetes !
 - 📱 **100% Responsive** — Mobile-first
 - 🚀 **0 dépendances** — Vanilla JS/CSS
 
+### Nouveautés v1.5.0
+- **Quiz de validation** — 4 questions par module, une par une, avec feedback immédiat
+- **Complétion conditionnée** — un module se valide à partir de **75 %** de réussite au quiz
+- **Score rejouable** — meilleur score mémorisé et affiché par module
+- **Refonte visuelle** — vrais logos d'outils (SVG), icônes SVG à la place des emojis, titres en casse normale
+
 ### Nouveautés v1.1.0
-- 🔝 **Scroll to Top** — Bouton flottant pour remonter rapidement
-- 🔍 **Recherche modules** — Filtre temps réel dans la sidebar
-- 📊 **Menu progression** — Export JSON, partage, réinitialisation
-- ♿ **Accessibilité** — Focus states WCAG 2.1 AA
-- ✨ **Transitions fluides** — Animations entre les vues
+- **Scroll to Top** — Bouton flottant pour remonter rapidement
+- **Recherche modules** — Filtre temps réel dans la sidebar
+- **Menu progression** — Export JSON, partage, réinitialisation
+- **Accessibilité** — Focus states WCAG 2.1 AA
+- **Transitions fluides** — Animations entre les vues
 
 ---
 
