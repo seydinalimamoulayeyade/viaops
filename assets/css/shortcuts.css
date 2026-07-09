@@ -42,6 +42,14 @@
   font-weight: 600;
   color: var(--text);
   margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+}
+.shortcuts-header h3 .h3-ico {
+  width: 20px; height: 20px;
+  stroke: var(--violet-2); stroke-width: 2; fill: none;
+  stroke-linecap: round; stroke-linejoin: round;
 }
 
 .shortcuts-close {

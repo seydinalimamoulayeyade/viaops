@@ -112,7 +112,8 @@
 .sidebar-item.s-passed  { border-left-color: var(--violet); }
 .sidebar-item.s-running { border-left-color: var(--violet); }
 
-.sidebar-icon { font-size: 16px; flex-shrink: 0; opacity: 0.8; }
+.sidebar-icon { flex-shrink: 0; width: 20px; height: 20px; display: grid; place-items: center; }
+.sidebar-icon img { width: 20px; height: 20px; display: block; }
 
 .sidebar-meta { flex: 1; min-width: 0; }
 
@@ -250,7 +251,12 @@
   letter-spacing: -0.02em;
   line-height: 1.2;
   margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
 }
+
+.mod-title-logo { width: 38px; height: 38px; flex-shrink: 0; }
 
 .mod-title .accent { color: var(--violet); }
 
@@ -420,6 +426,22 @@
   letter-spacing: 0;
   font-weight: 600;
   margin-bottom: 10px;
+}
+.analogy-label.has-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.analogy-label.has-icon svg {
+  width: 14px;
+  height: 14px;
+  stroke: var(--violet);
+  stroke-width: 2;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .analogy-text {
@@ -660,6 +682,154 @@
   background: var(--panel);
   border: 1px solid var(--border);
   color: var(--text2);
+}
+
+/* ── QUIZ · progression multi-questions ─────────────────────── */
+.quiz-progress {
+  margin-bottom: 20px;
+}
+
+.quiz-progress-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.quiz-progress-info .quiz-label {
+  margin-bottom: 0;
+}
+
+.quiz-best {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text2);
+  font-family: var(--font);
+}
+
+.quiz-progress-track {
+  height: 6px;
+  background: var(--bg2);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.quiz-progress-fill {
+  height: 100%;
+  background: var(--violet);
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
+/* ── QUIZ · actions (suivant / rejouer) ─────────────────────── */
+.quiz-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.quiz-actions.center {
+  justify-content: center;
+}
+
+/* ── QUIZ · carte de résultat ───────────────────────────────── */
+.quiz-result {
+  text-align: center;
+  padding: 40px 32px;
+}
+
+.quiz-result-icon {
+  font-size: 48px;
+  line-height: 1;
+  margin-bottom: 12px;
+}
+.quiz-result-icon svg {
+  width: 46px;
+  height: 46px;
+  stroke: var(--violet-2);
+  stroke-width: 1.8;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.quiz-result.passed .quiz-result-icon svg { stroke: var(--passed); }
+
+.quiz-result-score {
+  font-family: var(--font);
+  font-size: 40px;
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1;
+}
+
+.quiz-result-pct {
+  font-family: var(--font);
+  font-size: 15px;
+  color: var(--text2);
+  margin-top: 4px;
+}
+
+.quiz-result-badge {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: var(--font-sans);
+}
+
+.quiz-result-badge.ok {
+  background: var(--passed-dim);
+  border: 1px solid var(--passed);
+  color: var(--passed);
+}
+
+.quiz-result-badge.ko {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  color: var(--text2);
+}
+
+.quiz-result-msg {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.6;
+  margin-top: 14px;
+}
+
+.quiz-result.passed {
+  border-color: var(--passed);
+}
+
+/* ── Hint de complétion via quiz ────────────────────────────── */
+.mark-done-hint {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 24px;
+  padding: 14px 18px;
+  background: var(--bg2);
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.5;
+}
+.mark-done-hint .hint-ico {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+.mark-done-hint .hint-ico svg {
+  width: 18px;
+  height: 18px;
+  stroke: var(--violet-2);
+  stroke-width: 2;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 /* ── ENTRETIEN BOX ──────────────────────────────────────────── */

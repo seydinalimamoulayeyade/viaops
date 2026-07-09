@@ -84,7 +84,7 @@ const Shortcuts = {
       <div class="shortcuts-overlay" id="shortcuts-help">
         <div class="shortcuts-modal">
           <div class="shortcuts-header">
-            <h3>⌨️ Raccourcis clavier</h3>
+            <h3><svg class="h3-ico" viewBox="0 0 24 24"><path d="m4 17 6-6-6-6"/><path d="M12 19h8"/></svg> Raccourcis clavier</h3>
             <button class="shortcuts-close" onclick="Shortcuts.closeHelp()">✕</button>
           </div>
           <div class="shortcuts-body">

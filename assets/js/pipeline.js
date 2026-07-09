@@ -26,7 +26,7 @@ const Pipeline = {
     const job = document.createElement('div');
     job.className = `job status-${status}`;
     job.innerHTML = `
-      <span class="job-icon">${m.icon}</span>
+      <span class="job-icon"><img src="assets/img/logos/${m.id}.svg" alt="${m.label}" loading="lazy" /></span>
       <div class="job-info">
         <div class="job-name">${m.label}</div>
         <div class="job-tag">${m.tag}</div>
