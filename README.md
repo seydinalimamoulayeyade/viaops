@@ -9,6 +9,14 @@
 
 ---
 
+## 🎬 Aperçu
+
+![ViaOps — aperçu de la plateforme](assets/img/screenshot-home.png)
+
+> 🔗 **[Démo en ligne](https://seydinalimamoulayeyade.github.io/viaops)** · 🧩 **[Projet fil rouge](https://github.com/seydinalimamoulayeyade/viaops-zero-to-prod)**
+
+---
+
 ## 🎯 Vision
 
 **ViaOps** n'est pas un cours traditionnel. C'est un **compagnon de démarrage DevOps** :
