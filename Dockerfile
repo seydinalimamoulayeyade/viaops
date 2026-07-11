@@ -26,6 +26,10 @@ LABEL maintainer="Virtual Voyager <linkedin.com/in/limamou-laye>"
 LABEL project="ViaOps"
 LABEL version="1.6.1"
 
+# Durcissement : patcher les paquets OS aux dernières versions corrigées
+# (comble le décalage entre la build de l'image de base et les CVE récentes)
+RUN apk update && apk upgrade --no-cache
+
 # Supprimer le site par défaut nginx
 RUN rm -rf /usr/share/nginx/html/*
 
