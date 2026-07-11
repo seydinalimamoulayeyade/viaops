@@ -66,10 +66,16 @@
 .search-icon {
   position: absolute;
   right: 32px;
-  top: 10px;
-  font-size: 14px;
-  opacity: 0.5;
+  top: 11px;
+  display: flex;
+  color: var(--muted);
+  opacity: 0.8;
   pointer-events: none;
+}
+.search-icon svg {
+  width: 15px; height: 15px;
+  stroke: currentColor; stroke-width: 2; fill: none;
+  stroke-linecap: round; stroke-linejoin: round;
 }
 
 .search-no-results {
@@ -79,9 +85,15 @@
 }
 
 .no-results-icon {
-  font-size: 32px;
-  opacity: 0.3;
+  opacity: 0.4;
   margin-bottom: 12px;
+  display: flex;
+  justify-content: center;
+}
+.no-results-icon svg {
+  width: 30px; height: 30px;
+  stroke: var(--muted); stroke-width: 1.6; fill: none;
+  stroke-linecap: round; stroke-linejoin: round;
 }
 
 .no-results-text {

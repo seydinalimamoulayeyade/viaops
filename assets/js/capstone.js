@@ -15,13 +15,25 @@ const Capstone = {
     return `<img src="assets/img/logos/${id}.svg" alt="${this.esc(label)}" loading="lazy" />`;
   },
 
+  flowShort(tool) {
+    const map = {
+      devops: 'Source', docker: 'Docker', jenkins: 'Jenkins', sonarqube: 'Sonar',
+      trivy: 'Trivy', terraform: 'Terraform', kubernetes: 'K8s', argocd: 'ArgoCD',
+      prometheus: 'Prometheus', 'ia-devops': 'IA/Ops',
+    };
+    return map[tool] || tool;
+  },
+
   render() {
     const main = document.getElementById('capstone-main');
     if (!main || typeof CAPSTONE === 'undefined') return;
 
     const flow = CAPSTONE.steps.map((s, i) => `
       ${i > 0 ? '<span class="cap-arrow">→</span>' : ''}
-      <span class="cap-flow-node" title="${this.esc(s.title)}">${this.logo(s.tool, s.title)}</span>
+      <span class="cap-flow-node" title="${this.esc(s.title)}">
+        <span class="cap-flow-tile">${this.logo(s.tool, s.title)}</span>
+        <span class="cap-flow-lbl">${this.esc(this.flowShort(s.tool))}</span>
+      </span>
     `).join('');
 
     const stations = CAPSTONE.steps.map(s => `

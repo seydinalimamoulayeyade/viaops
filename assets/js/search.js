@@ -25,7 +25,7 @@ const ModuleSearch = {
           placeholder="Rechercher un module..."
           autocomplete="off"
         />
-        <span class="search-icon">🔍</span>
+        <span class="search-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></span>
       </div>
     `;
 
@@ -84,7 +84,7 @@ const ModuleSearch = {
         noResults.id = 'search-no-results';
         noResults.className = 'search-no-results';
         noResults.innerHTML = `
-          <div class="no-results-icon">🔍</div>
+          <div class="no-results-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></div>
           <div class="no-results-text">Aucun module trouvé</div>
         `;
         const list = document.getElementById('sidebar-list');
