@@ -43,6 +43,14 @@ const Shortcuts = {
           }
           break;
 
+        case 'p':
+        case 'P':
+          // P : Projet (parcours fil rouge)
+          if (!e.ctrlKey && !e.metaKey) {
+            Router.show('capstone');
+          }
+          break;
+
         case 'a':
         case 'A':
           // A : About
@@ -98,6 +106,10 @@ const Shortcuts = {
                 <div class="shortcut-item">
                   <kbd>M</kbd>
                   <span>Modules</span>
+                </div>
+                <div class="shortcut-item">
+                  <kbd>P</kbd>
+                  <span>Projet</span>
                 </div>
                 <div class="shortcut-item">
                   <kbd>A</kbd>

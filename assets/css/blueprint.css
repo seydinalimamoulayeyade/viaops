@@ -220,6 +220,9 @@
   .bp-rail { min-width: max-content; }
   .bp-node { flex: 0 0 84px; }
   .bp-wire { flex: 0 0 18px; }
+
+  /* Flux capstone : idem, défilement horizontal */
+  .cap-flow-node { flex: 0 0 auto; }
 }
 
 /* ============================================================
@@ -245,18 +248,27 @@
 
 /* ── Flux horizontal ───────────────────────────────────────── */
 .cap-flow {
-  display: flex; align-items: center; flex-wrap: wrap; gap: 12px;
-  padding: 26px 24px; margin-bottom: 52px;
+  display: flex; align-items: flex-start; gap: 6px;
+  padding: 28px 24px; margin-bottom: 52px;
   border: 1px solid var(--border2); border-radius: var(--radius);
   background: var(--panel); position: relative; overflow-x: auto;
 }
 .cap-flow-node {
-  width: 46px; height: 46px; flex-shrink: 0;
-  border: 1px solid var(--border2); border-radius: 5px; background: var(--bg2);
-  display: grid; place-items: center;
+  display: flex; flex-direction: column; align-items: center; gap: 9px;
+  flex: 1 1 0; min-width: 0;
 }
-.cap-flow-node img { width: 24px; height: 24px; }
-.cap-arrow { color: var(--violet); font-family: var(--font); flex-shrink: 0; }
+.cap-flow-tile {
+  width: 52px; height: 52px;
+  border: 1px solid var(--border2); border-radius: 6px; background: var(--bg2);
+  display: grid; place-items: center; transition: all 0.15s;
+}
+.cap-flow-node:hover .cap-flow-tile { border-color: var(--violet); box-shadow: 0 0 0 3px var(--violet-dim); }
+.cap-flow-tile img { width: 26px; height: 26px; }
+.cap-flow-lbl {
+  font-family: var(--font); font-size: 10px; color: var(--text2);
+  text-transform: uppercase; letter-spacing: 0.04em; text-align: center; overflow-wrap: anywhere;
+}
+.cap-arrow { color: var(--violet); font-family: var(--font); flex: 0 0 auto; margin-top: 18px; }
 
 /* ── Stations ──────────────────────────────────────────────── */
 .cap-steps { display: flex; flex-direction: column; gap: 18px; margin-bottom: 48px; }
