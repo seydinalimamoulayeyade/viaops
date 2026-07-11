@@ -243,10 +243,9 @@
 .mod-header-panel .panel-body {
   padding: 40px;
   display: flex;
+  flex-direction: column;
   align-items: flex-start;
-  justify-content: space-between;
-  gap: 24px;
-  flex-wrap: wrap;
+  gap: 16px;
 }
 
 .mod-num {
@@ -255,7 +254,7 @@
   color: var(--muted);
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  margin-bottom: 12px;
+  margin-bottom: 0;
   font-weight: 500;
 }
 
@@ -266,7 +265,7 @@
   text-transform: uppercase;
   letter-spacing: 0.01em;
   line-height: 1.1;
-  margin-bottom: 12px;
+  margin-bottom: 0;
   display: flex;
   align-items: center;
   gap: 14px;
