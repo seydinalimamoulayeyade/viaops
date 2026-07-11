@@ -1,0 +1,22 @@
+{
+  "name": "viaops",
+  "version": "1.6.1",
+  "description": "ViaOps — plateforme d'apprentissage DevOps (site statique, 0 dependance runtime)",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "lint": "npm run lint:js && npm run lint:css && npm run lint:html",
+    "lint:js": "eslint assets/js",
+    "lint:css": "stylelint \"assets/css/**/*.css\"",
+    "lint:html": "html-validate index.html"
+  },
+  "keywords": ["devops", "cicd", "learning"],
+  "license": "MIT",
+  "devDependencies": {
+    "@eslint/js": "^9.9.0",
+    "eslint": "^9.9.0",
+    "globals": "^15.9.0",
+    "html-validate": "^8.24.0",
+    "stylelint": "^16.9.0"
+  }
+}

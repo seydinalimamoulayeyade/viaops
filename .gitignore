@@ -25,3 +25,7 @@ Thumbs.db
 !QUICKSTART.md
 !GUIDE_TEST.md
 !RESUME_AMELIORATIONS.md
+
+# Node (outillage dev uniquement — runtime 0 dependance)
+node_modules/
+npm-debug.log*

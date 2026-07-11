@@ -6,7 +6,7 @@
 # ── STAGE 1 : builder ────────────────────────────────────────
 # Pas de build step nécessaire (vanilla HTML/CSS/JS)
 # On utilise alpine pour valider les fichiers avant copie
-FROM alpine:3.19 AS builder
+FROM alpine:3.21 AS builder
 
 WORKDIR /app
 
@@ -19,12 +19,16 @@ COPY modules/         ./modules/
 RUN test -f index.html && echo "✓ index.html présent"
 
 # ── STAGE 2 : production ─────────────────────────────────────
-FROM nginx:1.25-alpine AS production
+FROM nginx:1.29-alpine AS production
 
 # Metadata
 LABEL maintainer="Virtual Voyager <linkedin.com/in/limamou-laye>"
 LABEL project="ViaOps"
-LABEL version="1.0.0"
+LABEL version="1.6.1"
+
+# Durcissement : patcher les paquets OS aux dernières versions corrigées
+# (comble le décalage entre la build de l'image de base et les CVE récentes)
+RUN apk update && apk upgrade --no-cache
 
 # Supprimer le site par défaut nginx
 RUN rm -rf /usr/share/nginx/html/*

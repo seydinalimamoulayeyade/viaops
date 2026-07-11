@@ -3,6 +3,7 @@
 **Plateforme d'apprentissage DevOps** — 9 outils essentiels en 10 minutes chacun, structurés comme un vrai pipeline CI/CD.
 
 [![Version](https://img.shields.io/badge/version-1.6.0-blue.svg)](https://github.com/seydinalimamoulayeyade/viaops)
+[![CI/CD](https://github.com/seydinalimamoulayeyade/viaops/actions/workflows/deploy.yml/badge.svg)](https://github.com/seydinalimamoulayeyade/viaops/actions/workflows/deploy.yml)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Docker](https://img.shields.io/badge/docker-lims4%2Fviaops-blue.svg)](https://hub.docker.com/r/lims4/viaops)
 
