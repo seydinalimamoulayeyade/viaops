@@ -160,9 +160,10 @@
 .bp-dim .span { flex: 1; height: 1px; background: var(--violet); }
 .bp-dim .lbl  { font-family: var(--font); font-size: 10px; color: var(--violet); letter-spacing: 0.1em; padding: 0 10px; white-space: nowrap; }
 
-.bp-rail { display: flex; align-items: stretch; min-width: max-content; }
+.bp-rail { display: flex; align-items: flex-start; width: 100%; }
 
-.bp-node { display: flex; flex-direction: column; align-items: center; gap: 8px; width: 104px; flex-shrink: 0; cursor: pointer; }
+/* Desktop : les 10 étages se partagent la largeur → tout visible d'un coup */
+.bp-node { display: flex; flex-direction: column; align-items: center; gap: 8px; flex: 1 1 0; min-width: 0; cursor: pointer; }
 .bp-ref  { font-family: var(--font); font-size: 10px; color: var(--muted); letter-spacing: 0.08em; }
 .bp-cell {
   width: 66px; height: 66px;
@@ -176,7 +177,7 @@
 .bp-node:hover .bp-cell { border-color: var(--violet); box-shadow: 0 0 0 3px var(--violet-dim); }
 .bp-cell img { width: 30px; height: 30px; }
 .bp-st { position: absolute; bottom: -5px; right: -5px; width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--panel); display: none; }
-.bp-nm { font-family: var(--font-display); font-size: 13px; text-transform: uppercase; letter-spacing: 0.03em; color: var(--text); text-align: center; }
+.bp-nm { font-family: var(--font-display); font-size: 13px; text-transform: uppercase; letter-spacing: 0.03em; color: var(--text); text-align: center; line-height: 1.15; overflow-wrap: anywhere; }
 .bp-tg { font-family: var(--font); font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
 
 /* États des nœuds */
@@ -187,7 +188,8 @@
 
 /* Fils de liaison */
 .bp-wire {
-  flex: 0 0 26px;
+  flex: 0 1 26px;
+  min-width: 12px;
   align-self: flex-start;
   margin-top: 53px;
   height: 1px;
@@ -213,6 +215,11 @@
   .bp-stat:nth-child(2) { border-right: none; }
   .bp-stat:nth-child(1),
   .bp-stat:nth-child(2) { border-bottom: 1px solid var(--border); }
+
+  /* Trop étroit pour 10 étages : on repasse en défilement horizontal */
+  .bp-rail { min-width: max-content; }
+  .bp-node { flex: 0 0 84px; }
+  .bp-wire { flex: 0 0 18px; }
 }
 
 /* ============================================================
