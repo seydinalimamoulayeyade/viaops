@@ -7,9 +7,9 @@
 
 const CAPSTONE = {
   app: {
-    name: 'devops-portfolio-mern',
+    name: 'viaops-zero-to-prod',
     stack: 'App MERN — MongoDB · Express · React · Node',
-    repo: 'https://github.com/seydinalimamoulayeyade/devops-portfolio-mern',
+    repo: 'https://github.com/seydinalimamoulayeyade/viaops-zero-to-prod',
   },
 
   steps: [
@@ -29,19 +29,19 @@ const CAPSTONE = {
       ref: '03', title: 'Intégration continue', tool: 'jenkins', moduleIdx: 2,
       desc: "Jenkins installe, teste et construit l'artefact à chaque commit.",
       lang: 'groovy',
-      code: `stage('Test')  { steps { sh 'npm ci && npm test' } }\nstage('Build') { steps { sh 'docker build -t devops-portfolio-mern:$GIT_COMMIT .' } }`,
+      code: `stage('Test')  { steps { sh 'npm ci && npm test' } }\nstage('Build') { steps { sh 'docker build -t viaops-zero-to-prod:$GIT_COMMIT .' } }`,
     },
     {
       ref: '04', title: 'Qualité du code', tool: 'sonarqube', moduleIdx: 3,
       desc: "SonarQube analyse le code ; le Quality Gate bloque si le seuil n'est pas tenu.",
       lang: 'bash',
-      code: `sonar-scanner -Dsonar.projectKey=devops-portfolio-mern\n# waitForQualityGate abortPipeline: true`,
+      code: `sonar-scanner -Dsonar.projectKey=viaops-zero-to-prod\n# waitForQualityGate abortPipeline: true`,
     },
     {
       ref: '05', title: 'Scan de sécurité', tool: 'trivy', moduleIdx: 7,
       desc: "Trivy scanne l'image ; le build échoue en cas de CVE HIGH/CRITICAL.",
       lang: 'bash',
-      code: `trivy image --severity HIGH,CRITICAL --exit-code 1 devops-portfolio-mern:$GIT_COMMIT`,
+      code: `trivy image --severity HIGH,CRITICAL --exit-code 1 viaops-zero-to-prod:$GIT_COMMIT`,
     },
     {
       ref: '06', title: 'Infrastructure', tool: 'terraform', moduleIdx: 5,
@@ -53,7 +53,7 @@ const CAPSTONE = {
       ref: '07', title: 'Orchestration', tool: 'kubernetes', moduleIdx: 4,
       desc: "Les manifests décrivent l'état désiré : 3 replicas, service, self-healing.",
       lang: 'yaml',
-      code: `kind: Deployment\nspec:\n  replicas: 3\n  template:\n    spec:\n      containers:\n      - image: devops-portfolio-mern:$GIT_COMMIT`,
+      code: `kind: Deployment\nspec:\n  replicas: 3\n  template:\n    spec:\n      containers:\n      - image: viaops-zero-to-prod:$GIT_COMMIT`,
     },
     {
       ref: '08', title: 'Déploiement GitOps', tool: 'argocd', moduleIdx: 9,
