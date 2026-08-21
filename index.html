@@ -54,6 +54,7 @@
     <link rel="stylesheet" href="assets/css/scroll-to-top.css?v=1.6.2" />
     <link rel="stylesheet" href="assets/css/progress-menu.css?v=1.6.2" />
     <link rel="stylesheet" href="assets/css/blueprint.css?v=1.6.2" />
+    <link rel="stylesheet" href="assets/css/app-v2.css?v=1.6.2" />
   </head>
   <body>
     <!-- ============================================================
@@ -78,16 +79,12 @@
         <div class="nav-stat">
           <span class="nav-stat-label">progression</span>
           <span class="nav-stat-value" id="nav-prog-val">0/10</span>
-          <div
+          <progress
             class="nav-progress-track"
-            role="progressbar"
-            aria-label="Progression du parcours"
-            aria-valuemin="0"
-            aria-valuemax="100"
-            aria-valuenow="0"
-          >
-            <div class="nav-progress-fill" id="nav-prog-fill"></div>
-          </div>
+            id="nav-prog-fill"
+            value="0"
+            max="100"
+          >0 %</progress>
         </div>
         <button type="button" class="nav-help-hint" id="nav-help" aria-label="Afficher les raccourcis clavier">
           <kbd aria-hidden="true">?</kbd>
@@ -101,68 +98,79 @@
        ============================================================ -->
     <div id="view-home" class="view active">
       <div class="bp-home">
-
-        <!-- HERO -->
         <section class="bp-hero animate">
           <div class="bp-hero-left">
-            <div class="bp-eyebrow">// plateforme d'apprentissage devops</div>
+            <div class="bp-eyebrow">// parcours guidé · zéro compte requis</div>
             <h1 class="bp-h1">
-              L'essentiel<br />
-              DevOps, <span class="cy">câblé</span><br />
-              comme un pipeline.
+              Construisez votre<br />
+              <span class="cy">pipeline DevOps</span>,<br />
+              étape par étape.
             </h1>
             <p class="bp-lead">
-              10 outils incontournables — Docker, Kubernetes, Terraform,
-              Prometheus, ArgoCD — présentés dans la logique exacte d'un
-              pipeline CI/CD réel.
+              Neuf fondamentaux reliés par un même projet, des quiz courts et
+              une prochaine action claire. ArgoCD prolonge le parcours en bonus.
             </p>
+            <ul class="bp-trust">
+              <li>9 fondamentaux</li>
+              <li>~90 minutes</li>
+              <li>Progression locale</li>
+            </ul>
             <div class="bp-actions">
               <button type="button" class="bp-btn-solid" id="btn-hero-start">Démarrer le parcours</button>
-              <button type="button" class="bp-btn-line" id="btn-hero-scroll">Voir le schéma ↓</button>
+              <button type="button" class="bp-btn-line" id="btn-hero-scroll">Explorer les étapes ↓</button>
             </div>
           </div>
 
-          <!-- Carte-schéma (terminal) -->
-          <div class="bp-scheme">
+          <aside class="bp-scheme bp-resume" aria-labelledby="home-resume-title">
             <span class="bp-corner tl"></span><span class="bp-corner tr"></span>
             <span class="bp-corner bl"></span><span class="bp-corner br"></span>
-            <div class="bp-scheme-head">
-              <span>FIG. 01 — BUILD / DEPLOY SEQUENCE</span>
-              <span>REV. 1.6.2</span>
+            <div class="bp-resume-head">
+              <div>
+                <span class="bp-resume-kicker">Votre parcours</span>
+                <h2 id="home-resume-title">Prêt à démarrer</h2>
+              </div>
+              <span class="bp-local-badge">Local</span>
             </div>
-            <div class="bp-term">
-              <div><span class="p">$</span> docker <span class="f">build</span> <span class="f">-t</span> viaops:1.6.2 .</div>
-              <div><span class="ok">✓ built 3f9a2c1d</span></div>
-              <div style="margin-top:6px"><span class="p">$</span> kubectl <span class="f">apply</span> <span class="f">-f</span> deploy.yaml</div>
-              <div><span class="ok">✓ deployment.apps/viaops created</span></div>
-              <div style="margin-top:6px"><span class="p">$</span> <span class="bp-cursor"></span></div>
+            <div class="bp-resume-score">
+              <strong id="home-progress-count">0/9</strong>
+              <span>fondamentaux validés</span>
             </div>
-          </div>
+            <progress
+              class="bp-resume-progress"
+              id="home-progress-fill"
+              value="0"
+              max="100"
+            >0 %</progress>
+            <div class="bp-next-step" aria-live="polite">
+              <span class="bp-next-label">Prochaine étape</span>
+              <strong id="home-next-title">01 · DevOps</strong>
+              <p id="home-next-copy">Comprendre la culture et les principes CALMS.</p>
+            </div>
+            <button type="button" class="bp-resume-action" id="btn-home-next">Commencer DevOps →</button>
+            <p class="bp-storage-note">Votre progression reste uniquement sur cet appareil.</p>
+          </aside>
         </section>
 
-        <!-- SPÉCIFICATIONS (stats) -->
-        <div class="bp-sheet-tag animate delay-1">Spécifications</div>
-        <section class="bp-stats animate delay-1">
-          <div class="bp-stat"><div class="k">Outils</div><div class="v">10</div><div class="u">devops → gitops</div></div>
-          <div class="bp-stat"><div class="k">Durée</div><div class="v">~100<small>m</small></div><div class="u">temps total</div></div>
-          <div class="bp-stat"><div class="k">Prérequis</div><div class="v">0</div><div class="u">bloquants</div></div>
-          <div class="bp-stat"><div class="k">Coût</div><div class="v">0<small>€</small></div><div class="u">open source</div></div>
-        </section>
+        <h2 class="bp-sheet-tag animate delay-1">Le parcours en bref</h2>
+        <div class="bp-stats animate delay-1">
+          <div class="bp-stat"><div class="k">Fondamentaux</div><div class="v">9</div><div class="u">du DevOps à l’AIOps</div></div>
+          <div class="bp-stat"><div class="k">Durée</div><div class="v">~90<small>m</small></div><div class="u">à votre rythme</div></div>
+          <div class="bp-stat"><div class="k">Validation</div><div class="v">75<small>%</small></div><div class="u">minimum par quiz</div></div>
+          <div class="bp-stat"><div class="k">Bonus</div><div class="v">+1</div><div class="u">ArgoCD · GitOps</div></div>
+        </div>
 
-        <!-- SCHÉMA DU PIPELINE (signature) -->
-        <div class="bp-sheet-tag animate delay-2">Schéma du pipeline — 10 étages</div>
-        <section class="bp-pipe animate delay-2" id="pipeline-panel">
+        <h2 class="bp-sheet-tag animate delay-2">Votre pipeline d’apprentissage</h2>
+        <div class="bp-pipe animate delay-2" id="pipeline-panel">
           <div class="bp-dim">
             <span class="tick"></span>
             <span class="span"></span>
-            <span class="lbl">◄ SÉQUENCE COMPLÈTE · ~100 MIN ►</span>
+            <span class="lbl">9 fondamentaux · 1 bonus</span>
             <span class="span"></span>
             <span class="tick"></span>
           </div>
           <div class="bp-rail" id="pipeline-stages"></div>
-          <div class="bp-pipe-foot">// chaque étage = un module · cliquer pour ouvrir le plan détaillé</div>
-        </section>
-
+          <div class="bp-pipe-foot">Faites défiler puis sélectionnez une étape pour ouvrir son module.</div>
+        </div>
       </div>
     </div>
 
@@ -171,24 +179,20 @@
        ============================================================ -->
     <div id="view-module" class="view">
       <div class="module-layout">
-        <aside class="module-sidebar">
+        <aside class="module-sidebar" aria-label="Navigation des modules">
           <div class="sidebar-section-label">// parcours viaops</div>
           <div id="sidebar-list"></div>
           <div class="sidebar-footer">
             <div class="sidebar-prog-label">
               <span>progression</span>
-              <span id="sidebar-prog-val">0/10</span>
+              <span id="sidebar-prog-val">0/9</span>
             </div>
-            <div
+            <progress
               class="sidebar-prog-bar"
-              role="progressbar"
-              aria-label="Progression du parcours"
-              aria-valuemin="0"
-              aria-valuemax="100"
-              aria-valuenow="0"
-            >
-              <div class="sidebar-prog-fill" id="sidebar-prog-fill"></div>
-            </div>
+              id="sidebar-prog-fill"
+              value="0"
+              max="100"
+            >0 %</progress>
           </div>
         </aside>
 
