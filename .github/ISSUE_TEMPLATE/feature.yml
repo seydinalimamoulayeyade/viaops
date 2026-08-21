@@ -1,0 +1,45 @@
+name: Proposition d’amélioration
+description: Proposer une évolution fonctionnelle ou pédagogique
+title: "feat: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: Merci de décrire le besoin avant la solution.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problème ou opportunité
+      description: Quel besoin utilisateur cette évolution adresse-t-elle ?
+      placeholder: En tant qu’apprenant, je souhaite…
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposition
+      description: Décrivez le comportement attendu sans imposer l’implémentation.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Critères d’acceptation
+      placeholder: |
+        - [ ] Critère vérifiable 1
+        - [ ] Critère vérifiable 2
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Domaine principal
+      options:
+        - Expérience pédagogique
+        - Interface et design
+        - Contenu d’un module
+        - Accessibilité
+        - CI/CD et infrastructure
+        - Documentation
+    validations:
+      required: true
