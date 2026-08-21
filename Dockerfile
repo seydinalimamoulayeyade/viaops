@@ -8,10 +8,15 @@ LABEL maintainer="Virtual Voyager <linkedin.com/in/limamou-laye>"
 LABEL project="ViaOps"
 LABEL version="1.6.2"
 
-COPY --chown=nginx:nginx index.html /usr/share/nginx/html/
-COPY --chown=nginx:nginx assets/ /usr/share/nginx/html/assets/
-COPY --chown=nginx:nginx modules/ /usr/share/nginx/html/modules/
-COPY --chown=nginx:nginx nginx.conf /etc/nginx/conf.d/default.conf
+# Installer les correctifs de sécurité publiés après la construction de l'image de base.
+USER root
+RUN apk upgrade --no-cache
+USER 101
+
+COPY index.html /usr/share/nginx/html/
+COPY assets/ /usr/share/nginx/html/assets/
+COPY modules/ /usr/share/nginx/html/modules/
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 8080
 
