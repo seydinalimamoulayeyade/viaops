@@ -59,6 +59,7 @@ jobs:
             sleep 1
           done
           curl --fail --silent http://localhost:8080/modules/docker.html >/dev/null
+          curl --fail --silent http://localhost:8080/design-system.html >/dev/null
           curl --fail --silent --head http://localhost:8080/ | grep -qi '^Content-Security-Policy:'
 
       - name: Scanner l'image avec Trivy conteneurisé
@@ -100,7 +101,7 @@ jobs:
       - name: Préparer les fichiers statiques
         run: |
           mkdir -p dist
-          cp index.html dist/
+          cp index.html design-system.html dist/
           cp -r assets modules dist/
 
       - name: Déployer sur GitHub Pages

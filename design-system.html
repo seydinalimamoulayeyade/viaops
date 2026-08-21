@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Style guide vivant du design system Blueprint 2.0 de ViaOps." />
+    <title>Blueprint 2.0 — Design system ViaOps</title>
+    <link rel="stylesheet" href="assets/css/design-system.css?v=1.6.2" />
+  </head>
+  <body>
+    <main class="ds-shell">
+      <header class="ds-header">
+        <a class="ds-brand" href="index.html">VIA<span>OPS</span></a>
+        <a class="ds-back" href="index.html">← Retour à la plateforme</a>
+      </header>
+
+      <section class="ds-intro" aria-labelledby="page-title">
+        <span class="ds-kicker">// living style guide · issue #14</span>
+        <h1 id="page-title">Blueprint 2.0</h1>
+        <p>
+          Un langage visuel technique, lisible et accessible pour transformer
+          ViaOps en cockpit d’apprentissage sans sacrifier son identité.
+        </p>
+      </section>
+
+      <div class="ds-themes">
+        <article class="ds-theme ds-theme-dark" aria-labelledby="dark-title">
+          <header class="ds-theme-head">
+            <span class="ds-kicker">// thème sombre</span>
+            <h2 id="dark-title">Blueprint nocturne</h2>
+            <p>Ardoise profonde, structure cyan et signaux opérationnels.</p>
+          </header>
+
+          <div class="ds-section" aria-labelledby="dark-colors">
+            <h3 id="dark-colors">13 rôles de couleur</h3>
+            <div class="ds-grid">
+              <div class="ds-swatch ds-swatch-page">Page</div>
+              <div class="ds-swatch ds-swatch-surface">Surface</div>
+              <div class="ds-swatch ds-swatch-surface-2">Surface secondaire</div>
+              <div class="ds-swatch ds-swatch-text">Texte principal</div>
+              <div class="ds-swatch ds-swatch-text-2">Texte secondaire</div>
+              <div class="ds-swatch ds-swatch-border">Bordure</div>
+              <div class="ds-swatch ds-swatch-accent">Accent</div>
+              <div class="ds-swatch ds-swatch-info">Information</div>
+              <div class="ds-swatch ds-swatch-success">Succès</div>
+              <div class="ds-swatch ds-swatch-warning">Avertissement</div>
+              <div class="ds-swatch ds-swatch-danger">Danger</div>
+              <div class="ds-swatch ds-swatch-focus">Focus</div>
+              <div class="ds-swatch ds-swatch-code">Code</div>
+            </div>
+          </div>
+
+          <div class="ds-section" aria-labelledby="dark-type">
+            <h3 id="dark-type">Typographie</h3>
+            <p class="ds-type-display">Display 48/52</p>
+            <p class="ds-type-h1">Titre 1 · 40/44</p>
+            <p class="ds-type-h2">Titre 2 · 32/38</p>
+            <p class="ds-type-h3">Titre 3 · 24/30</p>
+            <p class="ds-type-body">Corps · 16/24 — comprendre avant d’automatiser.</p>
+            <p class="ds-type-small">Petit texte · 14/20 — contexte et métadonnées.</p>
+            <p class="ds-type-label">Libellé · 14/20 · semibold</p>
+            <p class="ds-type-code">Code · 14/22 · docker build -t viaops .</p>
+          </div>
+
+          <div class="ds-section" aria-labelledby="dark-spacing">
+            <h3 id="dark-spacing">Espacements</h3>
+            <div class="ds-spacing">
+              <span class="ds-space-item"><span class="ds-space ds-space-4" aria-hidden="true"></span><span>4 px</span></span>
+              <span class="ds-space-item"><span class="ds-space ds-space-8" aria-hidden="true"></span><span>8 px</span></span>
+              <span class="ds-space-item"><span class="ds-space ds-space-12" aria-hidden="true"></span><span>12 px</span></span>
+              <span class="ds-space-item"><span class="ds-space ds-space-16" aria-hidden="true"></span><span>16 px</span></span>
+              <span class="ds-space-item"><span class="ds-space ds-space-24" aria-hidden="true"></span><span>24 px</span></span>
+              <span class="ds-space-item"><span class="ds-space ds-space-32" aria-hidden="true"></span><span>32 px</span></span>
+              <span class="ds-space-item"><span class="ds-space ds-space-48" aria-hidden="true"></span><span>48 px</span></span>
+              <span class="ds-space-item"><span class="ds-space ds-space-64" aria-hidden="true"></span><span>64 px</span></span>
+            </div>
+          </div>
+
+          <div class="ds-section" aria-labelledby="dark-buttons">
+            <h3 id="dark-buttons">Boutons et états</h3>
+            <p class="ds-caption">Primaire · normal, survol, pressé, focus, désactivé</p>
+            <div class="ds-states">
+              <button class="ds-button" type="button">Normal</button>
+              <button class="ds-button is-hover" type="button">Survol</button>
+              <button class="ds-button is-active" type="button">Pressé</button>
+              <button class="ds-button is-focus" type="button">Focus</button>
+              <button class="ds-button" type="button" disabled>Désactivé</button>
+            </div>
+            <p class="ds-caption">Secondaire · normal, survol, pressé, focus, désactivé</p>
+            <div class="ds-states">
+              <button class="ds-button ds-button-secondary" type="button">Normal</button>
+              <button class="ds-button ds-button-secondary is-hover" type="button">Survol</button>
+              <button class="ds-button ds-button-secondary is-active" type="button">Pressé</button>
+              <button class="ds-button ds-button-secondary is-focus" type="button">Focus</button>
+              <button class="ds-button ds-button-secondary" type="button" disabled>Désactivé</button>
+            </div>
+            <p class="ds-caption">Danger · normal, survol, pressé, focus, désactivé</p>
+            <div class="ds-states">
+              <button class="ds-button ds-button-danger" type="button">Normal</button>
+              <button class="ds-button ds-button-danger is-hover" type="button">Survol</button>
+              <button class="ds-button ds-button-danger is-active" type="button">Pressé</button>
+              <button class="ds-button ds-button-danger is-focus" type="button">Focus</button>
+              <button class="ds-button ds-button-danger" type="button" disabled>Désactivé</button>
+            </div>
+          </div>
+          <div class="ds-section" aria-labelledby="dark-components">
+            <h3 id="dark-components">Composants</h3>
+            <div class="ds-badges">
+              <span class="ds-badge">Neutre</span>
+              <span class="ds-badge ds-badge-info">Information</span>
+              <span class="ds-badge ds-badge-success">Succès</span>
+              <span class="ds-badge ds-badge-warning">Avertissement</span>
+              <span class="ds-badge ds-badge-danger">Danger</span>
+            </div>
+            <div class="ds-grid">
+              <div class="ds-card"><strong>Carte standard</strong><span>Contenu informatif sans action.</span></div>
+              <a class="ds-card ds-card-interactive" href="#dark-code"><strong>Carte interactive</strong><span>Atteignable au clavier.</span></a>
+              <div class="ds-card ds-card-selected"><strong>Module Docker</strong><span>État annoncé par texte et bordure.</span></div>
+            </div>
+          </div>
+
+          <div class="ds-section" aria-labelledby="dark-navigation">
+            <h3 id="dark-navigation">Navigation</h3>
+            <nav class="ds-nav" aria-label="Exemple de navigation sombre">
+              <a href="#dark-title">Accueil</a>
+              <a href="#dark-components" aria-current="page">Parcours · actif</a>
+              <a href="#dark-code">Projet</a>
+            </nav>
+          </div>
+
+          <div class="ds-section" aria-labelledby="dark-progress">
+            <h3 id="dark-progress">Progression</h3>
+            <div class="ds-progress-list">
+              <div class="ds-progress-item"><label for="dark-p0"><span>Départ</span><span>0 %</span></label><progress id="dark-p0" value="0" max="100">0 %</progress></div>
+              <div class="ds-progress-item"><label for="dark-p50"><span>En cours</span><span>50 %</span></label><progress id="dark-p50" value="50" max="100">50 %</progress></div>
+              <div class="ds-progress-item"><label for="dark-p100"><span>Terminé</span><span>100 %</span></label><progress id="dark-p100" value="100" max="100">100 %</progress></div>
+            </div>
+          </div>
+
+          <div class="ds-section" aria-labelledby="dark-alerts">
+            <h3 id="dark-alerts">Alertes</h3>
+            <div class="ds-alerts">
+              <div class="ds-alert ds-alert-info" role="note"><strong>Information</strong>Le module dure environ 10 minutes.</div>
+              <div class="ds-alert ds-alert-success" role="note"><strong>Succès</strong>Quiz validé avec 75 %.</div>
+              <div class="ds-alert ds-alert-warning" role="note"><strong>Avertissement</strong>La progression reste sur cet appareil.</div>
+              <div class="ds-alert ds-alert-danger" role="note"><strong>Erreur</strong>Le contenu n’a pas pu être chargé.</div>
+            </div>
+          </div>
+
+          <div class="ds-section" id="dark-code" aria-labelledby="dark-code-title">
+            <h3 id="dark-code-title">Code</h3>
+            <p>Commande inline : <code>docker compose up -d</code></p>
+            <pre><code>docker build --tag viaops:blueprint-2.0 --file Dockerfile .
+kubectl apply --filename deploy.yaml --namespace viaops-learning-environment-with-a-deliberately-long-name</code></pre>
+          </div>
+        </article>
+        <article class="ds-theme ds-theme-light" aria-labelledby="light-title">
+          <header class="ds-theme-head">
+            <span class="ds-kicker">// thème clair</span>
+            <h2 id="light-title">Blueprint papier</h2>
+            <p>Papier technique, encre profonde et signaux à contraste renforcé.</p>
+          </header>
+
+          <div class="ds-section" aria-labelledby="light-colors">
+            <h3 id="light-colors">13 rôles de couleur</h3>
+            <div class="ds-grid">
+              <div class="ds-swatch ds-swatch-page">Page</div>
+              <div class="ds-swatch ds-swatch-surface">Surface</div>
+              <div class="ds-swatch ds-swatch-surface-2">Surface secondaire</div>
+              <div class="ds-swatch ds-swatch-text">Texte principal</div>
+              <div class="ds-swatch ds-swatch-text-2">Texte secondaire</div>
+              <div class="ds-swatch ds-swatch-border">Bordure</div>
+              <div class="ds-swatch ds-swatch-accent">Accent</div>
+              <div class="ds-swatch ds-swatch-info">Information</div>
+              <div class="ds-swatch ds-swatch-success">Succès</div>
+              <div class="ds-swatch ds-swatch-warning">Avertissement</div>
+              <div class="ds-swatch ds-swatch-danger">Danger</div>
+              <div class="ds-swatch ds-swatch-focus">Focus</div>
+              <div class="ds-swatch ds-swatch-code">Code</div>
+            </div>
+          </div>
+
+          <div class="ds-section" aria-labelledby="light-type">
+            <h3 id="light-type">Typographie</h3>
+            <p class="ds-type-display">Display 48/52</p>
+            <p class="ds-type-h1">Titre 1 · 40/44</p>
+            <p class="ds-type-h2">Titre 2 · 32/38</p>
+            <p class="ds-type-h3">Titre 3 · 24/30</p>
+            <p class="ds-type-body">Corps · 16/24 — comprendre avant d’automatiser.</p>
+            <p class="ds-type-small">Petit texte · 14/20 — contexte et métadonnées.</p>
+            <p class="ds-type-label">Libellé · 14/20 · semibold</p>
+            <p class="ds-type-code">Code · 14/22 · terraform plan</p>
+          </div>
+
+          <div class="ds-section" aria-labelledby="light-spacing">
+            <h3 id="light-spacing">Espacements</h3>
+            <div class="ds-spacing">
+              <span class="ds-space-item"><span class="ds-space ds-space-4" aria-hidden="true"></span><span>4 px</span></span>
+              <span class="ds-space-item"><span class="ds-space ds-space-8" aria-hidden="true"></span><span>8 px</span></span>
+              <span class="ds-space-item"><span class="ds-space ds-space-12" aria-hidden="true"></span><span>12 px</span></span>
+              <span class="ds-space-item"><span class="ds-space ds-space-16" aria-hidden="true"></span><span>16 px</span></span>
+              <span class="ds-space-item"><span class="ds-space ds-space-24" aria-hidden="true"></span><span>24 px</span></span>
+              <span class="ds-space-item"><span class="ds-space ds-space-32" aria-hidden="true"></span><span>32 px</span></span>
+              <span class="ds-space-item"><span class="ds-space ds-space-48" aria-hidden="true"></span><span>48 px</span></span>
+              <span class="ds-space-item"><span class="ds-space ds-space-64" aria-hidden="true"></span><span>64 px</span></span>
+            </div>
+          </div>
+
+          <div class="ds-section" aria-labelledby="light-buttons">
+            <h3 id="light-buttons">Boutons et états</h3>
+            <p class="ds-caption">Primaire · normal, survol, pressé, focus, désactivé</p>
+            <div class="ds-states">
+              <button class="ds-button" type="button">Normal</button>
+              <button class="ds-button is-hover" type="button">Survol</button>
+              <button class="ds-button is-active" type="button">Pressé</button>
+              <button class="ds-button is-focus" type="button">Focus</button>
+              <button class="ds-button" type="button" disabled>Désactivé</button>
+            </div>
+            <p class="ds-caption">Secondaire · normal, survol, pressé, focus, désactivé</p>
+            <div class="ds-states">
+              <button class="ds-button ds-button-secondary" type="button">Normal</button>
+              <button class="ds-button ds-button-secondary is-hover" type="button">Survol</button>
+              <button class="ds-button ds-button-secondary is-active" type="button">Pressé</button>
+              <button class="ds-button ds-button-secondary is-focus" type="button">Focus</button>
+              <button class="ds-button ds-button-secondary" type="button" disabled>Désactivé</button>
+            </div>
+            <p class="ds-caption">Danger · normal, survol, pressé, focus, désactivé</p>
+            <div class="ds-states">
+              <button class="ds-button ds-button-danger" type="button">Normal</button>
+              <button class="ds-button ds-button-danger is-hover" type="button">Survol</button>
+              <button class="ds-button ds-button-danger is-active" type="button">Pressé</button>
+              <button class="ds-button ds-button-danger is-focus" type="button">Focus</button>
+              <button class="ds-button ds-button-danger" type="button" disabled>Désactivé</button>
+            </div>
+          </div>
+          <div class="ds-section" aria-labelledby="light-components">
+            <h3 id="light-components">Composants</h3>
+            <div class="ds-badges">
+              <span class="ds-badge">Neutre</span>
+              <span class="ds-badge ds-badge-info">Information</span>
+              <span class="ds-badge ds-badge-success">Succès</span>
+              <span class="ds-badge ds-badge-warning">Avertissement</span>
+              <span class="ds-badge ds-badge-danger">Danger</span>
+            </div>
+            <div class="ds-grid">
+              <div class="ds-card"><strong>Carte standard</strong><span>Contenu informatif sans action.</span></div>
+              <a class="ds-card ds-card-interactive" href="#light-code"><strong>Carte interactive</strong><span>Atteignable au clavier.</span></a>
+              <div class="ds-card ds-card-selected"><strong>Module Docker</strong><span>État annoncé par texte et bordure.</span></div>
+            </div>
+          </div>
+
+          <div class="ds-section" aria-labelledby="light-navigation">
+            <h3 id="light-navigation">Navigation</h3>
+            <nav class="ds-nav" aria-label="Exemple de navigation claire">
+              <a href="#light-title">Accueil</a>
+              <a href="#light-components" aria-current="page">Parcours · actif</a>
+              <a href="#light-code">Projet</a>
+            </nav>
+          </div>
+
+          <div class="ds-section" aria-labelledby="light-progress">
+            <h3 id="light-progress">Progression</h3>
+            <div class="ds-progress-list">
+              <div class="ds-progress-item"><label for="light-p0"><span>Départ</span><span>0 %</span></label><progress id="light-p0" value="0" max="100">0 %</progress></div>
+              <div class="ds-progress-item"><label for="light-p50"><span>En cours</span><span>50 %</span></label><progress id="light-p50" value="50" max="100">50 %</progress></div>
+              <div class="ds-progress-item"><label for="light-p100"><span>Terminé</span><span>100 %</span></label><progress id="light-p100" value="100" max="100">100 %</progress></div>
+            </div>
+          </div>
+
+          <div class="ds-section" aria-labelledby="light-alerts">
+            <h3 id="light-alerts">Alertes</h3>
+            <div class="ds-alerts">
+              <div class="ds-alert ds-alert-info" role="note"><strong>Information</strong>Le module dure environ 10 minutes.</div>
+              <div class="ds-alert ds-alert-success" role="note"><strong>Succès</strong>Quiz validé avec 75 %.</div>
+              <div class="ds-alert ds-alert-warning" role="note"><strong>Avertissement</strong>La progression reste sur cet appareil.</div>
+              <div class="ds-alert ds-alert-danger" role="note"><strong>Erreur</strong>Le contenu n’a pas pu être chargé.</div>
+            </div>
+          </div>
+
+          <div class="ds-section" id="light-code" aria-labelledby="light-code-title">
+            <h3 id="light-code-title">Code</h3>
+            <p>Commande inline : <code>terraform plan</code></p>
+            <pre><code>docker build --tag viaops:blueprint-2.0 --file Dockerfile .
+kubectl apply --filename deploy.yaml --namespace viaops-learning-environment-with-a-deliberately-long-name</code></pre>
+          </div>
+        </article>
+      </div>
+
+      <footer class="ds-footer">
+        Blueprint 2.0 · HTML/CSS uniquement · WCAG 2.2 AA comme cible
+      </footer>
+    </main>
+  </body>
+</html>
