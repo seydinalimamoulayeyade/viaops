@@ -11,6 +11,7 @@ const routeButtons = {
   'nav-about': 'about',
   'btn-navbar-start': 'module',
   'btn-hero-start': 'module',
+  'btn-home-project': 'capstone',
 };
 
 Object.entries(routeButtons).forEach(([id, route]) => {
