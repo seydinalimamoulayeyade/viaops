@@ -122,17 +122,88 @@ const Progress = {
 
 function updateProgressBar(fill, value, count, total, pct) {
   if (fill) {
-    fill.style.width = `${pct}%`;
-    fill.parentElement?.setAttribute('aria-valuenow', String(Math.round(pct)));
-    fill.parentElement?.setAttribute('aria-valuetext', `${count} modules sur ${total}`);
+    fill.value = pct;
+    fill.textContent = `${Math.round(pct)} %`;
+    fill.setAttribute('aria-valuetext', `${count} modules sur ${total}`);
   }
   if (value) value.textContent = `${count}/${total}`;
 }
 
+function updateHomeProgressBar(count, total, pct) {
+  const countEl = document.getElementById('home-progress-count');
+  const progress = document.getElementById('home-progress-fill');
+
+  if (countEl) countEl.textContent = `${count}/${total}`;
+  if (!progress) return;
+  progress.value = pct;
+  progress.textContent = `${pct} %`;
+  progress.setAttribute('aria-valuetext', `${count} fondamentaux sur ${total}`);
+}
+
+function getRecommendedModuleIndex() {
+  const currentIsAvailable = !MODULES[State.currentModule]?.bonus
+    && !Progress.has(State.currentModule);
+  if (currentIsAvailable) return State.currentModule;
+
+  const nextIndex = MODULES.findIndex((module, index) => (
+    !module.bonus && !Progress.has(index)
+  ));
+  if (nextIndex >= 0) return nextIndex;
+  return MODULES.findIndex(module => module.bonus);
+}
+
+function getResumeTitle(count, total) {
+  if (count === total) return 'Fondamentaux terminés';
+  if (count > 0) return 'Continuez sur votre lancée';
+  return 'Prêt à démarrer';
+}
+
+function updateHomeRecommendation(count, total, recommendedIndex) {
+  const recommended = MODULES[recommendedIndex];
+  const title = document.getElementById('home-next-title');
+  const copy = document.getElementById('home-next-copy');
+  const resumeTitle = document.getElementById('home-resume-title');
+  const nextButton = document.getElementById('btn-home-next');
+
+  if (resumeTitle) resumeTitle.textContent = getResumeTitle(count, total);
+  if (!recommended) return;
+  if (title) {
+    title.textContent = `${String(recommendedIndex + 1).padStart(2, '0')} · ${recommended.label}`;
+  }
+  if (copy) {
+    copy.textContent = count === total
+      ? 'Prolongez le parcours avec GitOps et le déploiement continu.'
+      : `${recommended.tag} · ${recommended.time}`;
+  }
+  if (nextButton) {
+    const action = count > 0 ? 'Continuer' : 'Commencer';
+    nextButton.dataset.moduleIndex = String(recommendedIndex);
+    nextButton.textContent = count === total
+      ? 'Explorer ArgoCD →'
+      : `${action} ${recommended.label} →`;
+  }
+}
+
+function updateHomeActions(count) {
+  const heroButton = document.getElementById('btn-hero-start');
+  const navButton = document.getElementById('btn-navbar-start');
+  if (heroButton) heroButton.textContent = count > 0 ? 'Reprendre le parcours' : 'Démarrer le parcours';
+  if (navButton) navButton.textContent = count > 0 ? 'Reprendre →' : 'Démarrer →';
+}
+
+function updateHomeProgress(count, total, pct) {
+  updateHomeProgressBar(count, total, pct);
+  updateHomeRecommendation(count, total, getRecommendedModuleIndex());
+  updateHomeActions(count);
+}
+
 function updateAllProgress() {
-  const count = Progress.count();
-  const total = MODULES.length;
-  const pct = (count / total) * 100;
+  const coreModules = MODULES
+    .map((module, index) => ({ module, index }))
+    .filter(item => !item.module.bonus);
+  const count = coreModules.filter(item => Progress.has(item.index)).length;
+  const total = coreModules.length;
+  const pct = Math.round((count / total) * 100);
 
   updateProgressBar(
     document.getElementById('nav-prog-fill'),
@@ -144,4 +215,5 @@ function updateAllProgress() {
     document.getElementById('sidebar-prog-val'),
     count, total, pct,
   );
+  updateHomeProgress(count, total, pct);
 }
