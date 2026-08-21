@@ -9,7 +9,9 @@ LABEL project="ViaOps"
 LABEL version="1.6.2"
 
 # Installer les correctifs de sécurité publiés après la construction de l'image de base.
+USER root
 RUN apk upgrade --no-cache
+USER 101
 
 COPY index.html /usr/share/nginx/html/
 COPY assets/ /usr/share/nginx/html/assets/
