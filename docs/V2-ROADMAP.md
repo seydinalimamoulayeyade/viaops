@@ -26,6 +26,8 @@ Transformer ViaOps en plateforme d’apprentissage guidé : apprendre le DevOps 
 
 L’issue épique #19 centralise l’avancement du milestone.
 
+Document de cadrage : [parcours et architecture de l’information](V2-INFORMATION-ARCHITECTURE.md).
+
 ## Premier jalon
 
 Le premier jalon livrable comprend :
