@@ -138,7 +138,10 @@ Hosting     →  GitHub Pages
 
 ## 📖 Documentation
 
+- 🗺️ **[Roadmap V2](docs/V2-ROADMAP.md)** — Vision, phases et critères de réussite
 - 📋 **[CHANGELOG.md](CHANGELOG.md)** — Historique des versions et changements
+- 🤝 **[CONTRIBUTING.md](CONTRIBUTING.md)** — Guide de contribution
+- 🔒 **[SECURITY.md](SECURITY.md)** — Politique de signalement responsable
 - 📄 **[LICENSE](LICENSE)** — Licence MIT
 
 ### Vérifications locales
