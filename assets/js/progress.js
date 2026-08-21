@@ -197,6 +197,54 @@ function updateHomeProgress(count, total, pct) {
   updateHomeActions(count);
 }
 
+const DASHBOARD_PHASES = [
+  { id: 'foundations', indices: [0, 1, 2, 3] },
+  { id: 'infrastructure', indices: [4, 5] },
+  { id: 'operations', indices: [6, 7, 8] },
+];
+
+function updateDashboardPhase(phase) {
+  const completed = phase.indices.filter(index => Progress.has(index)).length;
+  const total = phase.indices.length;
+  const pct = Math.round((completed / total) * 100);
+  const progress = document.getElementById(`home-phase-${phase.id}`);
+  const value = document.getElementById(`home-phase-${phase.id}-value`);
+
+  if (progress) {
+    progress.value = pct;
+    progress.textContent = `${pct} %`;
+  }
+  if (value) value.textContent = `${completed}/${total}`;
+}
+
+function updateDashboardScores(coreModules, completedCount) {
+  const scores = coreModules
+    .map(item => Score.best(item.module.id))
+    .filter(score => score > 0);
+  const average = scores.length > 0
+    ? Math.round(scores.reduce((sum, score) => sum + score, 0) / scores.length)
+    : null;
+  const averageEl = document.getElementById('home-score-average');
+  const copy = document.getElementById('home-score-copy');
+  const validated = document.getElementById('home-validated-count');
+
+  if (averageEl) averageEl.textContent = average === null ? '—' : String(average);
+  if (copy) {
+    const plural = scores.length > 1 ? 's' : '';
+    copy.textContent = scores.length > 0
+      ? `${scores.length} quiz enregistré${plural} sur cet appareil.`
+      : 'Terminez un premier quiz pour afficher votre moyenne.';
+  }
+  if (validated) validated.textContent = String(completedCount);
+}
+
+function updateDashboardInsights(coreModules, completedCount, total) {
+  DASHBOARD_PHASES.forEach(updateDashboardPhase);
+  updateDashboardScores(coreModules, completedCount);
+  const projectStep = document.getElementById('home-project-step');
+  if (projectStep) projectStep.textContent = `${completedCount}/${total} étapes`;
+}
+
 function updateAllProgress() {
   const coreModules = MODULES
     .map((module, index) => ({ module, index }))
@@ -216,4 +264,5 @@ function updateAllProgress() {
     count, total, pct,
   );
   updateHomeProgress(count, total, pct);
+  updateDashboardInsights(coreModules, count, total);
 }
