@@ -1332,3 +1332,311 @@ progress.bp-resume-progress {
     grid-template-columns: 1fr;
   }
 }
+
+/* Transversal UI — interaction, overlays and learning states */
+body .progress-menu-btn,
+body .cert-close,
+body .shortcuts-close,
+body .scroll-to-top {
+  min-width: 44px;
+  min-height: 44px;
+}
+
+body .progress-menu-btn:focus-visible,
+body .progress-menu-item:focus-visible,
+body .cert-close:focus-visible,
+body .cert-form input:focus-visible,
+body .shortcuts-close:focus-visible,
+body .scroll-to-top:focus-visible,
+#view-module .quiz-option:focus-visible {
+  outline: 3px solid var(--amber);
+  outline-offset: 3px;
+}
+
+#view-module .quiz-block {
+  background:
+    linear-gradient(135deg, rgb(79 209 232 / 6%), transparent 44%),
+    var(--bg2);
+  border-color: var(--border2);
+  border-radius: 12px;
+  box-shadow: 0 14px 40px rgb(0 0 0 / 8%);
+}
+
+#view-module .quiz-label {
+  font-family: var(--font);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+#view-module .quiz-question {
+  font-size: clamp(16px, 2vw, 18px);
+  line-height: 1.75;
+}
+
+#view-module .quiz-option {
+  min-height: 56px;
+  background: var(--panel);
+  border-width: 1px;
+  border-radius: 9px;
+  transition: border-color 0.18s ease, background 0.18s ease, transform 0.18s ease;
+}
+
+#view-module .quiz-option:not(:disabled):hover {
+  background: var(--violet-dim);
+  border-color: var(--violet);
+  transform: translateX(3px);
+}
+
+#view-module .quiz-option:disabled:hover {
+  transform: none;
+}
+
+#view-module .quiz-option.wrong {
+  color: var(--danger);
+  background: var(--coral-dim);
+  border-color: var(--danger);
+  opacity: 1;
+}
+
+#view-module .quiz-feedback {
+  border-radius: 9px;
+}
+
+#view-module .quiz-feedback.ko {
+  color: var(--text);
+  background: var(--coral-dim);
+  border-color: var(--danger);
+}
+
+#view-module .quiz-progress-track {
+  height: 9px;
+  border: 1px solid var(--border);
+}
+
+#view-module .quiz-progress-fill {
+  background: linear-gradient(90deg, var(--violet), var(--passed));
+}
+
+#view-module .quiz-result {
+  background:
+    radial-gradient(circle at 50% 0, var(--violet-dim), transparent 18rem),
+    transparent;
+  border-radius: 12px;
+}
+
+#view-module .quiz-result-score {
+  font-family: var(--font-display);
+  font-size: clamp(48px, 8vw, 68px);
+}
+
+#view-module .quiz-result-badge.ko {
+  color: var(--danger);
+  background: var(--coral-dim);
+  border-color: var(--danger);
+}
+
+#view-module progress.sidebar-prog-bar {
+  height: 7px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+}
+
+body .progress-menu-btn {
+  border-radius: 8px;
+  transition: border-color 0.18s ease, background 0.18s ease, color 0.18s ease;
+}
+
+body .progress-menu {
+  top: 52px;
+  min-width: min(280px, calc(100vw - 24px));
+  background:
+    linear-gradient(145deg, rgb(79 209 232 / 6%), transparent 50%),
+    var(--panel);
+  border-color: var(--border2);
+  border-radius: 10px;
+  box-shadow: 0 18px 52px rgb(0 0 0 / 24%);
+}
+
+body .progress-menu-header {
+  min-height: 60px;
+  background: color-mix(in srgb, var(--panel2) 68%, transparent);
+  border-bottom: 1px solid var(--border);
+}
+
+body .progress-menu-title {
+  font-family: var(--font-display);
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+body .progress-menu-item {
+  min-height: 48px;
+  border-left: 3px solid transparent;
+  transition: border-color 0.18s ease, background 0.18s ease, color 0.18s ease;
+}
+
+body .progress-menu-item:hover {
+  background: var(--violet-dim);
+  border-left-color: var(--violet);
+}
+
+body .progress-menu-item.danger:hover {
+  color: var(--danger);
+  background: var(--coral-dim);
+  border-left-color: var(--danger);
+}
+
+body .cert-overlay,
+body .shortcuts-overlay {
+  padding: 16px;
+  background: rgb(6 14 24 / 82%);
+  backdrop-filter: blur(8px);
+}
+
+body .cert-modal,
+body .shortcuts-modal {
+  position: relative;
+  width: min(100%, 540px);
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 100% 0, var(--violet-dim), transparent 22rem),
+    var(--panel);
+  border-color: var(--border2);
+  border-radius: 12px;
+  box-shadow: 0 28px 90px rgb(0 0 0 / 44%);
+}
+
+body .cert-modal::before,
+body .shortcuts-modal::before {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 14px;
+  height: 14px;
+  border-top: 1px solid var(--violet);
+  border-left: 1px solid var(--violet);
+  content: "";
+  pointer-events: none;
+}
+
+body .cert-header,
+body .shortcuts-header {
+  min-height: 76px;
+  padding: 22px 26px;
+  background: color-mix(in srgb, var(--panel2) 60%, transparent);
+}
+
+body .cert-header h3,
+body .shortcuts-header h3 {
+  font-family: var(--font-display);
+  font-size: clamp(20px, 4vw, 25px);
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+body .cert-close,
+body .shortcuts-close {
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+}
+
+body .cert-close:hover,
+body .shortcuts-close:hover {
+  background: var(--violet-dim);
+  border-color: var(--violet-line);
+}
+
+body .cert-body,
+body .shortcuts-body {
+  padding: clamp(22px, 5vw, 34px);
+}
+
+body .cert-form input {
+  min-height: 48px;
+  background: var(--bg2);
+  border-width: 1px;
+  border-radius: 8px;
+}
+
+body .cert-form input:focus-visible {
+  background: var(--panel);
+  border-color: var(--amber);
+}
+
+body .cert-form input.error {
+  border-color: var(--danger);
+}
+
+body .cert-actions .btn-ghost,
+body .cert-actions .btn-primary {
+  min-height: 46px;
+  border-radius: 8px;
+}
+
+body .cert-toast {
+  min-height: 48px;
+  color: #0e1b2b;
+  background: var(--passed);
+  border: 1px solid var(--passed);
+  border-radius: 8px;
+  box-shadow: 0 14px 40px rgb(0 0 0 / 26%);
+}
+
+body .shortcut-item {
+  min-height: 52px;
+  background: color-mix(in srgb, var(--bg2) 88%, transparent);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+body .shortcut-item kbd {
+  min-width: 44px;
+  min-height: 32px;
+  padding: 7px 10px;
+  color: var(--violet);
+  border-color: var(--border2);
+  border-radius: 6px;
+  box-shadow: 0 2px 0 var(--border2);
+}
+
+body .scroll-to-top {
+  border-radius: 8px;
+  box-shadow: 0 10px 28px rgb(0 0 0 / 20%);
+  transition: opacity 0.18s ease, visibility 0.18s ease, transform 0.18s ease,
+    background 0.18s ease, box-shadow 0.18s ease;
+}
+
+body .scroll-to-top:hover {
+  background: var(--violet-dim);
+  box-shadow: 0 12px 32px rgb(79 209 232 / 20%);
+  transform: translateY(-1px);
+}
+
+body .scroll-to-top:active {
+  transform: translateY(1px);
+}
+
+@media (max-width: 520px) {
+  body .cert-header,
+  body .shortcuts-header {
+    padding-inline: 20px;
+  }
+
+  body .cert-actions {
+    flex-direction: column-reverse;
+  }
+
+  body .cert-actions .btn-ghost,
+  body .cert-actions .btn-primary {
+    width: 100%;
+    max-width: none;
+  }
+
+  body .shortcut-item {
+    align-items: flex-start;
+  }
+}
