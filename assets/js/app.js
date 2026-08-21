@@ -17,6 +17,14 @@ Object.entries(routeButtons).forEach(([id, route]) => {
   document.getElementById(id)?.addEventListener('click', () => Router.show(route));
 });
 
+document.getElementById('btn-home-next')?.addEventListener('click', event => {
+  const moduleIndex = Number(event.currentTarget.dataset.moduleIndex);
+  if (Number.isInteger(moduleIndex) && MODULES[moduleIndex]) {
+    State.currentModule = moduleIndex;
+  }
+  Router.show('module');
+});
+
 document.getElementById('nav-help')?.addEventListener('click', () => Shortcuts.showHelp());
 document.getElementById('btn-hero-scroll')?.addEventListener('click', () => {
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
