@@ -138,7 +138,9 @@ Hosting     →  GitHub Pages
 
 ## 📖 Documentation
 
+- 🧭 **[Architecture de l’information V2](docs/V2-INFORMATION-ARCHITECTURE.md)** — Parcours, écrans et navigation
 - 🗺️ **[Roadmap V2](docs/V2-ROADMAP.md)** — Vision, phases et critères de réussite
+- 🎨 **[Blueprint 2.0](design-system.html)** — Thèmes, tokens et composants du style guide vivant
 - 📋 **[CHANGELOG.md](CHANGELOG.md)** — Historique des versions et changements
 - 🤝 **[CONTRIBUTING.md](CONTRIBUTING.md)** — Guide de contribution
 - 🔒 **[SECURITY.md](SECURITY.md)** — Politique de signalement responsable

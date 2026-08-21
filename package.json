@@ -8,7 +8,7 @@
     "lint": "npm run lint:js && npm run lint:css && npm run lint:html",
     "lint:js": "eslint assets/js tests",
     "lint:css": "stylelint \"assets/css/**/*.css\"",
-    "lint:html": "html-validate index.html og-card.html \"modules/**/*.html\"",
+    "lint:html": "html-validate index.html design-system.html og-card.html \"modules/**/*.html\"",
     "test": "node --test tests/static-integrity.test.mjs"
   },
   "keywords": ["devops", "cicd", "learning"],
