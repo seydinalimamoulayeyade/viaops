@@ -2,153 +2,110 @@ name: ViaOps CI/CD Pipeline
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   pull_request:
-    branches:
-      - main
+    branches: [main]
+
+concurrency:
+  group: viaops-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 env:
   IMAGE_NAME: viaops
   DOCKER_HUB_USERNAME: lims4
 
 jobs:
-
-  # ── JOB 1 : Lint — Qualité du code ─────────────────────────
-  lint:
-    name: 🔍 Lint — ESLint · Stylelint · html-validate
+  quality:
+    name: 🔍 Qualité — lint et tests
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout du code
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
+      - name: Vérifier Node.js
+        run: node --version
 
-      - name: Installer l'outillage (devDependencies)
+      - name: Installer l'outillage
         run: npm ci
 
       - name: Lint JS · CSS · HTML
         run: npm run lint
 
-  # ── JOB 2 : Build Docker ───────────────────────────────────
+      - name: Tests d'intégrité statique
+        run: npm test
+
   build:
-    name: 🐳 Build — Image Docker
+    name: 🐳 Build · smoke test · scan · publication
     runs-on: ubuntu-latest
-    needs: lint
-
+    needs: quality
+    permissions:
+      contents: read
     steps:
       - name: Checkout du code
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+      - name: Construire l'image une seule fois
+        run: docker build --tag "${IMAGE_NAME}:${GITHUB_SHA}" .
 
-      - name: Build de l'image Docker
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: ./Dockerfile
-          push: false
-          tags: ${{ env.IMAGE_NAME }}:latest
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-
-      - name: Test de l'image buildée
+      - name: Smoke test de l'image et des headers
+        shell: bash
         run: |
-          docker build -t ${{ env.IMAGE_NAME }}:test .
-          docker run -d --name viaops-test -p 8080:80 ${{ env.IMAGE_NAME }}:test
-          sleep 5
-          curl -f http://localhost:8080 && echo "✓ App accessible"
-          docker stop viaops-test && docker rm viaops-test
+          set -euo pipefail
+          docker run -d --name viaops-test -p 8080:8080 "${IMAGE_NAME}:${GITHUB_SHA}"
+          trap 'docker rm -f viaops-test >/dev/null 2>&1 || true' EXIT
+          for attempt in {1..15}; do
+            curl --fail --silent http://localhost:8080/ >/dev/null && break
+            test "$attempt" -lt 15 || exit 1
+            sleep 1
+          done
+          curl --fail --silent http://localhost:8080/modules/docker.html >/dev/null
+          curl --fail --silent --head http://localhost:8080/ | grep -qi '^Content-Security-Policy:'
 
-      - name: Scan de sécurité de l'image (Trivy)
-        uses: aquasecurity/trivy-action@master
-        with:
-          image-ref: ${{ env.IMAGE_NAME }}:test
-          format: table
-          severity: HIGH,CRITICAL
-          ignore-unfixed: true
-          exit-code: '1'
+      - name: Scanner l'image avec Trivy conteneurisé
+        run: |
+          docker run --rm \
+            --volume /var/run/docker.sock:/var/run/docker.sock \
+            aquasec/trivy@sha256:3d1f862cb6c4fe13c1506f96f816096030d8d5ccdb2380a3069f7bf07daa86aa \
+            image --exit-code 1 --ignore-unfixed --severity HIGH,CRITICAL \
+            "${IMAGE_NAME}:${GITHUB_SHA}"
 
-  # ── JOB 3 : Publish Docker Hub ─────────────────────────────
-  publish:
-    name: 📦 Publish — Docker Hub
-    runs-on: ubuntu-latest
-    needs: build
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      - name: Connexion à Docker Hub
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        env:
+          DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
+        run: echo "$DOCKER_HUB_TOKEN" | docker login --username "$DOCKER_HUB_USERNAME" --password-stdin
 
-    steps:
-      - name: Checkout du code
-        uses: actions/checkout@v4
+      - name: Publier l'image testée et scannée
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        shell: bash
+        run: |
+          set -euo pipefail
+          short_sha="${GITHUB_SHA::12}"
+          docker tag "${IMAGE_NAME}:${GITHUB_SHA}" "${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:latest"
+          docker tag "${IMAGE_NAME}:${GITHUB_SHA}" "${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:sha-${short_sha}"
+          docker push "${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:latest"
+          docker push "${DOCKER_HUB_USERNAME}/${IMAGE_NAME}:sha-${short_sha}"
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Login Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: lims4
-          password: ${{ secrets.DOCKER_HUB_TOKEN }}
-
-      - name: Extraire les métadonnées Docker
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: lims4/${{ env.IMAGE_NAME }}
-          tags: |
-            type=raw,value=latest
-            type=sha,prefix=sha-
-
-      - name: Build et Push sur Docker Hub
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: ./Dockerfile
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-
-  # ── JOB 4 : Deploy GitHub Pages ────────────────────────────
   deploy:
-    name: 🚀 Deploy — GitHub Pages
+    name: 🚀 Déploiement GitHub Pages
     runs-on: ubuntu-latest
     needs: build
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-
     permissions:
       contents: write
-      pages: write
-      id-token: write
-
     steps:
       - name: Checkout du code
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
-      - name: Préparer les fichiers pour GitHub Pages
+      - name: Préparer les fichiers statiques
         run: |
-          mkdir -p ./dist
-          cp index.html ./dist/
-          cp nginx.conf ./dist/
-          cp -r assets/ ./dist/assets/
-          # Copier les modules si le dossier existe
-          if [ -d "./modules" ]; then
-            cp -r modules/ ./dist/modules/
-          else
-            mkdir -p ./dist/modules
-          fi
-          echo "=== Contenu dist/ ==="
-          find ./dist -type f | sort
+          mkdir -p dist
+          cp index.html dist/
+          cp -r assets modules dist/
 
-      - name: Deploy sur GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Déployer sur GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3.9.3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
-          commit_message: "deploy: ${{ github.sha }} — ${{ github.event.head_commit.message }}"
+          commit_message: "deploy: ${{ github.sha }}"

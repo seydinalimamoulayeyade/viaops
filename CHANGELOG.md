@@ -5,6 +5,21 @@ Toutes les évolutions notables de ViaOps sont documentées ici.
 Le format s'inspire de [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/)
 et le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
+## [1.6.2] — 2026-08-20
+
+### Ajouté
+- Tests d’intégrité statique exécutés dans la CI.
+- Licence MIT et médias de présentation réellement présents dans le dépôt.
+- En-têtes HTTP CSP, Permissions-Policy et isolation d’origine pour Docker/nginx.
+
+### Modifié
+- Navigation, pipeline, sidebar, progression et quiz rendus accessibles au clavier
+  et mieux annoncés aux technologies d’assistance.
+- Lecture de `localStorage` tolérante aux données absentes ou corrompues.
+- Image Docker non-root, construite une fois, testée, scannée puis publiée à
+  l’identique par GitHub Actions.
+- Documentation, versions et distinction « 9 fondamentaux + 1 bonus » synchronisées.
+
 ## [1.6.0] — 2026-07-09
 
 ### Ajouté

@@ -1,27 +1,29 @@
 # ============================================================
-# ViaOps — docker-compose.yml
-# Environnement local de développement et de test
+# ViaOps — environnement local de développement et de test
 # ============================================================
 
 services:
-
-  # ── Application principale ─────────────────────────────────
   viaops:
     build:
       context: .
       dockerfile: Dockerfile
-      target: production
     container_name: viaops-app
-    image: viaops:latest
+    image: viaops:1.6.2
     ports:
-      - "8080:80"
+      - "8080:8080"
     restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /var/cache/nginx
     healthcheck:
-      test: ["CMD", "wget", "-qO-", "http://localhost:80"]
+      test: ["CMD", "wget", "-qO-", "http://localhost:8080/"]
       interval: 30s
       timeout: 5s
       retries: 3
       start_period: 5s
+    security_opt:
+      - no-new-privileges:true
     labels:
       - "project=viaops"
       - "env=local"

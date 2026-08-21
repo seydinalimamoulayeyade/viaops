@@ -106,11 +106,20 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  width: 100%;
   padding: 12px 20px;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  border-left: 3px solid transparent;
+  font: inherit;
+  text-align: left;
   cursor: pointer;
   transition: all 0.2s;
-  border-left: 3px solid transparent;
 }
+
+.sidebar-name,
+.sidebar-time { display: block; }
 
 .sidebar-item:hover {
   background: var(--bg2);
@@ -139,7 +148,7 @@
 .sidebar-icon { flex-shrink: 0; width: 20px; height: 20px; display: grid; place-items: center; }
 .sidebar-icon img { width: 20px; height: 20px; display: block; }
 
-.sidebar-meta { flex: 1; min-width: 0; }
+.sidebar-meta { display: block; flex: 1; min-width: 0; }
 
 .sidebar-name {
   font-size: 13px;
@@ -244,7 +253,15 @@
   margin-bottom: 24px;
 }
 
-.crumb        { cursor: pointer; transition: color 0.2s; }
+.crumb {
+  color: inherit;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  transition: color 0.2s;
+}
 .crumb:hover  { color: var(--text); }
 .crumb-sep    { color: var(--border2); }
 .crumb-active { color: var(--violet); cursor: default; }
@@ -758,6 +775,8 @@
   gap: 12px;
   margin-top: 20px;
 }
+
+.quiz-actions[hidden] { display: none; }
 
 .quiz-actions.center {
   justify-content: center;

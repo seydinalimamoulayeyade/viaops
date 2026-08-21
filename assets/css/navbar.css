@@ -26,6 +26,11 @@
   cursor: pointer;
   text-decoration: none;
   flex-shrink: 0;
+  appearance: none;
+  background: transparent;
+  border: 0;
+  font: inherit;
+  padding: 0;
 }
 
 .nav-logo-mark {

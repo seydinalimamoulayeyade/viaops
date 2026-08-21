@@ -163,7 +163,20 @@
 .bp-rail { display: flex; align-items: flex-start; width: 100%; }
 
 /* Desktop : les 10 étages se partagent la largeur → tout visible d'un coup */
-.bp-node { display: flex; flex-direction: column; align-items: center; gap: 8px; flex: 1 1 0; min-width: 0; cursor: pointer; }
+.bp-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 0;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  font: inherit;
+  cursor: pointer;
+}
 .bp-ref  { font-family: var(--font); font-size: 10px; color: var(--muted); letter-spacing: 0.08em; }
 .bp-cell {
   width: 66px; height: 66px;

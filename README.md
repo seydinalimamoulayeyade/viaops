@@ -1,8 +1,8 @@
 # ViaOps — La voie DevOps 🚀
 
-**Plateforme d'apprentissage DevOps** — 9 outils essentiels en 10 minutes chacun, structurés comme un vrai pipeline CI/CD.
+**Plateforme d'apprentissage DevOps** — 9 modules fondamentaux et 1 bonus, structurés comme un vrai pipeline CI/CD.
 
-[![Version](https://img.shields.io/badge/version-1.6.0-blue.svg)](https://github.com/seydinalimamoulayeyade/viaops)
+[![Version](https://img.shields.io/badge/version-1.6.2-blue.svg)](https://github.com/seydinalimamoulayeyade/viaops)
 [![CI/CD](https://github.com/seydinalimamoulayeyade/viaops/actions/workflows/deploy.yml/badge.svg)](https://github.com/seydinalimamoulayeyade/viaops/actions/workflows/deploy.yml)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Docker](https://img.shields.io/badge/docker-lims4%2Fviaops-blue.svg)](https://hub.docker.com/r/lims4/viaops)
@@ -30,20 +30,24 @@
 ## ⚡ Quick Start
 
 ```bash
-# Option 1 : Sans installation
-open index.html
-
-# Option 2 : Avec Docker
-docker run -p 8080:80 lims4/viaops:latest
+# Option 1 : serveur HTTP local (Python 3)
+python -m http.server 8080
 # → http://localhost:8080
 
-# Option 3 : Live
+# Option 2 : avec Docker (nginx non-root)
+docker run --rm -p 8080:8080 lims4/viaops:latest
+# → http://localhost:8080
+
+# Option 3 : démo en ligne
 # → https://seydinalimamoulayeyade.github.io/viaops
 ```
 
+> L’ouverture directe de `index.html` en `file://` n’est pas supportée : les
+> modules sont chargés avec `fetch()` et nécessitent un serveur HTTP.
+
 ---
 
-## 🛠️ Les 9 modules
+## 🛠️ Les 9 modules fondamentaux
 
 | Module | Thème | Durée |
 |--------|-------|-------|
@@ -86,9 +90,17 @@ Découvrez le GitOps avec ArgoCD pour automatiser vos déploiements Kubernetes !
 ### Core
 - 🎨 **Design Paper Mode** — Mode sombre/clair avec toggle
 - ⌨️ **Raccourcis clavier** — `H`/`M`/`A`/`←`/`→`/`?`
-- 🏆 **Certificat PNG** — Auto-généré à 9/9 modules
+- 🏆 **Certificat PNG** — Auto-généré après les 9 modules fondamentaux
+- ♿ **Accessible** — Navigation clavier, focus visible et annonces ARIA
 - 📱 **100% Responsive** — Mobile-first
-- 🚀 **0 dépendances** — Vanilla JS/CSS
+- 🚀 **0 dépendance runtime** — Vanilla JS/CSS
+
+### Nouveautés v1.6.2 — Consolidation
+- **Robustesse** — récupération automatique après un `localStorage` corrompu
+- **Accessibilité** — navigation et pipeline sémantiques, progression et quiz annoncés
+- **Sécurité** — CSP nginx, conteneur non-root et scan Trivy isolé
+- **CI/CD fiable** — une image unique est construite, testée, scannée puis publiée
+- **Qualité** — validation de tous les fragments HTML et tests d’intégrité statique
 
 ### Nouveautés v1.6.0 — Refonte « Blueprint »
 - **Nouvelle direction visuelle** — esthétique plan technique : fond ardoise + grille, lignes cyan, corail signal, police Oswald
@@ -127,6 +139,15 @@ Hosting     →  GitHub Pages
 ## 📖 Documentation
 
 - 📋 **[CHANGELOG.md](CHANGELOG.md)** — Historique des versions et changements
+- 📄 **[LICENSE](LICENSE)** — Licence MIT
+
+### Vérifications locales
+
+```bash
+npm ci
+npm run lint
+npm test
+```
 
 ---
 
@@ -138,11 +159,11 @@ Hosting     →  GitHub Pages
 # Pull
 docker pull lims4/viaops:latest
 
-# Run
-docker run -d -p 8080:80 --name viaops lims4/viaops:latest
+# Run (nginx écoute sur le port non privilégié 8080)
+docker run -d -p 8080:8080 --name viaops lims4/viaops:latest
 
 # Visit
-open http://localhost:8080
+start http://localhost:8080
 ```
 
 ### GitHub Pages

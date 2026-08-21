@@ -42,7 +42,7 @@
       <div class="section-num">// concepts terraform</div>
       <table class="kv-table">
         <thead>
-          <tr><th>Concept</th><th>Description</th></tr>
+          <tr><th scope="col">Concept</th><th scope="col">Description</th></tr>
         </thead>
         <tbody>
           <tr><td>Provider</td><td>Plugin pour interagir avec un cloud (AWS, Azure, GCP) ou service (GitHub, Datadog).</td></tr>
@@ -89,7 +89,7 @@
   <span class="c-keyword">required_providers</span> {
     aws = {
       source  = <span class="c-string">"hashicorp/aws"</span>
-      version = <span class="c-string">"~> 5.0"</span>
+      version = <span class="c-string">"~&gt; 5.0"</span>
     }
   }
   <span class="c-keyword">backend</span> <span class="c-string">"s3"</span> {

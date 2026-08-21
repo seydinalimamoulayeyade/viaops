@@ -44,46 +44,53 @@
     />
 
     <!-- Styles -->
-    <link rel="stylesheet" href="assets/css/main.css?v=1.6.1" />
-    <link rel="stylesheet" href="assets/css/navbar.css?v=1.6.1" />
-    <link rel="stylesheet" href="assets/css/panels.css?v=1.6.1" />
-    <link rel="stylesheet" href="assets/css/pipeline.css?v=1.6.1" />
-    <link rel="stylesheet" href="assets/css/modules.css?v=1.6.1" />
-    <link rel="stylesheet" href="assets/css/shortcuts.css?v=1.6.1" />
-    <link rel="stylesheet" href="assets/css/certificate.css?v=1.6.1" />
-    <link rel="stylesheet" href="assets/css/scroll-to-top.css?v=1.6.1" />
-    <link rel="stylesheet" href="assets/css/progress-menu.css?v=1.6.1" />
-    <link rel="stylesheet" href="assets/css/blueprint.css?v=1.6.1" />
+    <link rel="stylesheet" href="assets/css/main.css?v=1.6.2" />
+    <link rel="stylesheet" href="assets/css/navbar.css?v=1.6.2" />
+    <link rel="stylesheet" href="assets/css/panels.css?v=1.6.2" />
+    <link rel="stylesheet" href="assets/css/pipeline.css?v=1.6.2" />
+    <link rel="stylesheet" href="assets/css/modules.css?v=1.6.2" />
+    <link rel="stylesheet" href="assets/css/shortcuts.css?v=1.6.2" />
+    <link rel="stylesheet" href="assets/css/certificate.css?v=1.6.2" />
+    <link rel="stylesheet" href="assets/css/scroll-to-top.css?v=1.6.2" />
+    <link rel="stylesheet" href="assets/css/progress-menu.css?v=1.6.2" />
+    <link rel="stylesheet" href="assets/css/blueprint.css?v=1.6.2" />
   </head>
   <body>
     <!-- ============================================================
        NAVBAR
        ============================================================ -->
-    <nav class="navbar">
-      <div class="nav-logo" id="logo-home">
-        <div class="nav-logo-mark">
+    <nav class="navbar" aria-label="Navigation principale">
+      <button type="button" class="nav-logo" id="logo-home" aria-label="Retour à l'accueil">
+        <span class="nav-logo-mark" aria-hidden="true">
           <svg viewBox="0 0 24 24"><path d="M12 2 2 7l10 5 10-5-10-5Z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg>
-        </div>
+        </span>
         <span class="nav-logo-text">VIA<span>OPS</span></span>
-      </div>
+      </button>
 
       <div class="nav-items">
-        <span class="nav-item always active" id="nav-home">Accueil</span>
-        <span class="nav-item always" id="nav-module">Modules</span>
-        <span class="nav-item" id="nav-capstone">Projet</span>
-        <span class="nav-item" id="nav-about">À propos</span>
+        <button type="button" class="nav-item always active" id="nav-home" aria-current="page">Accueil</button>
+        <button type="button" class="nav-item always" id="nav-module">Modules</button>
+        <button type="button" class="nav-item" id="nav-capstone">Projet</button>
+        <button type="button" class="nav-item" id="nav-about">À propos</button>
       </div>
 
       <div class="nav-right">
         <div class="nav-stat">
           <span class="nav-stat-label">progression</span>
           <span class="nav-stat-value" id="nav-prog-val">0/10</span>
-          <div class="nav-progress-track">
+          <div
+            class="nav-progress-track"
+            role="progressbar"
+            aria-label="Progression du parcours"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            aria-valuenow="0"
+          >
             <div class="nav-progress-fill" id="nav-prog-fill"></div>
           </div>
         </div>
-        <button type="button" class="nav-help-hint" onclick="Shortcuts.showHelp()" title="Raccourcis clavier">
-          <kbd>?</kbd>
+        <button type="button" class="nav-help-hint" id="nav-help" aria-label="Afficher les raccourcis clavier">
+          <kbd aria-hidden="true">?</kbd>
         </button>
         <button type="button" class="btn-cta" id="btn-navbar-start">Démarrer →</button>
       </div>
@@ -121,10 +128,10 @@
             <span class="bp-corner bl"></span><span class="bp-corner br"></span>
             <div class="bp-scheme-head">
               <span>FIG. 01 — BUILD / DEPLOY SEQUENCE</span>
-              <span>REV. 1.5</span>
+              <span>REV. 1.6.2</span>
             </div>
             <div class="bp-term">
-              <div><span class="p">$</span> docker <span class="f">build</span> <span class="f">-t</span> viaops:1.5 .</div>
+              <div><span class="p">$</span> docker <span class="f">build</span> <span class="f">-t</span> viaops:1.6.2 .</div>
               <div><span class="ok">✓ built 3f9a2c1d</span></div>
               <div style="margin-top:6px"><span class="p">$</span> kubectl <span class="f">apply</span> <span class="f">-f</span> deploy.yaml</div>
               <div><span class="ok">✓ deployment.apps/viaops created</span></div>
@@ -172,7 +179,14 @@
               <span>progression</span>
               <span id="sidebar-prog-val">0/10</span>
             </div>
-            <div class="sidebar-prog-bar">
+            <div
+              class="sidebar-prog-bar"
+              role="progressbar"
+              aria-label="Progression du parcours"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              aria-valuenow="0"
+            >
               <div class="sidebar-prog-fill" id="sidebar-prog-fill"></div>
             </div>
           </div>
@@ -191,7 +205,7 @@
           <div class="panel-header">
             <span class="panel-header-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span>
             <span class="panel-title">à propos · viaops</span>
-            <span class="panel-badge violet">v1.6.0</span>
+            <span class="panel-badge violet">v1.6.2</span>
           </div>
           <div class="panel-body">
             <p class="about-text">
@@ -270,73 +284,23 @@
     <!-- ============================================================
        SCRIPTS — order matters
        ============================================================ -->
-    <script src="assets/js/data.js?v=1.6.1"></script>
-    <script src="assets/js/quiz-data.js?v=1.6.1"></script>
-    <script src="assets/js/capstone-data.js?v=1.6.1"></script>
-    <script src="assets/js/progress.js?v=1.6.1"></script>
-    <script src="assets/js/router.js?v=1.6.1"></script>
-    <script src="assets/js/pipeline.js?v=1.6.1"></script>
-    <script src="assets/js/sidebar.js?v=1.6.1"></script>
-    <script src="assets/js/modules.js?v=1.6.1"></script>
-    <script src="assets/js/content-polish.js?v=1.6.1"></script>
-    <script src="assets/js/quiz.js?v=1.6.1"></script>
-    <script src="assets/js/capstone.js?v=1.6.1"></script>
-    <script src="assets/js/shortcuts.js?v=1.6.1"></script>
-    <script src="assets/js/theme.js?v=1.6.1"></script>
-    <script src="assets/js/certificate.js?v=1.6.1"></script>
-    <script src="assets/js/scroll-to-top.js?v=1.6.1"></script>
-    <script src="assets/js/search.js?v=1.6.1"></script>
-    <script src="assets/js/progress-menu.js?v=1.6.1"></script>
-
-    <!-- App init -->
-    <script>
-      // Wire up nav & buttons
-      document
-        .getElementById("logo-home")
-        .addEventListener("click", () => Router.show("home"));
-      document
-        .getElementById("nav-home")
-        .addEventListener("click", () => Router.show("home"));
-      document
-        .getElementById("nav-module")
-        .addEventListener("click", () => Router.show("module"));
-      document
-        .getElementById("nav-about")
-        .addEventListener("click", () => Router.show("about"));
-      document
-        .getElementById("nav-capstone")
-        .addEventListener("click", () => Router.show("capstone"));
-      document
-        .getElementById("btn-navbar-start")
-        .addEventListener("click", () => Router.show("module"));
-      document
-        .getElementById("btn-hero-start")
-        .addEventListener("click", () => Router.show("module"));
-      document
-        .getElementById("btn-hero-scroll")
-        .addEventListener("click", () => {
-          document
-            .getElementById("pipeline-panel")
-            .scrollIntoView({ behavior: "smooth" });
-        });
-
-      // Boot
-      Pipeline.build();
-      Capstone.render();
-      updateAllProgress();
-      ThemeManager.init();
-      Shortcuts.init();
-      ScrollToTop.init();
-      ProgressMenu.init();
-      
-      // Module search will initialize when entering module view
-      Router.originalShow = Router.show;
-      Router.show = function(name) {
-        Router.originalShow.call(this, name);
-        if (name === 'module') {
-          setTimeout(() => ModuleSearch.init(), 100);
-        }
-      };
-    </script>
+    <script src="assets/js/data.js?v=1.6.2"></script>
+    <script src="assets/js/quiz-data.js?v=1.6.2"></script>
+    <script src="assets/js/capstone-data.js?v=1.6.2"></script>
+    <script src="assets/js/progress.js?v=1.6.2"></script>
+    <script src="assets/js/router.js?v=1.6.2"></script>
+    <script src="assets/js/pipeline.js?v=1.6.2"></script>
+    <script src="assets/js/sidebar.js?v=1.6.2"></script>
+    <script src="assets/js/modules.js?v=1.6.2"></script>
+    <script src="assets/js/content-polish.js?v=1.6.2"></script>
+    <script src="assets/js/quiz.js?v=1.6.2"></script>
+    <script src="assets/js/capstone.js?v=1.6.2"></script>
+    <script src="assets/js/shortcuts.js?v=1.6.2"></script>
+    <script src="assets/js/theme.js?v=1.6.2"></script>
+    <script src="assets/js/certificate.js?v=1.6.2"></script>
+    <script src="assets/js/scroll-to-top.js?v=1.6.2"></script>
+    <script src="assets/js/search.js?v=1.6.2"></script>
+    <script src="assets/js/progress-menu.js?v=1.6.2"></script>
+    <script src="assets/js/app.js?v=1.6.2"></script>
   </body>
 </html>

@@ -63,25 +63,32 @@ const Quiz = {
             <span class="quiz-label">// question ${num} / ${total}</span>
             <span class="quiz-best">${this.bestLabel()}</span>
           </div>
-          <div class="quiz-progress-track">
+          <div
+            class="quiz-progress-track"
+            role="progressbar"
+            aria-label="Progression du quiz"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            aria-valuenow="${progPct}"
+          >
             <div class="quiz-progress-fill" style="width:${progPct}%"></div>
           </div>
         </div>
 
-        <div class="quiz-question">${q.q}</div>
+        <h3 class="quiz-question" tabindex="-1">${q.q}</h3>
 
         <div class="quiz-options" id="quiz-options">
           ${q.options.map((o, i) => `
-            <button class="quiz-option" data-i="${i}" data-correct="${o.correct}">
+            <button type="button" class="quiz-option" data-i="${i}" data-correct="${o.correct}">
               ${o.text}
             </button>
           `).join('')}
         </div>
 
-        <div class="quiz-feedback"></div>
+        <div class="quiz-feedback" role="status" aria-live="polite"></div>
 
-        <div class="quiz-actions" id="quiz-actions" style="display:none;">
-          <button class="btn-nav primary" id="quiz-next">
+        <div class="quiz-actions" id="quiz-actions" hidden>
+          <button type="button" class="btn-nav primary" id="quiz-next">
             ${s.current === total - 1 ? 'Voir le résultat →' : 'Question suivante →'}
           </button>
         </div>
@@ -91,6 +98,7 @@ const Quiz = {
     const opts     = mount.querySelectorAll('.quiz-option');
     const feedback = mount.querySelector('.quiz-feedback');
     const actions  = mount.querySelector('#quiz-actions');
+    mount.querySelector('.quiz-question')?.focus();
 
     opts.forEach(btn => {
       btn.addEventListener('click', () => {
@@ -109,7 +117,7 @@ const Quiz = {
         feedback.textContent = q.options[chosen].feedback;
         feedback.className   = `quiz-feedback show ${correct ? 'ok' : 'ko'}`;
 
-        actions.style.display = 'flex';
+        actions.hidden = false;
         mount.querySelector('#quiz-next')
           ?.addEventListener('click', () => this.nextQuestion());
       });
@@ -148,7 +156,7 @@ const Quiz = {
     }
 
     mount.innerHTML = `
-      <div class="quiz-block quiz-result ${passed ? 'passed' : 'failed'}">
+      <div class="quiz-block quiz-result ${passed ? 'passed' : 'failed'}" role="status" aria-live="polite" tabindex="-1">
         <div class="quiz-result-icon">${passed
           ? '<svg viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>'
           : '<svg viewBox="0 0 24 24"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>'}</div>
@@ -170,6 +178,7 @@ const Quiz = {
 
     mount.querySelector('#quiz-retry')
       ?.addEventListener('click', () => this.mount(s.idx));
+    mount.querySelector('.quiz-result')?.focus();
 
     updateAllProgress();
   },

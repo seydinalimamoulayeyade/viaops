@@ -15,14 +15,16 @@ const Pipeline = {
     const status = this.getStatus(idx);
     const ref    = String(idx + 1).padStart(2, '0');
 
-    const node = document.createElement('div');
+    const node = document.createElement('button');
+    node.type = 'button';
     node.className = `bp-node status-${status}`;
+    node.setAttribute('aria-label', `Ouvrir le module ${idx + 1} : ${m.label}`);
     node.innerHTML = `
       <span class="bp-ref">REF.${ref}</span>
-      <div class="bp-cell">
-        <img src="assets/img/logos/${m.id}.svg" alt="${m.label}" loading="lazy" />
-        <span class="bp-st"></span>
-      </div>
+      <span class="bp-cell">
+        <img src="assets/img/logos/${m.id}.svg" alt="" loading="lazy" />
+        <span class="bp-st" aria-hidden="true"></span>
+      </span>
       <span class="bp-nm">${m.label}</span>
       <span class="bp-tg">${m.tag}</span>
     `;

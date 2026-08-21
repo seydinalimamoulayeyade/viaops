@@ -1,50 +1,21 @@
 # ============================================================
-# ViaOps — Dockerfile
-# Multi-stage build : builder + nginx production
+# ViaOps — image statique nginx non-root
 # ============================================================
 
-# ── STAGE 1 : builder ────────────────────────────────────────
-# Pas de build step nécessaire (vanilla HTML/CSS/JS)
-# On utilise alpine pour valider les fichiers avant copie
-FROM alpine:3.21 AS builder
+FROM nginxinc/nginx-unprivileged:1.29-alpine
 
-WORKDIR /app
-
-# Copier tous les assets statiques
-COPY index.html       ./
-COPY assets/          ./assets/
-COPY modules/         ./modules/
-
-# Vérification basique — le fichier principal existe
-RUN test -f index.html && echo "✓ index.html présent"
-
-# ── STAGE 2 : production ─────────────────────────────────────
-FROM nginx:1.29-alpine AS production
-
-# Metadata
 LABEL maintainer="Virtual Voyager <linkedin.com/in/limamou-laye>"
 LABEL project="ViaOps"
-LABEL version="1.6.1"
+LABEL version="1.6.2"
 
-# Durcissement : patcher les paquets OS aux dernières versions corrigées
-# (comble le décalage entre la build de l'image de base et les CVE récentes)
-RUN apk update && apk upgrade --no-cache
+COPY --chown=nginx:nginx index.html /usr/share/nginx/html/
+COPY --chown=nginx:nginx assets/ /usr/share/nginx/html/assets/
+COPY --chown=nginx:nginx modules/ /usr/share/nginx/html/modules/
+COPY --chown=nginx:nginx nginx.conf /etc/nginx/conf.d/default.conf
 
-# Supprimer le site par défaut nginx
-RUN rm -rf /usr/share/nginx/html/*
+EXPOSE 8080
 
-# Copier les fichiers buildés
-COPY --from=builder /app /usr/share/nginx/html
-
-# Config nginx optimisée pour SPA statique
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-# Port exposé
-EXPOSE 80
-
-# Healthcheck
 HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
-  CMD wget -qO- http://localhost:80 || exit 1
+  CMD wget -qO- http://localhost:8080/ > /dev/null || exit 1
 
-# Démarrage nginx en foreground
 CMD ["nginx", "-g", "daemon off;"]
