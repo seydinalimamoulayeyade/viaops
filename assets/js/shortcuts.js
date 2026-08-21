@@ -13,8 +13,10 @@ const Shortcuts = {
 
       switch(e.key) {
         case 'Escape':
-          // ESC : Return to home
-          Router.show('home');
+          // ESC : ferme d'abord les dialogues, sinon retourne à l'accueil
+          if (!document.querySelector('.shortcuts-overlay, .cert-overlay')) {
+            Router.show('home');
+          }
           break;
 
         case 'ArrowLeft':
@@ -90,10 +92,10 @@ const Shortcuts = {
   showHelp() {
     const helpHTML = `
       <div class="shortcuts-overlay" id="shortcuts-help">
-        <div class="shortcuts-modal">
+        <div class="shortcuts-modal" role="dialog" aria-modal="true" aria-labelledby="shortcuts-title">
           <div class="shortcuts-header">
-            <h3><svg class="h3-ico" viewBox="0 0 24 24"><path d="m4 17 6-6-6-6"/><path d="M12 19h8"/></svg> Raccourcis clavier</h3>
-            <button class="shortcuts-close" onclick="Shortcuts.closeHelp()">✕</button>
+            <h3 id="shortcuts-title"><svg class="h3-ico" viewBox="0 0 24 24"><path d="m4 17 6-6-6-6"/><path d="M12 19h8"/></svg> Raccourcis clavier</h3>
+            <button type="button" class="shortcuts-close" id="shortcuts-close" aria-label="Fermer l'aide">✕</button>
           </div>
           <div class="shortcuts-body">
             <div class="shortcuts-section">
@@ -151,9 +153,13 @@ const Shortcuts = {
     // Remove existing if any
     const existing = document.getElementById('shortcuts-help');
     if (existing) existing.remove();
+    this.lastFocused = document.activeElement;
 
     // Insert
     document.body.insertAdjacentHTML('beforeend', helpHTML);
+    document.getElementById('shortcuts-close')
+      ?.addEventListener('click', () => this.closeHelp());
+    document.getElementById('shortcuts-close')?.focus();
 
     // Close on overlay click
     document.getElementById('shortcuts-help').addEventListener('click', (e) => {
@@ -176,7 +182,10 @@ const Shortcuts = {
     const help = document.getElementById('shortcuts-help');
     if (help) {
       help.classList.add('closing');
-      setTimeout(() => help.remove(), 200);
+      setTimeout(() => {
+        help.remove();
+        this.lastFocused?.focus();
+      }, 200);
     }
   }
 };

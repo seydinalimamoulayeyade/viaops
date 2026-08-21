@@ -14,6 +14,8 @@ const ProgressMenu = {
     btn.id = 'progress-menu-btn';
     btn.className = 'progress-menu-btn';
     btn.setAttribute('aria-label', 'Menu progression');
+    btn.setAttribute('aria-expanded', 'false');
+    btn.setAttribute('aria-controls', 'progress-menu');
     btn.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><circle cx="12" cy="5" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="12" cy="19" r="1.6"/></svg>';
     btn.title = 'Actions progression';
 
@@ -53,31 +55,41 @@ const ProgressMenu = {
     menu = document.createElement('div');
     menu.id = 'progress-menu';
     menu.className = 'progress-menu';
+    menu.setAttribute('role', 'menu');
     menu.innerHTML = `
       <div class="progress-menu-header">
         <span class="progress-menu-title">Progression</span>
         <span class="progress-menu-stat">${completed}/${total} (${percent}%)</span>
       </div>
       <div class="progress-menu-divider"></div>
-      <button class="progress-menu-item" onclick="ProgressMenu.exportProgress()">
+      <button type="button" class="progress-menu-item" id="progress-export" role="menuitem">
         <span class="menu-icon"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg></span>
         <span>Exporter (JSON)</span>
       </button>
-      <button class="progress-menu-item" onclick="ProgressMenu.shareProgress()">
+      <button type="button" class="progress-menu-item" id="progress-share" role="menuitem">
         <span class="menu-icon"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4"/><path d="m15.4 6.5-6.8 4"/></svg></span>
         <span>Partager</span>
       </button>
       <div class="progress-menu-divider"></div>
-      <button class="progress-menu-item danger" onclick="ProgressMenu.resetProgress()">
+      <button type="button" class="progress-menu-item danger" id="progress-reset" role="menuitem">
         <span class="menu-icon"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg></span>
         <span>Réinitialiser</span>
       </button>
     `;
 
+    menu.querySelector('#progress-export')
+      ?.addEventListener('click', () => this.exportProgress());
+    menu.querySelector('#progress-share')
+      ?.addEventListener('click', () => this.shareProgress());
+    menu.querySelector('#progress-reset')
+      ?.addEventListener('click', () => this.resetProgress());
+
     const btn = document.getElementById('progress-menu-btn');
     if (btn) {
       btn.insertAdjacentElement('afterend', menu);
       btn.classList.add('active');
+      btn.setAttribute('aria-expanded', 'true');
+      menu.querySelector('[role="menuitem"]')?.focus();
     }
   },
 
@@ -92,6 +104,7 @@ const ProgressMenu = {
     
     if (btn) {
       btn.classList.remove('active');
+      btn.setAttribute('aria-expanded', 'false');
     }
   },
 

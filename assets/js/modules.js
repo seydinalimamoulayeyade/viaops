@@ -15,15 +15,15 @@ const ModuleView = {
     main.innerHTML = `
       <div class="animate">
 
-        <div class="module-crumbs">
-          <span class="crumb" id="crumb-home">Accueil</span>
-          <span class="crumb-sep">/</span>
+        <div class="module-crumbs" aria-label="Fil d’Ariane">
+          <button type="button" class="crumb" id="crumb-home">Accueil</button>
+          <span class="crumb-sep" aria-hidden="true">/</span>
           <span class="crumb">Modules</span>
-          <span class="crumb-sep">/</span>
-          <span class="crumb-active">${m.label}</span>
+          <span class="crumb-sep" aria-hidden="true">/</span>
+          <span class="crumb-active" aria-current="page">${m.label}</span>
         </div>
 
-        <div class="status-bar ${isDone ? 'success' : 'info'}">
+        <div class="status-bar ${isDone ? 'success' : 'info'}" role="status">
           <span class="status-bar-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg></span>
           <span>
             Module <strong>${String(idx + 1).padStart(2, '0')}</strong>
@@ -66,8 +66,8 @@ const ModuleView = {
           </div>
 
           <div id="module-body-content">
-            <div class="module-loading">
-              <div class="loading-bar"></div>
+            <div class="module-loading" role="status" aria-live="polite">
+              <div class="loading-bar" aria-hidden="true"></div>
               <span>Chargement...</span>
             </div>
           </div>
@@ -202,8 +202,10 @@ const ModuleView = {
     updateAllProgress();
 
     // Trigger certificate check when all CORE modules completed (exclude bonus)
-    const coreModules = MODULES.filter(m => !m.bonus);
-    const coreCompleted = coreModules.filter((_, idx) => Progress.has(idx));
+    const coreModules = MODULES
+      .map((module, index) => ({ module, index }))
+      .filter(item => !item.module.bonus);
+    const coreCompleted = coreModules.filter(item => Progress.has(item.index));
     if (coreCompleted.length === coreModules.length) {
       setTimeout(() => Certificate.check(), 500);
     }

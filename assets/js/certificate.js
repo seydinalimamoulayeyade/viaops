@@ -1,13 +1,15 @@
 /* ============================================================
    VIAOPS — certificate.js
-   Certificate generation on 9/9 completion
+   Certificate generation after the 9 core modules
    ============================================================ */
 
 const Certificate = {
   check() {
-    const coreModules = MODULES.filter(m => !m.bonus);
-    const completed = Progress.getCompleted();
-    const coreCompleted = coreModules.filter((_, idx) => Progress.has(idx)).length;
+    const coreModules = MODULES.filter(module => !module.bonus);
+    const coreCompleted = coreModules.filter(module => {
+      const index = MODULES.findIndex(candidate => candidate.id === module.id);
+      return Progress.has(index);
+    }).length;
     
     if (coreCompleted === coreModules.length) {
       this.showModal();
@@ -22,18 +24,20 @@ const Certificate = {
     sessionStorage.setItem('viaops-cert-shown', 'true');
 
     // Check if bonus module is completed
-    const hasBonus = Progress.has(9); // ArgoCD is index 9
+    const bonusIndex = MODULES.findIndex(module => module.bonus);
+    const hasBonus = bonusIndex >= 0 && Progress.has(bonusIndex);
+    this.lastFocused = document.activeElement;
 
     const modal = `
       <div class="cert-overlay" id="cert-modal">
-        <div class="cert-modal">
+        <div class="cert-modal" role="dialog" aria-modal="true" aria-labelledby="cert-title">
           <div class="cert-header">
-            <h3><svg class="cert-trophy" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg> Félicitations !</h3>
-            <button class="cert-close" onclick="Certificate.closeModal()">✕</button>
+            <h3 id="cert-title"><svg class="cert-trophy" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg> Félicitations !</h3>
+            <button type="button" class="cert-close" id="cert-close" aria-label="Fermer">✕</button>
           </div>
           <div class="cert-body">
             <p class="cert-congrats">
-              Vous avez terminé les <strong>9 modules ViaOps</strong> !
+              Vous avez terminé les <strong>9 modules fondamentaux ViaOps</strong> !
               ${hasBonus ? '<br><span style="color:var(--passed);font-weight:600;">+ Module bonus ArgoCD (GitOps)</span>' : ''}
             </p>
             <p class="cert-desc">
@@ -49,10 +53,10 @@ const Certificate = {
               />
             </div>
             <div class="cert-actions">
-              <button class="btn-ghost" onclick="Certificate.closeModal()">
+              <button type="button" class="btn-ghost" id="cert-later">
                 Plus tard
               </button>
-              <button class="btn-primary" onclick="Certificate.generate()">
+              <button type="button" class="btn-primary" id="cert-generate">
                 Générer le certificat
               </button>
             </div>
@@ -62,6 +66,16 @@ const Certificate = {
     `;
 
     document.body.insertAdjacentHTML('beforeend', modal);
+
+    document.getElementById('cert-close')
+      ?.addEventListener('click', () => this.closeModal());
+    document.getElementById('cert-later')
+      ?.addEventListener('click', () => this.closeModal());
+    document.getElementById('cert-generate')
+      ?.addEventListener('click', () => this.generate());
+    document.getElementById('cert-modal')?.addEventListener('click', event => {
+      if (event.target.id === 'cert-modal') this.closeModal();
+    });
 
     // Focus input
     setTimeout(() => {
@@ -80,7 +94,10 @@ const Certificate = {
     const modal = document.getElementById('cert-modal');
     if (modal) {
       modal.classList.add('closing');
-      setTimeout(() => modal.remove(), 200);
+      setTimeout(() => {
+        modal.remove();
+        this.lastFocused?.focus();
+      }, 200);
     }
   },
 
@@ -112,7 +129,8 @@ const Certificate = {
       year: 'numeric'
     });
 
-    const hasBonus = Progress.has(9);
+    const bonusIndex = MODULES.findIndex(module => module.bonus);
+    const hasBonus = bonusIndex >= 0 && Progress.has(bonusIndex);
     const bonusText = hasBonus 
       ? `<text x="600" y="590" font-family="IBM Plex Sans" font-size="14" font-weight="600" fill="#10B981" text-anchor="middle">+ Module bonus : ArgoCD (GitOps)</text>` 
       : '';
@@ -147,8 +165,8 @@ const Certificate = {
   <text x="600" y="480" font-family="IBM Plex Sans" font-size="32" font-weight="600" fill="#8B5CF6" text-anchor="middle">ViaOps DevOps</text>
   
   <!-- Description -->
-  <text x="600" y="540" font-family="IBM Plex Sans" font-size="16" fill="#777777" text-anchor="middle">9 modules · Docker, Kubernetes, Jenkins, Terraform,</text>
-  <text x="600" y="565" font-family="IBM Plex Sans" font-size="16" fill="#777777" text-anchor="middle">SonarQube, Prometheus, Trivy, IA pour DevOps</text>
+  <text x="600" y="540" font-family="IBM Plex Sans" font-size="16" fill="#777777" text-anchor="middle">9 modules fondamentaux · DevOps, Docker, Kubernetes, Jenkins,</text>
+  <text x="600" y="565" font-family="IBM Plex Sans" font-size="16" fill="#777777" text-anchor="middle">Terraform, SonarQube, Prometheus, Trivy, IA pour DevOps</text>
   
   <!-- Bonus badge if completed -->
   ${bonusText}

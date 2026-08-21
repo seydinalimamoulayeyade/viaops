@@ -7,37 +7,46 @@ const Router = {
   current: 'home',
 
   show(name) {
-    // Hide all views
-    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    const view = document.getElementById(`view-${name}`);
+    if (!view) return;
 
-    // Remove active nav state
-    document.querySelectorAll('.nav-item').forEach(l => l.classList.remove('active'));
+    document.querySelectorAll('.view').forEach(item => {
+      item.classList.remove('active');
+      item.setAttribute('aria-hidden', 'true');
+    });
+    document.querySelectorAll('.nav-item').forEach(item => {
+      item.classList.remove('active');
+      item.removeAttribute('aria-current');
+    });
 
-    // Show target view
-    const view = document.getElementById('view-' + name);
-    if (view) view.classList.add('active');
+    view.classList.add('active');
+    view.setAttribute('aria-hidden', 'false');
 
-    // Activate nav link
-    const navLink = document.getElementById('nav-' + name);
-    if (navLink) navLink.classList.add('active');
+    const navLink = document.getElementById(`nav-${name}`);
+    if (navLink) {
+      navLink.classList.add('active');
+      navLink.setAttribute('aria-current', 'page');
+    }
 
     this.current = name;
 
-    // View-specific init
     if (name === 'module') {
       Sidebar.build();
       ModuleView.render(State.currentModule);
-    }
-
-    if (name === 'home') {
+      ModuleSearch.init();
+    } else if (name === 'home') {
       Pipeline.build();
     }
 
     window.scrollTo(0, 0);
+    requestAnimationFrame(() => {
+      const focusTarget = view.querySelector('h1, h2, main') || view;
+      focusTarget.setAttribute('tabindex', '-1');
+      focusTarget.focus({ preventScroll: true });
+    });
   },
 };
 
-/* ── APP STATE ──────────────────────────────────────────────── */
 const State = {
   currentModule: 0,
 };
